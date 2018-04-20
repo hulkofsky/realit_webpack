@@ -1,0 +1,406 @@
+body
+	background-color: #F5F8FA
+
+.inputError
+	width: 250px
+	background-color: #fff
+	color: red
+	border: 1px solid red
+	padding: 5px
+	margin-bottom: 10px
+	border-radius: 3px
+
+.success
+	width: 250px
+	background-color: #fff
+	color: green
+	border: 1px solid green
+	padding: 5px
+	margin-bottom: 10px
+	border-radius: 3px
+
+.wrapper
+	display: flex
+	flex-direction: column
+	align-items: center
+	&__header
+		width: 100%
+		background-color: #3097D1
+		margin-bottom: 20px
+		&__nav
+			display: flex
+			flex-direction: row
+			align-items: left
+			&__logo
+				width: 85px
+				height: 23px
+				background-image: url('../img/logo.png')
+				background-size: cover	
+				margin-top: 13px
+				margin-left: 10px
+			&__ul
+				display: flex
+				flex-direction: row
+				align-items: left
+				&__li
+					display: block
+					margin: 0 5px
+					&__search
+						position: absolute
+						height: 17px
+						padding: 7px
+						border-radius: 4px
+						border: none
+						margin-top: 9px
+						right: 20px
+					&__a
+						color: #97C7E5
+						text-decoration: none
+						&:hover
+							color: #D1E8F3
+	&__footer
+		width: 100%
+		background-color: #ffffff
+		border-top: 1px solid #DFDFDF
+		text-align: center
+		margin-top: 20px
+	&__content
+		width: 100%
+		display: flex
+		flex-direction: row
+		justify-content: space-around
+		align-items: center
+		&__left
+			width: 25%
+			&__profile
+				background-color: #fff
+				display: flex
+				flex-direction: column
+				align-items: center
+				border-radius: 4px
+				border: 1px solid #DFDFDF
+				margin-bottom: 10px
+				&__bg
+					width: 100%
+					height: 150px
+				&__photoWrapper
+					background-color: #fff
+					border-radius: 50%
+					width: 128px
+					height: 128px
+					padding: 2px
+					margin-top: -64px
+					&__photo
+						border-radius: 50%
+				
+				&__info
+					text-align: center
+					margin-bottom: 20px
+					&__name
+						color: #292B2C
+						font-weight: bold
+					&__friends
+						padding: 10px
+						float: left
+						border-right: 1px solid #D4DBE0
+						&__p
+							margin: 0
+							color: #292B2C
+						&__count
+							font-weight: bold
+							margin: 0
+							color: #292B2C
+					&__enemies
+						padding: 10px
+						float: left
+						&__p
+							margin: 0
+							color: #292B2C
+						&__count
+							margin: 0
+							font-weight: bold
+							color: #292B2C
+			&__about
+				background-color: #fff
+				border-radius: 4px
+				border: 1px solid #DFDFDF
+				padding: 10px
+				margin-bottom: 10px
+				&__title
+					display: flex
+					flex-direction: row
+					align-items: left
+					margin-bottom: 10px
+					&__p
+						color: #292B2C
+						font-weight: bold
+						margin: 0
+						margin-right: 5px
+					&__a
+						color: #0275D8
+						text-decoration: none
+						&:hover
+							color: #014C8C
+				&__list
+					list-style: none
+					padding: 0
+					margin: 0
+					&__item
+						&__icon
+							width: auto
+							color: #636C72
+							margin-right: 10px
+						&__a
+							color: #0275D8
+							text-decoration: none
+							&:hover
+								color: #014C8C
+
+			&__albums
+				background-color: #fff
+				border-radius: 4px
+				border: 1px solid #DFDFDF
+				padding: 10px
+				&__title
+					display: flex
+					flex-direction: row
+					align-items: left
+					margin-bottom: 10px
+					&__p
+						color: #292B2C
+						font-weight: bold
+						margin: 0
+						margin-right: 5px
+					&__a
+						color: #0275D8
+						text-decoration: none
+						&:hover
+							color: #014C8C
+				&__cont
+					display: flex
+					flex-direction: row
+					align-items: center
+					&__item
+						background-image: url('../img/no-image.png')
+						background-size: 100% 100%
+						background-repeat: no-repeat
+						width: 85px
+						height: 85px
+						margin-right: 10px
+		&__mid
+			width: 40%
+			border: 1px solid red
+		&__right
+			width: 25%
+			border: 1px solid red
+
+	&__profileSettings
+		width: 100%
+		display: flex
+		flex-direction: column
+		align-items: center
+		&__header
+			background-image: url(../img/profileBg.jpg)
+			width: 100%
+			height: 400px
+			display: flex
+			flex-direction: column
+			align-items: center
+			justify-content: center
+			&__uPhoto
+				background-color: #fff
+				border-radius: 50%
+				width: 128px
+				height: 128px
+				padding: 2px
+				&__img
+					border-radius: 50%
+			&__name
+				font-size: 30px
+				color: #fff
+				font-weight: bold
+		&__tabs
+			display: flex
+			flex-direction: column
+			align-items: center
+			justify-content: center
+			width: 100%
+			&__caption
+				display: flex
+				flex-direction: row
+				align-items: center
+				padding: 0
+				&__item
+					margin: -80px 10px 0 0
+					display: block
+					list-style: none
+					&__a
+						color: #959CA0
+						text-decoration: none
+						position: relative
+						&.active
+							color: #fff
+							&:after
+								content: ""
+								left: calc(50% - 10px)
+								bottom: -16px
+								position: absolute
+								border: 10px solid transparent
+								border-bottom: 10px solid #F5F8FA
+						&:hover
+							color: #fff
+			&__content
+				width: 100%
+				display: none
+				&.active
+					display: block
+				&__albums
+					&__list
+						padding: 0
+						display: flex
+						flex-direction: row
+						justify-content: space-around
+						flex-wrap: wrap
+						&__item
+							list-style: none
+							margin-bottom: 20px
+							&__image
+								width: 290px
+								height: 166px
+								background-image: url('../img/no-image.png')
+								margin-bottom: 5px
+							&__name
+								display: inline-block
+								color: #4DBAEE
+								text-decoration: none
+								&:hover
+									color: #4D91D0
+							&__date
+								margin: 0
+								color: #292B2C
+							&__delete
+								float: right
+								display: inline-block
+								color: #4DBAEE
+								text-decoration: none
+								&:hover
+									color: #4D91D0
+				&__wrapper
+					width: 100%
+					display: flex
+					flex-direction: row
+					justify-content: center
+					&__label
+						line-height: 30px
+						color: #292B2C
+					&__input
+						display: block
+						height: 28px
+						width: 245px
+						padding: 7px
+						border-radius: 3px
+						border: 1px solid #D2D2D2
+						font-size: 16px
+						box-sizing: border-box
+						margin: 0 10px
+					&__create
+						padding: 0
+						display: block
+						background-color: #0275D8
+						color: #fff
+						font-size: 16px
+						width: 75px
+						height: 30px
+						border-radius: 5px
+						border: none
+						outline: none
+						cursor: pointer
+					&__item
+						padding: 10px
+						&__label
+							color: #292B2C
+						&__input
+							display: block
+							height: 28px
+							width: 245px
+							padding: 7px
+							border-radius: 3px
+							border: 1px solid #D2D2D2
+							font-size: 16px
+							box-sizing: border-box
+							margin: 0
+						&__textarea
+							display: block
+							width: 510px
+							padding: 7px
+							border-radius: 3px
+							border: 1px solid #D2D2D2
+							font-size: 16px
+							box-sizing: border-box
+					&__update
+						display: block
+						background-color: #0275D8
+						color: #fff
+						font-size: 16px
+						width: 75px
+						height: 30px
+						border-radius: 5px
+						border: none
+						outline: none
+						cursor: pointer
+						&:hover
+							background-color: #025AA5
+					&__removeProfile
+						display: block
+						margin-top: 10px
+						color: #4DBAEE
+						text-decoration: none
+						&:hover
+							color: #4D91D0
+	&__form
+		position: fixed
+		left: calc(50% - 150px)
+		top: 20%
+		display: flex
+		flex-direction: column
+		align-items: center
+		background-color: #F7F7F7
+		border: 1px solid #DBDDDF
+		padding: 20px
+		width: 300px
+		&__cont
+			display: flex
+			flex-direction: row
+			align-items: center
+			&__input
+				display: block
+				height: 28px
+				width: 245px
+				padding: 7px
+				border-radius: 3px
+				border: 1px solid #D2D2D2
+				font-size: 16px
+				margin-bottom: 10px
+			&__p
+				color: #757575
+				font-size: 26px
+				margin-left: 10px
+
+		&__btn
+			width: 262px
+			height: 36px
+			background-color: #5CB85C
+			outline: none
+			border-radius: 3px
+			border: none
+			font-size: 16px
+			font-weight: bold
+			color: #fff
+			margin: 10px 0
+			&:hover
+				background-color: #449D44
+				cursor: pointer
+		&__a
+			display: block
+			color: #7E91A9
+			text-decoration: none

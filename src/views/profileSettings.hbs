@@ -1,0 +1,88 @@
+<div class="wrapper__profileSettings">
+    <div class="wrapper__profileSettings__header">
+        <div class="wrapper__profileSettings__header__uPhoto">
+            <img class="wrapper__profileSettings__header__uPhoto__img" src="../img/default-user.jpg" alt="user_photo">
+        </div>
+        <p class="wrapper__profileSettings__header__name">FirstName LastName</p>
+    </div>
+    {{!-- tabs --}}
+    <div class="wrapper__profileSettings__tabs"> 
+        <ul class="wrapper__profileSettings__tabs__caption">
+            <li class="wrapper__profileSettings__tabs__caption__item"><a class="wrapper__profileSettings__tabs__caption__item__a active" href="#">Profile</a></li>
+            <li class="wrapper__profileSettings__tabs__caption__item"><a class="wrapper__profileSettings__tabs__caption__item__a" name="albumsList" href="#">Albums</a></li>
+            <li class="wrapper__profileSettings__tabs__caption__item"><a class="wrapper__profileSettings__tabs__caption__item__a" href="#">Create Album</a></li>
+        </ul>
+        {{!-- 1st TAB --}}
+        <div class="wrapper__profileSettings__tabs__content active">
+            <div class="wrapper__profileSettings__tabs__content__wrapper">
+                <div class="wrapper__profileSettings__tabs__content__wrapper__item">
+                    <label class="wrapper__profileSettings__tabs__content__wrapper__item__label" for="firstname">Firstname</label>
+                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__input" type="text" name="firstname">
+                </div>
+                <div class="wrapper__profileSettings__tabs__content__wrapper__item">
+                    <label class="wrapper__profileSettings__tabs__content__wrapper__item__label" for="lastname">Lastname</label>
+                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__input" type="text" name="lastname">
+                </div>
+            </div>
+
+            <div class="wrapper__profileSettings__tabs__content__wrapper">
+                <div class="wrapper__profileSettings__tabs__content__wrapper__item">
+                    <label class="wrapper__profileSettings__tabs__content__wrapper__item__label" for="quote">Quote</label>
+                    <textarea class="wrapper__profileSettings__tabs__content__wrapper__item__textarea" type="text" name="quote" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="wrapper__profileSettings__tabs__content__wrapper">
+                <div class="wrapper__profileSettings__tabs__content__wrapper__item">
+                    <label class="wrapper__profileSettings__tabs__content__wrapper__item__label" for="lived">Lived</label>
+                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__input" type="text" name="lived">
+                </div>
+                <div class="wrapper__profileSettings__tabs__content__wrapper__item">
+                    <label class="wrapper__profileSettings__tabs__content__wrapper__item__label" for="from">From</label>
+                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__input" type="text" name="from">
+                </div>
+            </div>
+
+             <div class="wrapper__profileSettings__tabs__content__wrapper">
+                 <div class="wrapper__profileSettings__tabs__content__wrapper__item">
+                     <label class="wrapper__profileSettings__tabs__content__wrappe__item__label" for="went">Went</label>
+                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__textarea" type="text" name="went">
+                 </div>
+            </div>
+
+            <div class="wrapper__profileSettings__tabs__content__wrapper">
+                <div class="wrapper__profileSettings__tabs__content__wrapper__item">
+                    <label class="wrapper__profileSettings__tabs__content__wrapper__item__label" for="photo">Profile photo</label>
+                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__input" type="image" name="photo">
+                    <p class="wrapper__profileSettings__tabs__content__wrapper__item__desc">File must be in "png, jpg, gif" format, and less than 10mb.</p>
+                </div>
+            </div>
+
+            <div class="wrapper__profileSettings__tabs__content__wrapper">
+                <button class="wrapper__profileSettings__tabs__content__wrapper__update">Update</button>
+            </div>
+            
+            <div class="wrapper__profileSettings__tabs__content__wrapper">
+                <a href="#" class="wrapper__profileSettings__tabs__content__wrapper__removeProfile">Remove profile</a>
+            </div>
+            
+        </div>
+
+        {{!-- 2nd TAB --}}
+        <div class="wrapper__profileSettings__tabs__content" name="albumsContainer">
+            <div class="wrapper__profileSettings__tabs__content__wrapper">
+                <img class="wrapper__profileSettings__tabs__content__wrapper__loading" src="img/Cube.svg" alt="cube">
+            </div>
+        </div>
+        {{!-- 3rd TAB --}}
+        <div class="wrapper__profileSettings__tabs__content">
+            <div class="wrapper__profileSettings__tabs__content__wrapper">
+                <label for="createAlbum" class="wrapper__profileSettings__tabs__content__wrapper__label">Album name</label>
+                <input type="text" class="wrapper__profileSettings__tabs__content__wrapper__input" name="createAlbum">
+                <button class="wrapper__profileSettings__tabs__content__wrapper__create" id="createAlbum">Create</button>
+            </div>
+            
+        </div>
+    </div>
+    
+</div>
