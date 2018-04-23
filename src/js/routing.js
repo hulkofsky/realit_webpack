@@ -1,3 +1,5 @@
+'use strict';
+
 var Render = {
     loginPage: function () {
         this.createRoute('views/pages/login.hbs', App.wrapper);

@@ -1,59 +1,66 @@
-import restInterraction from './common.js'
+'use strict';
+
+import $ from 'jquery';
+import RestInterraction from './restInterraction.js';
+import Validation from './validation.js';
+
 
 (function(){
-    let currentRestInterraction = new restInterraction();
+    let currentRestInterraction = new RestInterraction();
+    let currentValidation = new Validation();
+
     currentRestInterraction.init();
 
     $('body').on('click', '[name=loginButton]', function() {
-        App.login();
+        currentRestInterraction.login();
     });
 
     $('body').on('click', '[name=registerButton]', function() {
-        App.registration();
+        currentRestInterraction.registration();
     });
 
     $('body').on('click', '[name=toRegister]', function(e) {
         e.preventDefault();
-        App.showRegister();
+        currentRestInterraction.showRegister();
     });
 
     $('body').on('click', '[name=toLogin]', function(e) {
         e.preventDefault();
-        App.init();
+        currentRestInterraction.init();
     });
 
     $('body').on('click', '[name=recoverPass]', function(e) {
         e.preventDefault();
-        App.showRecover();
+        currentRestInterraction.showRecover();
     });
 
     $('body').on('click', '[name=logout]', function(e) {
         e.preventDefault();
-        App.logout();
+        currentRestInterraction.logout();
     });
 
     $('body').on('click', '[name=profileSettings]', function(e) {
         e.preventDefault();
-        App.showProfileSettings();
+        currentRestInterraction.showProfileSettings();
     });
 
     $('body').on('click', '[name="albumsList"]', function(e) {
         e.preventDefault();
-        App.getAlbums();
+        currentRestInterraction.getAlbums();
     });
 
     $('body').on('click', '#createAlbum', function(e) {
         e.preventDefault();
-        App.addAlbum();
+        currentRestInterraction.addAlbum();
     });
 
     $('body').on('click', '[name="albumName"]', function(e) {
         e.preventDefault();
-        App.openAlbum($(this).closest('li').attr('id'));
+        currentRestInterraction.openAlbum($(this).closest('li').attr('id'));
     });
 
     $('body').on('click', '[name="deleteAlbum"]', function() {
-        App.deleteAlbum($(this).parent());
+        currentRestInterraction.deleteAlbum($(this).parent());
     });
 
     // PROFILE SETTINGS TABS
@@ -66,14 +73,18 @@ import restInterraction from './common.js'
 
     // REGISTER VALIDATION
     $('body').on('blur', '[name="username"]', function(){
-        Func.usernameValidate();
+        currentValidation.usernameValidate();
     });
 
     $('body').on('blur', '[name="email"]', function(){
-        Func.emailValidate();
+        currentValidation.emailValidate();
     });
 
-    $('body').on('change', '[name="password"]', function(){
-        Func.passwordValidate();
+    $('body').on('blur', '[name="password"]', function(){
+        currentValidation.passwordValidate();
+    });
+
+    $('body').on('blur', '[name="captcha"]', function(){
+        currentValidation.captchaValidate();
     });
 }());

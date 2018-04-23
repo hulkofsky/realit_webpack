@@ -1,5 +1,8 @@
+'use strict';
+
 import $ from 'jquery';
 import './functions.js';
+import './validation.js';
 import './routing.js';
-import './common.js';
+import './restInterraction.js';
 import './app.js';
