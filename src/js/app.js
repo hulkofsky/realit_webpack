@@ -74,17 +74,38 @@ import Validation from './validation.js';
     // REGISTER VALIDATION
     $('body').on('blur', '[name="username"]', function(){
         currentValidation.usernameValidate();
-    });
+    }); //USERNAME VALIDATION
 
     $('body').on('blur', '[name="email"]', function(){
         currentValidation.emailValidate();
-    });
+    }); //EMAIL VALIDATION
 
     $('body').on('blur', '[name="password"]', function(){
         currentValidation.passwordValidate();
-    });
+    }); //PASSWORD VALIDATION
+
+    $('body').on('blur', '[name="confirmPass"]', function(){
+        currentValidation.confirmPassValidate();
+    }); //PASSWORD MATCH VALIDATION
+    
+    $('body').on('keypress', '[name="password"]', function(e){
+        currentValidation.capsDetection(e, '[name="password"]');
+    });//CAPS LOOK DETECTION
+
+    $('body').on('keypress', '[name="confirmPass"]', function(e){
+        currentValidation.capsDetection(e, '[name="confirmPass"]');
+    });//CAPS LOOK DETECTION
 
     $('body').on('blur', '[name="captcha"]', function(){
         currentValidation.captchaValidate();
-    });
+    }); //CAPTCHA VALIDATION
+
+    $('body').on('blur', '[name="firstname"]', function(){
+        currentValidation.nameValidate('[name="firstname"]');
+    }); //FIRSTNAME VALIDATION
+
+    $('body').on('blur', '[name="lastname"]', function(){
+        currentValidation.nameValidate('[name="lastname"]');
+    }); //LASTNAME VALIDATION
+
 }());

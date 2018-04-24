@@ -65,17 +65,64 @@ export default class Validation {
             $('[name="password"]').parent().prev('.inputError').remove();
             $('[name="password"]').parent().before('<div class="inputError">Password cannot be shorter then 6 symbols</div>');
             return false;
+        } else if ($('[name="confirmPass"]').val() != '' && $('[name="confirmPass"]').val() !== $('[name="password"]').val()) {
+            $('[name="password"]').parent().prev('.inputError').remove();
+            $('[name="password"]').parent().before('<div class="inputError">Passwords does not match!</div>');
+            return false;
         } else {
             $('[name="password"]').parent().prev('.inputError').remove();
             return true;
         };
     }; //PASSWORD VALIDATE
 
-    captchaValidate(){
-        if($('[name="captcha"]').val() == 1) {
+    confirmPassValidate(){
+        if($('[name="confirmPass"]').val() == $('[name="password"]').val()) {
+            $('[name="confirmPass"]').parent().prev('.inputError').remove();
             return true;
         } else {
+            $('[name="confirmPass"]').parent().prev('.inputError').remove();
+            $('[name="confirmPass"]').parent().before('<div class="inputError">Passwords does not match!</div>');
+            return false
+        }
+    };//CONFIRM PASS VALIDATE
+
+    captchaValidate(){
+        if($('[name="captcha"]').val() == $('[name="captcha"]').data('random').first + $('[name="captcha"]').data('random').last) {
+            $('[name="captcha"]').parent().prev('.inputError').remove();
+            return true;
+        } else {
+            $('[name="captcha"]').parent().prev('.inputError').remove();
+            $('[name="captcha"]').parent().before('<div class="inputError">Wrong CAPTCHA!</div>');
             return false;
         };
     };//CAPTCHA VALIDATE
+
+    nameValidate(field){
+        let pattern = /^[a-z]+([-_]?[a-z0-9]+){0,2}$/i
+        if($(field).val() == ""){
+            $(field).parent().prev('.inputError').remove();
+            return true;
+        } else if (!$(field).val().match(pattern)) {
+            $(field).parent().prev('.inputError').remove();
+            $(field).parent().before('<div class="inputError">Only this symbols allowed: a-z, 0-9, -, _!</div>');
+            return false;
+        } else {
+            $(field).parent().prev('.inputError').remove();
+            return true;
+        };
+    }; //NAME VALIDATE
+
+    capsDetection(e, field){
+        let character = e.keyCode ? e.keyCode : e.which;
+        let sftKey = e.shiftKey ? e.shiftKey : ((character == 16) ? true : false);
+
+        let isCapsLock = (((character >= 65 && character <= 90) && !sftKey) || ((character >= 97 && character <= 122) && sftKey));
+
+        if (isCapsLock) {
+            $(field).parent().prev('.inputError').remove();
+            $(field).parent().before('<div class="inputError">CAPS LOCK is on!</div>');
+        } else{
+            $(field).parent().prev('.inputError').remove();
+        };
+    }; //CAPS DETECTION
 };

@@ -100,7 +100,11 @@ export default class RestInterraction {
 
         if (formValidation.usernameValidate() && 
             formValidation.emailValidate() && 
-            formValidation.passwordValidate()) {
+            formValidation.passwordValidate() &&
+            formValidation.confirmPassValidate() &&
+            formValidation.captchaValidate() &&
+            formValidation.nameValidate('[name="firstname"]') &&
+            formValidation.nameValidate('[name="lastname"]')) {
             $.ajax({
                 url: 'http://restapi.fintegro.com/registration', 
                 method: 'POST',
