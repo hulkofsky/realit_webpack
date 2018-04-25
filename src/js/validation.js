@@ -1,128 +1,152 @@
 'use strict';
 
 import $ from 'jquery';
+import Functions from './functions.js'
 
 export default class Validation {
-    loginValidate(){
-        var noInputErrors = false;
+    constructor() {
+        this.noValidationErrors = false;
+    }
 
-        if(!$('[name="username"]').val()) {
-            $('.inputError').remove();
-            $('[name="username"]').parent().before('<div class="inputError">Enter your login pls</div>');
-        } else if(!$('[name="password"]').val()) {
-                $('.inputError').remove();
-                $('[name="password"]').parent().before('<div class="inputError">Enter your password pls</div>');
-            } else {
-                noInputErrors = true;
-            };
-        return noInputErrors;
-    }; //LOGIN VALIDATE
+    loginValidate(loginFieldSelector, passwordFieldSelector){
+        const functions = new Functions;
 
-    usernameValidate(){
-        var loginPattern = /^[a-z]+([-_]?[a-z0-9]+){0,2}$/i;
-
-        if (!$('[name="username"]').val()) {
-            $('[name="username"]').parent().prev('.inputError').remove();
-            $('[name="username"]').parent().before('<div class="inputError">Username cannot be empty!</div>');
+        if(!$(loginFieldSelector).val()) {
+            functions.showMessage('inputError', loginFieldSelector, 'Enter your login pls.');
             return false;
-        } else if ($('[name="username"]').val().length < 4) {
-                $('[name="username"]').parent().prev('.inputError').remove();
-                $('[name="username"]').parent().before('<div class="inputError">Username cannot be less then 4 symbols!</div>');
-                return false;
-            } else if (!$('[name="username"]').val().match(loginPattern)) {
-                $('[name="username"]').parent().prev('.inputError').remove();
-                $('[name="username"]').parent().before('<div class="inputError">Only this symbols allowed: a-z, 0-9, -, _!</div>');
-                return false;
-            } else {
-                $('[name="username"]').parent().prev('.inputError').remove();
-                return true;
-            };
-    }; //USERNAME VALIDATE
-
-    emailValidate(){
-        const emailPattern = /^\w+@\w+\.\w{2,4}$/i;
-
-        if(!$('[name="email"]').val()) {
-            $('[name="email"]').parent().prev('.inputError').remove();
-            $('[name="email"]').parent().before('<div class="inputError">E-mail cannot be empty!</div>');
-            return false;
-        } else if (!$('[name="email"]').val().match(emailPattern)) {
-            $('[name="email"]').parent().prev('.inputError').remove();
-            $('[name="email"]').parent().before('<div class="inputError">Invalid Email!</div>');
+        } else if(!$(passwordFieldSelector).val()) {
+            functions.showMessage('inputError', passwordFieldSelector, 'Enter your password pls.');
             return false;
         } else {
-            $('.inputError').remove();
+            return true;
+        };
+    }; //LOGIN VALIDATE
+
+    usernameValidate(usernameFieldSelector){
+        const loginPattern = /^[a-z]+([-_]?[a-z0-9]+){0,2}$/i;
+        let functions = new Functions;
+
+        if (!$(usernameFieldSelector).val()) {
+            functions.showMessage('inputError', usernameFieldSelector, 'Username cannot be empty!');
+            this.noValidationErrors = false;
+            return false;
+        } else if ($(usernameFieldSelector).val().length < 4) {
+            functions.showMessage('inputError', usernameFieldSelector, 'Username cannot be less then 4 symbols!');
+            this.noValidationErrors = false;
+            return false;
+        } else if (!$(usernameFieldSelector).val().match(loginPattern)) {
+            functions.showMessage('inputError', usernameFieldSelector, 'Only this symbols allowed: a-z, 0-9, -, _!');
+            this.noValidationErrors = false;
+            return false;
+        } else {
+            functions.messageDelete('inputError', usernameFieldSelector);
+            this.noValidationErrors = true;
+            return true;
+        };
+    }; //USERNAME VALIDATE
+
+    emailValidate(emailFieldSelector){
+        const emailPattern = /^\w+@\w+\.\w{2,4}$/i;
+        const functions = new Functions;
+
+        if(!$(emailFieldSelector).val()) {
+            functions.showMessage('inputError', emailFieldSelector, 'E-mail cannot be empty!');
+            this.noValidationErrors = false;
+            return false;
+        } else if (!$(emailFieldSelector).val().match(emailPattern)) {
+            functions.showMessage('inputError', emailFieldSelector, 'Invalid Email!');
+            this.noValidationErrors = false;
+            return false;
+        } else {
+            functions.messageDelete('inputError', emailFieldSelector);
+            this.noValidationErrors = true;
             return true;
         };
     }; //EMAIL VALIDATE
 
-    passwordValidate(){
-        if(!$('[name="password"]').val()) {
-            $('[name="password"]').parent().prev('.inputError').remove();
-            $('[name="password"]').parent().before('<div class="inputError">Password cannot be empty!</div>');
+    passwordValidate(passwordFieldSelector, confirmPassFieldSelector){
+        const functions = new Functions;
+
+        if(!$(passwordFieldSelector).val()) {
+            functions.showMessage('inputError', passwordFieldSelector, 'Password cannot be empty!');
+            this.noValidationErrors = false;
             return false;
-        } else if ($('[name="password"]').val().length < 6) {
-            $('[name="password"]').parent().prev('.inputError').remove();
-            $('[name="password"]').parent().before('<div class="inputError">Password cannot be shorter then 6 symbols</div>');
+        } else if ($(passwordFieldSelector).val().length < 6) {
+            functions.showMessage('inputError', passwordFieldSelector, 'Password cannot be shorter then 6 symbols!');
+            this.noValidationErrors = false;
             return false;
-        } else if ($('[name="confirmPass"]').val() != '' && $('[name="confirmPass"]').val() !== $('[name="password"]').val()) {
-            $('[name="password"]').parent().prev('.inputError').remove();
-            $('[name="password"]').parent().before('<div class="inputError">Passwords does not match!</div>');
+        } else if ($(confirmPassFieldSelector).val() && $(confirmPassFieldSelector).val() !== $(passwordFieldSelector).val()) {
+            functions.showMessage('inputError', confirmPassFieldSelector, 'Passwords does not match!');
+            this.noValidationErrors = false;
             return false;
         } else {
-            $('[name="password"]').parent().prev('.inputError').remove();
+            functions.messageDelete('inputError', passwordFieldSelector);
+            functions.messageDelete('inputError', confirmPassFieldSelector);
+            this.noValidationErrors = true;
             return true;
         };
     }; //PASSWORD VALIDATE
 
-    confirmPassValidate(){
-        if($('[name="confirmPass"]').val() == $('[name="password"]').val()) {
-            $('[name="confirmPass"]').parent().prev('.inputError').remove();
+    confirmPassValidate(passwordFieldSelector, confirmPassFieldSelector){
+        const functions = new Functions;
+
+        if($(confirmPassFieldSelector).val() == $(passwordFieldSelector).val()) {
+            functions.messageDelete('inputError', confirmPassFieldSelector);
+            this.noValidationErrors = true;
             return true;
         } else {
-            $('[name="confirmPass"]').parent().prev('.inputError').remove();
-            $('[name="confirmPass"]').parent().before('<div class="inputError">Passwords does not match!</div>');
+            functions.showMessage('inputError', confirmPassFieldSelector, 'Passwords does not match!');
+            this.noValidationErrors = false;
             return false
         }
     };//CONFIRM PASS VALIDATE
 
-    captchaValidate(){
-        if($('[name="captcha"]').val() == $('[name="captcha"]').data('random').first + $('[name="captcha"]').data('random').last) {
-            $('[name="captcha"]').parent().prev('.inputError').remove();
+    captchaValidate(captchaFieldSelector){
+        const functions = new Functions;
+        const firstNumber = $(captchaFieldSelector).data('random').first;
+        const lastNumber = $(captchaFieldSelector).data('random').last;
+
+        if($(captchaFieldSelector).val() == firstNumber + lastNumber) {
+            functions.messageDelete('inputError', captchaFieldSelector);
+            this.noValidationErrors = true;
             return true;
         } else {
-            $('[name="captcha"]').parent().prev('.inputError').remove();
-            $('[name="captcha"]').parent().before('<div class="inputError">Wrong CAPTCHA!</div>');
+            functions.showMessage('inputError', captchaFieldSelector, 'Wrong CAPTCHA!');
+            this.noValidationErrors = false;
             return false;
         };
     };//CAPTCHA VALIDATE
 
-    nameValidate(field){
-        let pattern = /^[a-z]+([-_]?[a-z0-9]+){0,2}$/i
-        if($(field).val() == ""){
-            $(field).parent().prev('.inputError').remove();
+    nameValidate(nameFieldSelector){
+        const functions = new Functions();
+        const pattern = /^[a-z]+([-_]?[a-z0-9]+){0,2}$/i;
+
+        if($(nameFieldSelector).val() == ""){
+            functions.messageDelete('inputError', nameFieldSelector);
+            this.noValidationErrors = true;
             return true;
-        } else if (!$(field).val().match(pattern)) {
-            $(field).parent().prev('.inputError').remove();
-            $(field).parent().before('<div class="inputError">Only this symbols allowed: a-z, 0-9, -, _!</div>');
+        } else if (!$(nameFieldSelector).val().match(pattern)) {
+            functions.showMessage('inputError', nameFieldSelector, 'Only this symbols allowed: a-z, 0-9, -, _!');
+            this.noValidationErrors = false;
             return false;
         } else {
-            $(field).parent().prev('.inputError').remove();
+            functions.messageDelete('inputError', nameFieldSelector);
+            this.noValidationErrors = true;
             return true;
         };
     }; //NAME VALIDATE
 
-    capsDetection(e, field){
-        let character = e.keyCode ? e.keyCode : e.which;
-        let sftKey = e.shiftKey ? e.shiftKey : ((character == 16) ? true : false);
+    formValidate(usernameFieldSelector, emailFieldSelector, passwordFieldSelector, confirmPassFieldSelector, 
+        captchaFieldSelector, firstNameFieldSelector, lastNameFieldSelector){
+        
+        this.nameValidate(firstNameFieldSelector);
+        this.nameValidate(lastNameFieldSelector);
+        this.loginValidate(usernameFieldSelector, passwordFieldSelector);
+        this.emailValidate(emailFieldSelector);
+        this.passwordValidate(passwordFieldSelector, confirmPassFieldSelector);
+        this.confirmPassValidate(passwordFieldSelector, confirmPassFieldSelector);
+        this.captchaValidate(captchaFieldSelector);
 
-        let isCapsLock = (((character >= 65 && character <= 90) && !sftKey) || ((character >= 97 && character <= 122) && sftKey));
-
-        if (isCapsLock) {
-            $(field).parent().prev('.inputError').remove();
-            $(field).parent().before('<div class="inputError">CAPS LOCK is on!</div>');
-        } else{
-            $(field).parent().prev('.inputError').remove();
-        };
-    }; //CAPS DETECTION
+        return this.noValidationErrors;
+    };//FORM VALIDATE
 };

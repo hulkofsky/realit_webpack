@@ -20,6 +20,28 @@ export default class Functions {
 
         return sessionToken;
     }; // IS SESSION TOKEN 
+
+    showMessage(errorSuccsessClassName, fieldSelector, message){
+        $(fieldSelector).parent().prev(`.${errorSuccsessClassName}`).remove();
+        $(fieldSelector).parent().before(`<div class="${errorSuccsessClassName}">${message}</div>`);
+    };//SHOW MESSAGE
+
+    messageDelete(errorSuccsessClassName, fieldSelector){
+        $(fieldSelector).parent().prev(`.${errorSuccsessClassName}`).remove();
+    };//MESSAGE DELETE
+
+    capsDetection(e, fieldSelector){
+        let functions = new Functions,
+            character = e.keyCode ? e.keyCode : e.which,
+            sftKey = e.shiftKey ? e.shiftKey : ((character == 16) ? true : false),
+            isCapsLock = (((character >= 65 && character <= 90) && !sftKey) || ((character >= 97 && character <= 122) && sftKey));
+
+        if (isCapsLock) {
+            functions.showMessage('inputError', fieldSelector, 'CAPS LOCK is on!');
+        } else{
+            functions.messageDelete('inputError', fieldSelector);
+        };
+    }; //CAPS DETECTION
 };
 
 // var Func = {

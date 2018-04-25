@@ -10,15 +10,12 @@ export default class RestInterraction {
         return $('.wrapper');
     };
 
-    init(){
-        let template,
-            context,
-            htmlContent,
-            functions = new Functions(),
-            _this = this;
+    init(yearContainerSelector){
+        const functions = new Functions();
+        const _this = this;
 
         if(functions.isSessionToken()) {
-            let sessionToken = functions.isSessionToken();
+            const sessionToken = functions.isSessionToken();
 
             $.ajax({
                 url: 'http://restapi.fintegro.com/profiles', 
@@ -27,155 +24,181 @@ export default class RestInterraction {
                 headers: {
                     bearer: sessionToken
                 },
-                success: function(data) {
 
+                success: function(data) {
                     $.get('./src/views/profile.hbs', function(response){
-                        template = Handlebars.compile(response);
-                        context = {
+                        const template = Handlebars.compile(response);
+                        const context = {
                             firstName: data.profile.firstname,
                             lastName: data.profile.lastname
                         }
-                        htmlContent = template(context);
-
+                        const htmlContent = template(context);
+                        const year = new Date();
 
                         $(_this.wrapper()).html(htmlContent);
+                        $(yearContainerSelector).html(year.getFullYear());
                     });
                 }
-
             });
         } else {
             $.get('./src/views/login.hbs', function(response){
-                template = Handlebars.compile(response);
-                htmlContent = template(context);
+                const template = Handlebars.compile(response);
+                const htmlContent = template();
                 $(_this.wrapper()).html(htmlContent);
             });
 
         }
     };  //INIT
 
-    login(){
-        let formValidation = new Validation();
-        if (formValidation.loginValidate()) {
+    login(usernameFieldSelector, passwordFieldSelector, loginButtonSelector){
+        const formValidation = new Validation();
+        const functions = new Functions();
+
+        if (formValidation.loginValidate(usernameFieldSelector, passwordFieldSelector)) {
            let _this = this;
             $.ajax({
                 url: 'http://restapi.fintegro.com/login', 
                 method: 'POST',
                 dataType: 'json',
                 data: {
-                    username: $('.wrapper__form [name="username"]').val(),
-                    password: $('.wrapper__form [name="password"]').val()
+                    username: $(usernameFieldSelector).val(),
+                    password: $(passwordFieldSelector).val()
                 },
                 
                 success: function(data) {
-                    $('[name="login"]').html('Login');
+                    const date = new Date(new Date().getTime() + 6000 * 1000);
 
-
-                    var date = new Date(new Date().getTime() + 6000 * 1000);
-
-                    document.cookie = 'session-token=' + data.token + '; expires=' + date.toUTCString();
+                    document.cookie = `session-token=${data.token}; expires=${date.toUTCString()}`;
                     _this.init();
-
                 }, 
                 beforeSend: function() {
-                    $('[name="loginButton"]').html('<img width="30" src="img/Cube.svg">');
+                    $(loginButtonSelector).html('<img width="30" src="img/Cube.svg">');
                 },
 
                 error: function(xhr, status, error) {
                     $('.inputError').remove();
-                    $('[name="loginButton"]').html('Login')
-                        .before('<div class="inputError">User with this login/password combination not found</div>');
+                    functions.showMessage('inputError', loginButtonSelector, 'User with this login/password combination not found!');
+                    $(loginButtonSelector).html('Login');
                 }
             });
         };
     }; //LOGIN
 
     logout(){
-        document.cookie = "session-token=;expires=Thu, 01 Jan 1970 00:00:01 GMT";
+        document.cookie = 'session-token=;expires=Thu, 01 Jan 1970 00:00:01 GMT';
         this.init();
     }; //LOGOUT
 
-    registration(){
-        let formValidation = new Validation(),
-            _this = this;
+    registration(usernameFieldSelector, emailFieldSelector, passwordFieldSelector, confirmPassFieldSelector, 
+                captchaFieldSelector, firstNameFieldSelector, lastNameFieldSelector, buttonSelector){
 
-        if (formValidation.usernameValidate() && 
-            formValidation.emailValidate() && 
-            formValidation.passwordValidate() &&
-            formValidation.confirmPassValidate() &&
-            formValidation.captchaValidate() &&
-            formValidation.nameValidate('[name="firstname"]') &&
-            formValidation.nameValidate('[name="lastname"]')) {
+        const formValidation = new Validation();
+        const functions = new Functions();
+        const _this = this;
+        const noValidationErrors = formValidation.formValidate(usernameFieldSelector, emailFieldSelector, passwordFieldSelector, 
+            confirmPassFieldSelector, captchaFieldSelector, firstNameFieldSelector, lastNameFieldSelector);
+
+        if (noValidationErrors) {
             $.ajax({
                 url: 'http://restapi.fintegro.com/registration', 
                 method: 'POST',
                 dataType: 'json',
                 data: {
-                    login: $('[name="username"]').val(),
-                    email: $('[name="email"]').val(),
-                    password: $('[name="password"]').val(),
-                    firstname: $('[name="firstname"]').val(),
-                    lastname: $('[name="lastname"]').val()
+                    login: $(usernameFieldSelector).val(),
+                    email: $(emailFieldSelector).val(),
+                    password: $(passwordFieldSelector).val(),
+                    firstname: $(firstNameFieldSelector).val(),
+                    lastname: $(lastNameFieldSelector).val()
                 },
+
                 success: function(data) {
-                    $('[name="registerButton"]').html('Register')
-                        .before('<div class="success">Your account was succesfully created!</div>');
-                    
+                    functions.messageDelete('inputError', buttonSelector)
+                    functions.showMessage('success', buttonSelector, 'Your account was succesfully created!');    
                     setTimeout(function(){
                         _this.init();
                     }, 5000);
                 }, 
+
                 beforeSend: function() {
-                    $('[name="registerButton"]').html('<img width="30" src="img/Cube.svg">');
+                    $(buttonSelector).html('<img width="30" src="img/Cube.svg">');
                 },
 
                 error: function(xhr, status, error) {
-                    $('[name="registerButton"]').html('Register');
+                    const errors = ($.parseJSON(xhr.responseText)).errors;
 
-                    let errors = ($.parseJSON(xhr.responseText)).errors;
-                    console.log(errors);
-                    $('[name="registerButton"]').before('<div class="inputError"></div>')
+                    $(buttonSelector).html('Register');
+                    functions.showMessage('inputError', buttonSelector, '');
 
                     for(let errorItem in errors) {
-                        $('.inputError').append('<p>' + errors[errorItem] + '</p>');
-                    }
+                        $('.inputError').append(`<p>${errors[errorItem]}</p>`);
+                    };
                 }
+
             });
         };
     };//REGISTRATION
 
-    showRegister(){
-        let functions = new Functions(),
-            firstNumber = functions.random(1, 10),
-            lastNumber = functions.random(1, 10),
-            _this = this;
+    showRegister(captchaFieldSelector){
+        const functions = new Functions();
+        const firstNumber = functions.random(1, 10);
+        const lastNumber = functions.random(1, 10);
+        const _this = this;
         $.get('./src/views/register.hbs', function(response){
-            let template = Handlebars.compile(response);
+            const template = Handlebars.compile(response);
             $(_this.wrapper()).html(template);
-            $('[name=captcha]').attr("placeholder", `Сколько будет: ${firstNumber} + ${lastNumber}?`);
-            $('[name=captcha]').data("random", {first: firstNumber, last: lastNumber});
+            $(captchaFieldSelector).attr("placeholder", `Сколько будет: ${firstNumber} + ${lastNumber}?`);
+            $(captchaFieldSelector).data("random", {first: firstNumber, last: lastNumber});
         });
     };//SHOW REGISTER
 
     showRecover(){
-        let _this = this;
+        const _this = this;
         $.get('./src/views/recoverPass.hbs', function(response){
-            let template = Handlebars.compile(response);
+            const template = Handlebars.compile(response);
             $(_this.wrapper()).html(template);
         });
     };//SHOW RECOVER
 
-    showProfileSettings(){
-        let _this = this;
+    sendPassRecoverRequest(emailFieldSelector, buttonSelector){
+        const functions = new Functions();
+        const formValidation = new Validation();
+
+        if(formValidation.emailValidate(emailFieldSelector)){
+            $.ajax({
+                url: 'http://restapi.fintegro.com/recovery', 
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    email: $(emailFieldSelector).val()
+                },
+                success: function(data) {
+                    functions.messageDelete('inputError', buttonSelector);
+                    functions.showMessage('success', buttonSelector, 'A new password was send to your Email!');
+                }, 
+                beforeSend: function() {
+                    $(buttonSelector).html('<img width="30" src="img/Cube.svg">');
+                },
+    
+                error: function(xhr, status, error) {
+                    $(buttonSelector).html('Send');
+                    functions.showMessage('inputError', buttonSelector, 'An error has been occured.');
+                }
+            });
+        };
+    };//RECOVER PASSWORD
+
+    showProfileSettings(containerSelector){
+        const _this = this;
         $.get('./src/views/profileSettings.hbs', function(response){
-            let template = Handlebars.compile(response);
-            $(_this.wrapper()).find('.wrapper__content').html(template);
+            const template = Handlebars.compile(response);
+            $(_this.wrapper()).find(containerSelector).html(template);
         });
     }; //SHOW PROFILE SETTINGS
 
     albumsList(albums){
-        var albumsUL = document.createElement('ul');
-        var albumLI;
-        $(albumsUL).addClass('wrapper__profileSettings__tabs__content__albums__list');
+        let albumsUL = document.createElement('ul');
+        let albumLI;
+        $(albumsUL).addClass();
 
         for(var i = 0; i < albums.length; i++) {
             albumLI = document.createElement('li');

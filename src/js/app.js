@@ -3,36 +3,45 @@
 import $ from 'jquery';
 import RestInterraction from './restInterraction.js';
 import Validation from './validation.js';
+import Functions from './functions.js';
 
 
 (function(){
-    let currentRestInterraction = new RestInterraction();
-    let currentValidation = new Validation();
+    const currentRestInterraction = new RestInterraction();
+    const currentValidation = new Validation();
+    const functions = new Functions();
 
-    currentRestInterraction.init();
+    currentRestInterraction.init('.wrapper__footer__copyright__year');
 
     $('body').on('click', '[name=loginButton]', function() {
-        currentRestInterraction.login();
+        currentRestInterraction.login('[name="username"]', '[name="password"]', '[name=loginButton]');
     });
 
     $('body').on('click', '[name=registerButton]', function() {
-        currentRestInterraction.registration();
+        currentRestInterraction.registration('[name="username"]', '[name="email"]', '[name="password"]',
+                                            '[name="confirmPass"]', '[name="captcha"]', '[name="firstname"]', 
+                                            '[name="lastname"]', '[name="registerButton"]');
     });
 
     $('body').on('click', '[name=toRegister]', function(e) {
         e.preventDefault();
-        currentRestInterraction.showRegister();
+        currentRestInterraction.showRegister('[name="captcha"]');
     });
 
     $('body').on('click', '[name=toLogin]', function(e) {
         e.preventDefault();
-        currentRestInterraction.init();
+        currentRestInterraction.init('.wrapper__footer__copyright__year');
     });
 
-    $('body').on('click', '[name=recoverPass]', function(e) {
+    $('body').on('click', '[name=recoverPassLink]', function(e) {
         e.preventDefault();
         currentRestInterraction.showRecover();
     });
+
+    $('body').on('click', '[name=recoverPassBtn]', function(e){
+        e.preventDefault();
+        currentRestInterraction.sendPassRecoverRequest('[name="email"]', '[name=recoverPassBtn]');
+    }); //RECOVERING PASSWORD
 
     $('body').on('click', '[name=logout]', function(e) {
         e.preventDefault();
@@ -41,7 +50,7 @@ import Validation from './validation.js';
 
     $('body').on('click', '[name=profileSettings]', function(e) {
         e.preventDefault();
-        currentRestInterraction.showProfileSettings();
+        currentRestInterraction.showProfileSettings('.wrapper__content');
     });
 
     $('body').on('click', '[name="albumsList"]', function(e) {
@@ -73,31 +82,31 @@ import Validation from './validation.js';
 
     // REGISTER VALIDATION
     $('body').on('blur', '[name="username"]', function(){
-        currentValidation.usernameValidate();
+        currentValidation.usernameValidate('[name="username"]');
     }); //USERNAME VALIDATION
 
     $('body').on('blur', '[name="email"]', function(){
-        currentValidation.emailValidate();
+        currentValidation.emailValidate('[name="email"]');
     }); //EMAIL VALIDATION
 
     $('body').on('blur', '[name="password"]', function(){
-        currentValidation.passwordValidate();
+        currentValidation.passwordValidate('[name="password"]', '[name="confirmPass"]');
     }); //PASSWORD VALIDATION
 
     $('body').on('blur', '[name="confirmPass"]', function(){
-        currentValidation.confirmPassValidate();
+        currentValidation.confirmPassValidate('[name="password"]', '[name="confirmPass"]');
     }); //PASSWORD MATCH VALIDATION
     
     $('body').on('keypress', '[name="password"]', function(e){
-        currentValidation.capsDetection(e, '[name="password"]');
+        functions.capsDetection(e, '[name="password"]');
     });//CAPS LOOK DETECTION
 
     $('body').on('keypress', '[name="confirmPass"]', function(e){
-        currentValidation.capsDetection(e, '[name="confirmPass"]');
+        functions.capsDetection(e, '[name="confirmPass"]');
     });//CAPS LOOK DETECTION
 
     $('body').on('blur', '[name="captcha"]', function(){
-        currentValidation.captchaValidate();
+        currentValidation.captchaValidate('[name="captcha"]');
     }); //CAPTCHA VALIDATION
 
     $('body').on('blur', '[name="firstname"]', function(){

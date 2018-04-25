@@ -28,6 +28,7 @@ module.exports = {
         }
       },
       {
+        
         test: /\.(sass|scss)$/,
         include: path.resolve(__dirname, 'src/sass'),
         use: ExtractTextPlugin.extract({
@@ -51,7 +52,6 @@ module.exports = {
                 sourceMap: true
               }
             },
-            
           ]
         })
       },
