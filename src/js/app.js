@@ -4,17 +4,19 @@ import $ from 'jquery';
 import RestInterraction from './restInterraction.js';
 import Validation from './validation.js';
 import Functions from './functions.js';
-
+import Render from './render.js';
 
 (function(){
     const currentRestInterraction = new RestInterraction();
     const currentValidation = new Validation();
     const functions = new Functions();
+    const render = new Render();
 
-    currentRestInterraction.init('.wrapper__footer__copyright__year');
+    currentRestInterraction.init();
 
     $('body').on('click', '[name=loginButton]', function() {
-        currentRestInterraction.login('[name="username"]', '[name="password"]', '[name=loginButton]');
+        currentRestInterraction.login('[name="username"]', '[name="password"]', '[name=loginButton]',
+                                        '.wrapper__footer__copyright__year');
     });
 
     $('body').on('click', '[name=registerButton]', function() {
@@ -25,17 +27,17 @@ import Functions from './functions.js';
 
     $('body').on('click', '[name=toRegister]', function(e) {
         e.preventDefault();
-        currentRestInterraction.showRegister('[name="captcha"]');
+        render.registerPage();
     });
 
     $('body').on('click', '[name=toLogin]', function(e) {
         e.preventDefault();
-        currentRestInterraction.init('.wrapper__footer__copyright__year');
+        currentRestInterraction.init();
     });
 
     $('body').on('click', '[name=recoverPassLink]', function(e) {
         e.preventDefault();
-        currentRestInterraction.showRecover();
+        render.recoverPassPage();
     });
 
     $('body').on('click', '[name=recoverPassBtn]', function(e){
@@ -50,8 +52,15 @@ import Functions from './functions.js';
 
     $('body').on('click', '[name=profileSettings]', function(e) {
         e.preventDefault();
-        currentRestInterraction.showProfileSettings('.wrapper__content');
+        currentRestInterraction.profileSettings('.wrapper__content');
     });
+
+    $('body').on('click', '[name="updateProfile"]', function(e){
+        e.preventDefault();
+        currentRestInterraction.updateProfileInfo('[name="firstname"]', '[name="lastname"]','[name="quote"]',
+                                            '[name="photo"]', '[name="lived"]', '[name="from"]', 
+                                            '[name="went"]', '[name="updateProfile"]');
+    }); //UPDATING PROFILE INFORMATION
 
     $('body').on('click', '[name="albumsList"]', function(e) {
         e.preventDefault();

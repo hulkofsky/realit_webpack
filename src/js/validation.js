@@ -103,8 +103,9 @@ export default class Validation {
 
     captchaValidate(captchaFieldSelector){
         const functions = new Functions;
-        const firstNumber = $(captchaFieldSelector).data('random').first;
-        const lastNumber = $(captchaFieldSelector).data('random').last;
+        const captchaPlaceholderParts = $(captchaFieldSelector).attr('placeholder').split('+');
+        const firstNumber = +captchaPlaceholderParts[0].replace(/\D+/g,"");
+        const lastNumber = +captchaPlaceholderParts[1].replace(/\D+/g,"");
 
         if($(captchaFieldSelector).val() == firstNumber + lastNumber) {
             functions.messageDelete('inputError', captchaFieldSelector);

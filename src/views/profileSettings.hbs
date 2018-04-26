@@ -3,7 +3,8 @@
         <div class="wrapper__profileSettings__header__uPhoto">
             <img class="wrapper__profileSettings__header__uPhoto__img" src="../img/default-user.jpg" alt="user_photo">
         </div>
-        <p class="wrapper__profileSettings__header__name">FirstName LastName</p>
+        <p class="wrapper__profileSettings__header__name">{{profile.firstName}} {{profile.lastName}}</p>
+        <p class="wrapper__profileSettings__header__quote">{{profile.quote}}</p>
     </div>
     {{!-- tabs --}}
     <div class="wrapper__profileSettings__tabs"> 
@@ -17,36 +18,36 @@
             <div class="wrapper__profileSettings__tabs__content__wrapper">
                 <div class="wrapper__profileSettings__tabs__content__wrapper__item">
                     <label class="wrapper__profileSettings__tabs__content__wrapper__item__label" for="firstname">Firstname</label>
-                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__input" type="text" name="firstname">
+                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__input" type="text" name="firstname" value="{{profile.firstName}}">
                 </div>
                 <div class="wrapper__profileSettings__tabs__content__wrapper__item">
                     <label class="wrapper__profileSettings__tabs__content__wrapper__item__label" for="lastname">Lastname</label>
-                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__input" type="text" name="lastname">
+                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__input" type="text" name="lastname" value="{{profile.lastName}}">
                 </div>
             </div>
 
             <div class="wrapper__profileSettings__tabs__content__wrapper">
                 <div class="wrapper__profileSettings__tabs__content__wrapper__item">
                     <label class="wrapper__profileSettings__tabs__content__wrapper__item__label" for="quote">Quote</label>
-                    <textarea class="wrapper__profileSettings__tabs__content__wrapper__item__textarea" type="text" name="quote" rows="3"></textarea>
+                    <textarea class="wrapper__profileSettings__tabs__content__wrapper__item__textarea" type="text" name="quote" rows="3">{{profile.quote}}</textarea>
                 </div>
             </div>
 
             <div class="wrapper__profileSettings__tabs__content__wrapper">
                 <div class="wrapper__profileSettings__tabs__content__wrapper__item">
                     <label class="wrapper__profileSettings__tabs__content__wrapper__item__label" for="lived">Lived</label>
-                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__input" type="text" name="lived">
+                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__input" type="text" name="lived" value="{{profile.lived}}">
                 </div>
                 <div class="wrapper__profileSettings__tabs__content__wrapper__item">
                     <label class="wrapper__profileSettings__tabs__content__wrapper__item__label" for="from">From</label>
-                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__input" type="text" name="from">
+                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__input" type="text" name="from" value="{{profile.from}}">
                 </div>
             </div>
 
              <div class="wrapper__profileSettings__tabs__content__wrapper">
                  <div class="wrapper__profileSettings__tabs__content__wrapper__item">
                      <label class="wrapper__profileSettings__tabs__content__wrappe__item__label" for="went">Went</label>
-                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__textarea" type="text" name="went">
+                    <input class="wrapper__profileSettings__tabs__content__wrapper__item__textarea" type="text" name="went" value="{{profile.went}}">
                  </div>
             </div>
 
@@ -59,11 +60,11 @@
             </div>
 
             <div class="wrapper__profileSettings__tabs__content__wrapper">
-                <button class="wrapper__profileSettings__tabs__content__wrapper__update">Update</button>
+                <button class="wrapper__profileSettings__tabs__content__wrapper__update" name="updateProfile">Update</button>
             </div>
             
             <div class="wrapper__profileSettings__tabs__content__wrapper">
-                <a href="#" class="wrapper__profileSettings__tabs__content__wrapper__removeProfile">Remove profile</a>
+                <a href="#" class="wrapper__profileSettings__tabs__content__wrapper__removeProfile" name="removeProfile">Remove profile</a>
             </div>
             
         </div>

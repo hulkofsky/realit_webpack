@@ -7,11 +7,10 @@ export default class Functions {
     }; //RANDOM
 
     isSessionToken(){
-        let cookies = document.cookie.split('; '),
-            sessionToken;
+        let cookies = document.cookie.split('; ');
+        let sessionToken;
 
         for(let i = 0; i < cookies.length; i++) {
-
             if(cookies[i].indexOf('session-token') !== -1) {
                 sessionToken = cookies[i].split('=')[1];
                 break;
@@ -29,6 +28,16 @@ export default class Functions {
     messageDelete(errorSuccsessClassName, fieldSelector){
         $(fieldSelector).parent().prev(`.${errorSuccsessClassName}`).remove();
     };//MESSAGE DELETE
+
+    showModal(modalClassName, containerSelector, Message){
+        $(containerSelector).append(`<div class="modalOverlay"></div>
+                                    <div class="${modalClassName}">${Message}</div>`);
+    }; //SHOW MODAL
+
+    deleteModal(modalClassName){
+        $(`.modalOverlay`).remove();
+        $(`.${modalClassName}`).remove();
+    };//DELETE MODAL
 
     capsDetection(e, fieldSelector){
         let functions = new Functions,

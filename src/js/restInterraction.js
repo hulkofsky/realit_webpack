@@ -3,16 +3,28 @@
 import $ from 'jquery';
 import Handlebars from '../../node_modules/handlebars/dist/handlebars.min.js';
 import Validation from './validation.js';
-import Functions from './functions.js'
+import Functions from './functions.js';
+import Render from './render.js'
 
 export default class RestInterraction {
     wrapper(){
         return $('.wrapper');
     };
 
-    init(yearContainerSelector){
-        const functions = new Functions();
+    redirectToLogin(){
         const _this = this;
+        const functions = new Functions();
+
+        functions.showModal('errorModal', 'body', 'Sorry, Your session is over. You will be redirected to login page.')
+        setTimeout(function(){
+            _this.init();
+            functions.deleteModal('errorModal')
+        }, 3000);
+    }; //REDIRECT TO LOGIN
+
+    init(){
+        const functions = new Functions();
+        const render = new Render();
 
         if(functions.isSessionToken()) {
             const sessionToken = functions.isSessionToken();
@@ -26,31 +38,39 @@ export default class RestInterraction {
                 },
 
                 success: function(data) {
-                    $.get('./src/views/profile.hbs', function(response){
-                        const template = Handlebars.compile(response);
-                        const context = {
-                            firstName: data.profile.firstname,
-                            lastName: data.profile.lastname
-                        }
-                        const htmlContent = template(context);
-                        const year = new Date();
-
-                        $(_this.wrapper()).html(htmlContent);
-                        $(yearContainerSelector).html(year.getFullYear());
-                    });
+                    render.profilePage(data)
                 }
             });
         } else {
-            $.get('./src/views/login.hbs', function(response){
-                const template = Handlebars.compile(response);
-                const htmlContent = template();
-                $(_this.wrapper()).html(htmlContent);
-            });
-
+            render.loginPage();
         }
     };  //INIT
 
-    login(usernameFieldSelector, passwordFieldSelector, loginButtonSelector){
+    profileSettings(containerSelector){
+        const functions = new Functions();
+        const render = new Render();
+
+        if(functions.isSessionToken()) {
+            const sessionToken = functions.isSessionToken();
+
+            $.ajax({
+                url: 'http://restapi.fintegro.com/profiles', 
+                method: 'GET',
+                dataType: 'json', 
+                headers: {
+                    bearer: sessionToken
+                },
+
+                success: function(data) {
+                    render.profileSettingsPage(containerSelector, data);
+                }
+            });
+        } else {
+            render.redirectToLogin(data);
+        }
+    };  //INIT
+
+    login(usernameFieldSelector, passwordFieldSelector, loginButtonSelector, yearContainerSelector){
         const formValidation = new Validation();
         const functions = new Functions();
 
@@ -67,7 +87,7 @@ export default class RestInterraction {
                 
                 success: function(data) {
                     const date = new Date(new Date().getTime() + 6000 * 1000);
-
+                    localStorage.userId = data.profile.user_id;
                     document.cookie = `session-token=${data.token}; expires=${date.toUTCString()}`;
                     _this.init();
                 }, 
@@ -116,14 +136,14 @@ export default class RestInterraction {
                     functions.showMessage('success', buttonSelector, 'Your account was succesfully created!');    
                     setTimeout(function(){
                         _this.init();
-                    }, 5000);
+                    }, 3000);
                 }, 
 
                 beforeSend: function() {
                     $(buttonSelector).html('<img width="30" src="img/Cube.svg">');
                 },
 
-                error: function(xhr, status, error) {
+                error: function(xhr) {
                     const errors = ($.parseJSON(xhr.responseText)).errors;
 
                     $(buttonSelector).html('Register');
@@ -137,27 +157,6 @@ export default class RestInterraction {
             });
         };
     };//REGISTRATION
-
-    showRegister(captchaFieldSelector){
-        const functions = new Functions();
-        const firstNumber = functions.random(1, 10);
-        const lastNumber = functions.random(1, 10);
-        const _this = this;
-        $.get('./src/views/register.hbs', function(response){
-            const template = Handlebars.compile(response);
-            $(_this.wrapper()).html(template);
-            $(captchaFieldSelector).attr("placeholder", `Сколько будет: ${firstNumber} + ${lastNumber}?`);
-            $(captchaFieldSelector).data("random", {first: firstNumber, last: lastNumber});
-        });
-    };//SHOW REGISTER
-
-    showRecover(){
-        const _this = this;
-        $.get('./src/views/recoverPass.hbs', function(response){
-            const template = Handlebars.compile(response);
-            $(_this.wrapper()).html(template);
-        });
-    };//SHOW RECOVER
 
     sendPassRecoverRequest(emailFieldSelector, buttonSelector){
         const functions = new Functions();
@@ -174,26 +173,60 @@ export default class RestInterraction {
                 success: function(data) {
                     functions.messageDelete('inputError', buttonSelector);
                     functions.showMessage('success', buttonSelector, 'A new password was send to your Email!');
+                    $(buttonSelector).html('Send');
                 }, 
                 beforeSend: function() {
                     $(buttonSelector).html('<img width="30" src="img/Cube.svg">');
                 },
     
-                error: function(xhr, status, error) {
+                error: function(xhr) {
                     $(buttonSelector).html('Send');
-                    functions.showMessage('inputError', buttonSelector, 'An error has been occured.');
+                    if(xhr.status == 404){
+                        functions.showMessage('inputError', buttonSelector, 'This Email is not registered in our database.');
+                    } else {
+                        functions.showMessage('inputError', buttonSelector, 'Internal server error.');
+                    };   
                 }
             });
         };
     };//RECOVER PASSWORD
 
-    showProfileSettings(containerSelector){
-        const _this = this;
-        $.get('./src/views/profileSettings.hbs', function(response){
-            const template = Handlebars.compile(response);
-            $(_this.wrapper()).find(containerSelector).html(template);
-        });
-    }; //SHOW PROFILE SETTINGS
+    updateProfileInfo(firstNameFieldSelector, lastNameFieldSelector, quoteFieldSelector, photoFieldSelector, 
+                        livedFieldSelector, fromFieldSelector, wentFieldSelector, buttonSelector){
+        const functions = new Functions();
+        const render = new Render();
+
+        if(functions.isSessionToken()) {
+            const sessionToken = functions.isSessionToken();
+            let userId;
+
+            $.ajax({
+                url: `http://restapi.fintegro.com/profiles/${localStorage.userId}`, 
+                method: 'PUT',
+                dataType: 'json', 
+
+                data: {
+                    firstname: $(firstNameFieldSelector).val(),
+                    lastname: $(lastNameFieldSelector).val(),
+                    quote: $(quoteFieldSelector).val(),
+                    photo: $(photoFieldSelector).val(),
+                    lived: $(livedFieldSelector).val(),  
+                    from: $(fromFieldSelector).val(),
+                    went: $(wentFieldSelector).val()
+                },
+
+                headers: {
+                    bearer: sessionToken
+                },
+
+                success: function(data) {
+                    functions.showMessage('success', buttonSelector, 'Your personal information has been updated succesfully!')
+                }
+            });
+        } else {
+            render.redirectToLogin(data);
+        }
+    };//UPDATE PROFILE SETTINGS
 
     albumsList(albums){
         let albumsUL = document.createElement('ul');
@@ -266,7 +299,7 @@ export default class RestInterraction {
         });
     }; //ADD ALBUM
  
-    openAlbum(){
+    openAlbum(albumID){
         let functions = new Functions(),
             _this = this;
         $.ajax({
