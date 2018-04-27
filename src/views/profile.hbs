@@ -2,8 +2,8 @@
     <nav class="wrapper__header__nav">
         <div class="wrapper__header__nav__logo"></div>
         <ul class="wrapper__header__nav__ul">
-            <li class="wrapper__header__nav__ul__li"><a class="wrapper__header__nav__ul__li__a" href="#">Home</a></li>
-            <li class="wrapper__header__nav__ul__li"><a class="wrapper__header__nav__ul__li__a" href="#" name="profileSettings">My Profile</a></li>
+            <li class="wrapper__header__nav__ul__li"><a class="wrapper__header__nav__ul__li__a" href="#" name="myProfile">My Profile</a></li>
+            <li class="wrapper__header__nav__ul__li"><a class="wrapper__header__nav__ul__li__a" href="#" name="profileSettings">Settings</a></li>
             <li class="wrapper__header__nav__ul__li"><a class="wrapper__header__nav__ul__li__a" href="#">Messages</a></li>
             <li class="wrapper__header__nav__ul__li"><a class="wrapper__header__nav__ul__li__a" href="#">Bell</a></li>
             <li class="wrapper__header__nav__ul__li"><a class="wrapper__header__nav__ul__li__a" href="#" name="logout">Logout</a></li>
@@ -18,18 +18,18 @@
         <div class="wrapper__content__left__profile">
             <img class="wrapper__content__left__profile__bg" src="img/profileBg.jpg" alt="profile_bg">
             <div class="wrapper__content__left__profile__photoWrapper">
-                <img class="wrapper__content__left__profile__photoWrapper__photo"src="img/default-user.jpg" alt="profile_Photo">
+                <img class="wrapper__content__left__profile__photoWrapper__photo" src="img/default-user.jpg" alt="profile_Photo">
             </div>
             <div class="wrapper__content__left__profile__info">
-                <p class="wrapper__content__left__profile__info__name">{{profile.firstName}} {{profile.lastName}}</p>
+                <p class="wrapper__content__left__profile__info__name">{{profile.firstname}} {{profile.lastname}}</p>
                 <p class="wrapper__content__left__profile__info__quote">{{profile.quote}}</p>
                 <div class="wrapper__content__left__profile__info__friends">
                     <p class="wrapper__content__left__profile__info__friends__p">Friends</p>
-                    <p class="wrapper__content__left__profile__info__friends__count">{{profile.friendsCount}}</p>
+                    <p class="wrapper__content__left__profile__info__friends__count">{{friendsCount}}</p>
                 </div>
                 <div class="wrapper__content__left__profile__info__enemies">
                     <p class="wrapper__content__left__profile__info__enemies__p">Enemies</p>
-                    <p class="wrapper__content__left__profile__info__enemies__count">{{profile.enemiesCount}}</p>
+                    <p class="wrapper__content__left__profile__info__enemies__count">{{enemiesCount}}</p>
                 </div>
             </div>
         </div>
@@ -82,11 +82,58 @@
         <div class="wrapper__content__right__friends">
             <div class="wrapper__content__right__friends__list">
                 <p class="wrapper__content__right__friends__list__title">Friends</p>
-                <div class="wrapper__content__right__friends__list__content">This will be your friends list...</div>
+                <div class="wrapper__content__right__friends__list__content">
+                    {{#each friends}}
+                        <div class="wrapper__content__right__friends__list__content__item">
+                            <div class="wrapper__content__right__friends__list__content__item__photo">
+                                <img class="wrapper__content__right__friends__list__content__item__photo__img" src="img/default-user.jpg" alt="Friend-photo">
+                            </div>
+                            <div class="wrapper__content__right__friends__list__content__item__info">
+                                <a class="wrapper__content__right__friends__list__content__item__info__name" data-id="{{this.user_id}}" href="#" name="friendName">{{this.firstname}} {{this.lastname}}</a>
+                                <div class="wrapper__content__right__friends__list__content__item__info__buttons">
+                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button">
+                                        <i class="fa fa-user-times"></i>
+                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Unfollow</p> 
+                                    </button>
+                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button">
+                                        <i class="fas fa-ban"></i>
+                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Block</p> 
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {{else}}
+                        This will be your friends list...
+                    {{/each}}
+                </div>
+                    
             </div>
             <div class="wrapper__content__right__friends__list">
                 <p class="wrapper__content__right__friends__list__title">Enemies</p>
-                <div class="wrapper__content__right__friends__list__content">This will be your enemies list...</div>
+                <div class="wrapper__content__right__friends__list__content">
+                    {{#each enemies}}
+                        <div class="wrapper__content__right__friends__list__content__item">
+                            <div class="wrapper__content__right__friends__list__content__item__photo">
+                                <img class="wrapper__content__right__friends__list__content__item__photo__img" src="img/default-user.jpg" alt="Friend-photo">
+                            </div>
+                            <div class="wrapper__content__right__friends__list__content__item__info">
+                                <a class="wrapper__content__right__friends__list__content__item__info__name" data-id="{{this.user_id}}" href="#" name="friendName">{{this.firstname}} {{this.lastname}}</a>
+                                <div class="wrapper__content__right__friends__list__content__item__info__buttons">
+                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button">
+                                        <i class="fa fa-user-times"></i>
+                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Unfollow</p> 
+                                    </button>
+                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button">
+                                        <i class="fas fa-ban"></i>
+                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Block</p> 
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {{else}}
+                        This will be your friends list...
+                    {{/each}}
+                </div>
             </div>
             <div class="wrapper__content__right__friends__quote">
                 <p class="wrapper__content__right__friends__quote__p">Some random quote</p>

@@ -137,17 +137,20 @@ export default class Validation {
         };
     }; //NAME VALIDATE
 
-    formValidate(usernameFieldSelector, emailFieldSelector, passwordFieldSelector, confirmPassFieldSelector, 
-        captchaFieldSelector, firstNameFieldSelector, lastNameFieldSelector){
+    formValidate(registerFieldSelectors){
         
-        this.nameValidate(firstNameFieldSelector);
-        this.nameValidate(lastNameFieldSelector);
-        this.loginValidate(usernameFieldSelector, passwordFieldSelector);
-        this.emailValidate(emailFieldSelector);
-        this.passwordValidate(passwordFieldSelector, confirmPassFieldSelector);
-        this.confirmPassValidate(passwordFieldSelector, confirmPassFieldSelector);
-        this.captchaValidate(captchaFieldSelector);
+        this.nameValidate(registerFieldSelectors.firstname);
+        this.nameValidate(registerFieldSelectors.lastname);
+        this.usernameValidate(registerFieldSelectors.username);
+        this.emailValidate(registerFieldSelectors.email);
+        this.passwordValidate(registerFieldSelectors.password, registerFieldSelectors.confirmPass);
+        this.confirmPassValidate(registerFieldSelectors.password, registerFieldSelectors.confirmPass);
+        this.captchaValidate(registerFieldSelectors.captcha);
 
         return this.noValidationErrors;
     };//FORM VALIDATE
+
+    profileSettingsValidate(){
+
+    };//PROFILE SETTINGS VALIDATE
 };

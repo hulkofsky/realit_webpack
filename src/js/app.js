@@ -17,50 +17,90 @@ import Render from './render.js';
     $('body').on('click', '[name=loginButton]', function() {
         currentRestInterraction.login('[name="username"]', '[name="password"]', '[name=loginButton]',
                                         '.wrapper__footer__copyright__year');
-    });
+    });//LOGIN BUTTON CLICK
 
     $('body').on('click', '[name=registerButton]', function() {
-        currentRestInterraction.registration('[name="username"]', '[name="email"]', '[name="password"]',
-                                            '[name="confirmPass"]', '[name="captcha"]', '[name="firstname"]', 
-                                            '[name="lastname"]', '[name="registerButton"]');
-    });
+        const registerFieldSelectors = {
+            username: '[name="username"]',
+            email: '[name="email"]',
+            password: '[name="password"]',
+            confirmPass: '[name="confirmPass"]',
+            captcha: '[name="captcha"]',
+            firstname: '[name="firstname"]',
+            lastname: '[name="lastname"]',
+            registerButton: '[name="registerButton"]'
+        };
+
+        currentRestInterraction.registration(registerFieldSelectors);
+    }); // REGISTER BUTTON CLICK
 
     $('body').on('click', '[name=toRegister]', function(e) {
         e.preventDefault();
         render.registerPage();
-    });
+    }); //REGISTER LINK CLICK
 
     $('body').on('click', '[name=toLogin]', function(e) {
         e.preventDefault();
         currentRestInterraction.init();
-    });
+    });// LOGIN LINK CLICK
 
     $('body').on('click', '[name=recoverPassLink]', function(e) {
         e.preventDefault();
         render.recoverPassPage();
-    });
+    }); //FORGOT PASSWORD LINK CLICK
 
     $('body').on('click', '[name=recoverPassBtn]', function(e){
         e.preventDefault();
         currentRestInterraction.sendPassRecoverRequest('[name="email"]', '[name=recoverPassBtn]');
-    }); //RECOVERING PASSWORD
+    }); //RECOVER PASSWORD BUTTON CLICK
+
+                                                    //PROFILE HBS
+    $('body').on('click', '[name="myProfile"]', function(e) {
+        e.preventDefault();
+        currentRestInterraction.init();
+    }); //MY PROFILE LINK CLICK     
+    
+    $('body').on('click', '[name=profileSettings]', function(e) {
+        e.preventDefault();
+        currentRestInterraction.profileSettings('.wrapper__content');
+    }); //SETTINGS LINK CLICK
 
     $('body').on('click', '[name=logout]', function(e) {
         e.preventDefault();
         currentRestInterraction.logout();
-    });
+    }); //LOGOUT LINK CLICK
 
-    $('body').on('click', '[name=profileSettings]', function(e) {
+
+    $('body').on('click', '[name="friendName"]', function(e){
         e.preventDefault();
-        currentRestInterraction.profileSettings('.wrapper__content');
-    });
+        const userId = $(this).data().id;
+        currentRestInterraction.showUsersProfile(userId);
+    }); //FRIEND NAME LINK CLICK
+                                                    //PROFILE HBS
+
+
+                                                    //PROFILESETTINGS HBS
 
     $('body').on('click', '[name="updateProfile"]', function(e){
         e.preventDefault();
-        currentRestInterraction.updateProfileInfo('[name="firstname"]', '[name="lastname"]','[name="quote"]',
-                                            '[name="photo"]', '[name="lived"]', '[name="from"]', 
-                                            '[name="went"]', '[name="updateProfile"]');
-    }); //UPDATING PROFILE INFORMATION
+        const updateInfoFields = {
+            firstname: $('[name="firstname"]').val(),
+            lastname: $('[name="lastname"]').val(),
+            quote: $('[name="quote"]').val(),
+            photo: $('[name="photo"]').val(),
+            lived: $('[name="lived"]').val(),
+            from: $('[name="from"]').val(),
+            went: $('[name="went"]').val(),
+            buttonSelector: '[name="updateProfile"]'
+        }; 
+
+        currentRestInterraction.updateProfileInfo(updateInfoFields);
+    }); //UPDATE PROFILE BUTTON CLICK
+
+    $('body').on('click', '[name="removeProfile"]', function(e){
+        e.preventDefault();
+        currentRestInterraction.removeProfile();
+    });// REMOVE PROFILE LINK CLICK
 
     $('body').on('click', '[name="albumsList"]', function(e) {
         e.preventDefault();

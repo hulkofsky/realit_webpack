@@ -66,9 +66,62 @@ export default class RestInterraction {
                 }
             });
         } else {
-            render.redirectToLogin(data);
+            this.redirectToLogin();
         }
     };  //INIT
+
+    showUsersProfile(userId){
+        const functions = new Functions();
+        const render = new Render();
+
+        if(functions.isSessionToken()) {
+            const sessionToken = functions.isSessionToken();
+
+            $.ajax({
+                url: `http://restapi.fintegro.com/profiles/${userId}`, 
+                method: 'GET',
+                dataType: 'json', 
+                headers: {
+                    bearer: sessionToken
+                },
+
+                success: function(data) {
+                    render.profilePage(data);
+                }
+            });
+        } else {
+            this.redirectToLogin();
+        }
+    };//SHOW USERS PROFILE
+
+    removeProfile(){
+        const functions = new Functions();
+        const render = new Render();
+        const _this = this;
+
+        if(functions.isSessionToken()) {
+            const sessionToken = functions.isSessionToken();
+            $.ajax({
+                url: `http://restapi.fintegro.com/profiles/${localStorage.userId}`, 
+                method: 'DELETE',
+                dataType: 'json', 
+                headers: {
+                    bearer: sessionToken
+                },
+
+                success: function(data) {
+                    functions.showModal('successModal', 'body', 'Your profile succesfully deleted. You will be redirected to login page');
+                    setTimeout(function(){
+                        _this.logout();
+                        _this.init();
+                        functions.deleteModal('successModal')
+                    }, 3000);
+                }
+            });
+        } else {
+            this.redirectToLogin();
+        }
+    };//REMOVE PROFILE
 
     login(usernameFieldSelector, passwordFieldSelector, loginButtonSelector, yearContainerSelector){
         const formValidation = new Validation();
@@ -109,14 +162,12 @@ export default class RestInterraction {
         this.init();
     }; //LOGOUT
 
-    registration(usernameFieldSelector, emailFieldSelector, passwordFieldSelector, confirmPassFieldSelector, 
-                captchaFieldSelector, firstNameFieldSelector, lastNameFieldSelector, buttonSelector){
+    registration(registerFieldSelectors){
 
         const formValidation = new Validation();
         const functions = new Functions();
         const _this = this;
-        const noValidationErrors = formValidation.formValidate(usernameFieldSelector, emailFieldSelector, passwordFieldSelector, 
-            confirmPassFieldSelector, captchaFieldSelector, firstNameFieldSelector, lastNameFieldSelector);
+        const noValidationErrors = formValidation.formValidate(registerFieldSelectors);
 
         if (noValidationErrors) {
             $.ajax({
@@ -124,30 +175,30 @@ export default class RestInterraction {
                 method: 'POST',
                 dataType: 'json',
                 data: {
-                    login: $(usernameFieldSelector).val(),
-                    email: $(emailFieldSelector).val(),
-                    password: $(passwordFieldSelector).val(),
-                    firstname: $(firstNameFieldSelector).val(),
-                    lastname: $(lastNameFieldSelector).val()
+                    login: $(registerFieldSelectors.username).val(),
+                    email: $(registerFieldSelectors.email).val(),
+                    password: $(registerFieldSelectors.password).val(),
+                    firstname: $(registerFieldSelectors.firstname).val(),
+                    lastname: $(registerFieldSelectors.lastname).val()
                 },
 
                 success: function(data) {
-                    functions.messageDelete('inputError', buttonSelector)
-                    functions.showMessage('success', buttonSelector, 'Your account was succesfully created!');    
+                    functions.messageDelete('inputError', registerFieldSelectors.registerButton)
+                    functions.showMessage('success', registerFieldSelectors.registerButton, 'Your account was succesfully created!');    
                     setTimeout(function(){
                         _this.init();
                     }, 3000);
                 }, 
 
                 beforeSend: function() {
-                    $(buttonSelector).html('<img width="30" src="img/Cube.svg">');
+                    $(registerFieldSelectors.registerButton).html('<img width="30" src="img/Cube.svg">');
                 },
 
                 error: function(xhr) {
                     const errors = ($.parseJSON(xhr.responseText)).errors;
 
-                    $(buttonSelector).html('Register');
-                    functions.showMessage('inputError', buttonSelector, '');
+                    $(registerFieldSelectors.registerButton).html('Register');
+                    functions.showMessage('inputError', registerFieldSelectors.registerButton, '');
 
                     for(let errorItem in errors) {
                         $('.inputError').append(`<p>${errors[errorItem]}</p>`);
@@ -191,8 +242,7 @@ export default class RestInterraction {
         };
     };//RECOVER PASSWORD
 
-    updateProfileInfo(firstNameFieldSelector, lastNameFieldSelector, quoteFieldSelector, photoFieldSelector, 
-                        livedFieldSelector, fromFieldSelector, wentFieldSelector, buttonSelector){
+    updateProfileInfo(updateInfoFields){
         const functions = new Functions();
         const render = new Render();
 
@@ -206,13 +256,13 @@ export default class RestInterraction {
                 dataType: 'json', 
 
                 data: {
-                    firstname: $(firstNameFieldSelector).val(),
-                    lastname: $(lastNameFieldSelector).val(),
-                    quote: $(quoteFieldSelector).val(),
-                    photo: $(photoFieldSelector).val(),
-                    lived: $(livedFieldSelector).val(),  
-                    from: $(fromFieldSelector).val(),
-                    went: $(wentFieldSelector).val()
+                    firstname: updateInfoFields.firstname,
+                    lastname: updateInfoFields.lastname,
+                    quote: updateInfoFields.quote,
+                    photo: updateInfoFields.photo,
+                    lived: updateInfoFields.lived,  
+                    from: updateInfoFields.from,
+                    went: updateInfoFields.went
                 },
 
                 headers: {
@@ -220,11 +270,11 @@ export default class RestInterraction {
                 },
 
                 success: function(data) {
-                    functions.showMessage('success', buttonSelector, 'Your personal information has been updated succesfully!')
+                    functions.showMessage('success', updateInfoFields.buttonSelector, 'Your personal information has been updated succesfully!')
                 }
             });
         } else {
-            render.redirectToLogin(data);
+            this.redirectToLogin();
         }
     };//UPDATE PROFILE SETTINGS
 

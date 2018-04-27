@@ -26,25 +26,16 @@ export default class Render{
     profilePage(data){
         const year = new Date();
         const context = {
-                        profile: {
-                            firstName: data.profile.firstname,
-                            lastName: data.profile.lastname,
-                            quote: data.profile.quote,
-                            photo: data.profile.photo,
-                            lived: data.profile.lived,
-                            from: data.profile.from,
-                            went: data.profile.went
-                        },
-
-                        friends: {
-
-                        },
+                        profile: data.profile,
+                        friends: data.friends,
+                        enemies: data.enemies,
 
                         friendsCount: data.friends_count,
                         enemiesCount: data.enemies_count,
                         currentYear: year.getFullYear()
                         };
-        this.loadTemplate('./src/views/profile.hbs', this.wrapper(), context);   
+
+        this.loadTemplate('./src/views/profile.hbs', this.wrapper(), context); 
     };//PROFILE PAGE
 
     registerPage(){

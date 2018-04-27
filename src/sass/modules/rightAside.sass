@@ -3,6 +3,7 @@
     &__friends
         border: 1px solid #dfdfdf
         background-color: #fff
+
         &__list
             padding: 20px
             &:first-child
@@ -10,8 +11,57 @@
             &__title
                 color: #292B2C
                 font-weight: bold
+                margin: 0
+                margin-bottom: 10px
             &__content
                 color: #292B2C
+                display: flex
+                flex-direction: column
+                justify-content: flex-start
+                &__item
+                    display: flex
+                    flex-direction: row
+                    margin-bottom: 10px
+                    &__photo
+                        min-width: 60px
+                        width: 60px
+                        height: 60px
+                        border-radius: 50%
+                        background-color: #fff
+                        &__img
+                            width: 100%
+                            height: 100%
+                            border-radius: 50%
+                    &__info
+                        margin-left: 5px
+                        &__name
+                            margin: 0
+                            color: #3097D1
+                            text-decoration: none
+                            font-weight: bold
+                            &:hover
+                                color: #014C8C
+                        &__buttons
+                            margin-top: 10px
+                            display: flex
+                            flex-direction: row
+                            &__button
+                                display: flex
+                                flex-direction: row
+                                justify-content: center
+                                border-radius: 3px
+                                padding: 5px
+                                border: 1px solid #3097D1
+                                color: #3097D1
+                                background-color: #fff
+                                margin-right: 5px
+                                &:hover
+                                    background-color: #3097D1
+                                    color: #fff
+                                &__text
+                                    margin: 0
+                                    margin-left: 5px
+                                    
         &__quote
             padding: 20px
             border-top: 1px solid #dfdfdf
