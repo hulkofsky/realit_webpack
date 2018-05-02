@@ -29,9 +29,9 @@ export default class Functions {
         $(fieldSelector).parent().prev(`.${errorSuccsessClassName}`).remove();
     };//MESSAGE DELETE
 
-    showModal(modalClassName, containerSelector, Message){
+    showModal(modalClassName, containerSelector, message){
         $(containerSelector).append(`<div class="modalOverlay"></div>
-                                    <div class="${modalClassName}">${Message}</div>`);
+                                    <div class="${modalClassName}">${message}</div>`);
     }; //SHOW MODAL
 
     deleteModal(modalClassName){

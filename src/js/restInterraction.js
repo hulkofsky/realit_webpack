@@ -68,7 +68,7 @@ export default class RestInterraction {
         } else {
             this.redirectToLogin();
         }
-    };  //INIT
+    };  //PROFILE SETTINGS
 
     showUsersProfile(userId){
         const functions = new Functions();
@@ -161,6 +161,140 @@ export default class RestInterraction {
         document.cookie = 'session-token=;expires=Thu, 01 Jan 1970 00:00:01 GMT';
         this.init();
     }; //LOGOUT
+
+    searchUserProfiles(searchCriteria, containerSelector){
+        const render = new Render();
+        const functions = new Functions();
+
+        if(functions.isSessionToken()) {
+            const sessionToken = functions.isSessionToken();
+            $.ajax({
+                url: 'http://restapi.fintegro.com/search', 
+                method: 'GET',
+                dataType: 'json',
+                data: {
+                    search: searchCriteria
+                },
+
+                headers: {
+                    bearer: sessionToken
+                },
+
+                success: function(data) {
+                    render.searchResults(containerSelector, data);
+                }, 
+
+                beforeSend: function() {
+                    $(containerSelector).html('<img width="30" src="img/Cube.svg">');
+                }
+            });
+        };
+    };//SEARCH USER PROFILES
+
+    addFriendOrEnemy(userId, friendOrEnemy, userName){
+        const functions = new Functions();
+        const _this = this;
+
+        if(functions.isSessionToken()) {
+            const sessionToken = functions.isSessionToken();
+            $.ajax({
+                url: 'http://restapi.fintegro.com/social-activities', 
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    user_id: userId,
+                    type: friendOrEnemy
+                },
+
+                headers: {
+                    bearer: sessionToken
+                },
+
+                success: function(data) {
+                    if (friendOrEnemy == 1) {
+                        functions.showModal('successModal', _this.wrapper(), `You added ${userName} to your friendlist.`);
+                        setTimeout(function(){
+                            functions.deleteModal('successModal');
+                        }, 2000);
+                    };
+                    
+                    if(friendOrEnemy == 2) {
+                        functions.showModal('successModal', _this.wrapper(), `You added ${userName} to your enemies list.`);
+                        setTimeout(function(){
+                            functions.deleteModal('successModal');
+                        }, 2000);
+                    };
+
+                }
+            });
+        };
+    };//FOLLOW USER
+
+    viewFriendsOrEnemies(containerSelector, friendOrEnemy, userId){
+        const functions = new Functions();
+        const render = new Render();
+
+        if(functions.isSessionToken()) {
+            const sessionToken = functions.isSessionToken();
+
+            $.ajax({
+                url: `http://restapi.fintegro.com/social-activities/${userId}`, 
+                method: 'GET',
+                dataType: 'json',
+
+                headers: {
+                    bearer: sessionToken
+                },
+
+                success: function(data) {
+                    if(friendOrEnemy == 1){
+                        let context = {
+                                        userList: data.friends,
+                                        typeOfList: 'friends'
+                                    };
+
+                        render.allFriendsOrEnemies(containerSelector, context);
+                    };
+                    
+                    if(friendOrEnemy == 2){
+                        let context = {
+                                        userList: data.enemies,
+                                        typeOfList: 'enemies'
+                                    };
+
+                        render.allFriendsOrEnemies(containerSelector, context);
+                    };    
+                }
+            });
+        };
+    };//VIEW FRIENDS OR ENEMIES
+
+    deleteUserFromList(userId, userName){
+        const functions = new Functions();
+        const render = new Render();
+        const _this = this;
+
+        if(functions.isSessionToken()) {
+            const sessionToken = functions.isSessionToken();
+            $.ajax({
+                url: `http://restapi.fintegro.com/social-activities/${userId}`, 
+                method: 'DELETE',
+                dataType: 'json', 
+                headers: {
+                    bearer: sessionToken
+                },
+
+                success: function(data) {
+                    functions.showModal('successModal', 'body', `${userName} succesfully deleted.`);
+                    setTimeout(function(){
+                        functions.deleteModal('successModal')
+                    }, 2000);
+                }
+            });
+        } else {
+            this.redirectToLogin();
+        }
+    };//DELETE USER FROM LIST
 
     registration(registerFieldSelectors){
 

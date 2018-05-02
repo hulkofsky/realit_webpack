@@ -70,17 +70,64 @@ import Render from './render.js';
         currentRestInterraction.logout();
     }); //LOGOUT LINK CLICK
 
+    $('body').on('keyup', '[name="searchUserProfiles"]', function(e) {
+        if(e.keyCode==13)
+           {
+                currentRestInterraction.searchUserProfiles($('[name="searchUserProfiles"]').val(), '.wrapper__content__mid');
+           };
+    });//SEARCH FIELD ENTER PRESS
 
     $('body').on('click', '[name="friendName"]', function(e){
         e.preventDefault();
         const userId = $(this).data().id;
         currentRestInterraction.showUsersProfile(userId);
     }); //FRIEND NAME LINK CLICK
+
+    $('body').on('click', '[name="userFollow"]', function(e){
+        e.preventDefault();
+        const userId = $(this).parent().data().id;
+        const userName = $(this).parent().prev().children('p:first-of-type').html();
+        console.log(userName);
+        currentRestInterraction.addFriendOrEnemy(userId, 1, userName, '[name="userFollow"]');
+    }); //FOLLOW BUTTON CLICK
+
+    $('body').on('click', '[name="userBlock"]', function(e){
+        e.preventDefault();
+        const userId = $(this).parent().data().id;
+        const userName = $(this).parent().prev().children('p:first-of-type').html();
+        currentRestInterraction.addFriendOrEnemy(userId, 2, userName, '[name="userBlock"]');
+    }); //BLOCK BUTTON CLICK    
+
+    $('body').on('click', '[name="viewFriends"]', function(e){
+        e.preventDefault();
+        const userId = $(this).data().id;
+        currentRestInterraction.viewFriendsOrEnemies('.wrapper__content__mid', 1, userId);
+    }); //View ALL CLICK(FRIENDS)
+
+    $('body').on('click', '[name="viewEnemies"]', function(e){
+        e.preventDefault();
+        const userId = $(this).data().id;
+        currentRestInterraction.viewFriendsOrEnemies('.wrapper__content__mid', 2, userId);
+    }); //View ALL CLICK(ENEMIES)
+
+    $('body').on('click', '[name="deleteUserFromList"]', function(e){
+        e.preventDefault();
+        const userId = $(this).parent().prev().data().id;
+        const userName = $(this).parent().prev().html();
+        currentRestInterraction.deleteUserFromList(userId, userName);
+    }); //DELETE USER FROM LIST CLICK
                                                     //PROFILE HBS
 
 
-                                                    //PROFILESETTINGS HBS
+                                                    //SEARCH RESULTS HBS
+    $('body').on('click', '[name="backToWall"]', function(e) {
+        e.preventDefault();
+        currentRestInterraction.init();
+    }); //BACK TO WALL BUTTON CLICK     
+                                                    //SEARCH RESULTS HBS
 
+
+                                                    //PROFILESETTINGS HBS
     $('body').on('click', '[name="updateProfile"]', function(e){
         e.preventDefault();
         const updateInfoFields = {

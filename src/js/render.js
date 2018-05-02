@@ -34,7 +34,6 @@ export default class Render{
                         enemiesCount: data.enemies_count,
                         currentYear: year.getFullYear()
                         };
-
         this.loadTemplate('./src/views/profile.hbs', this.wrapper(), context); 
     };//PROFILE PAGE
 
@@ -62,10 +61,25 @@ export default class Render{
                                 went: data.profile.went
                             }
                         };
-
-        this.loadTemplate('./src/views/profileSettings.hbs', this.wrapper(), context);  
+        
+        const container = $(containerSelector);
+        this.loadTemplate('./src/views/profileSettings.hbs', container, context);  
     };//PROFILE SETTINGS
+
+    searchResults(containerSelector, data){
+        const container = $(containerSelector);
+
+        this.loadTemplate('./src/views/searchResults.hbs', container, data);
+    };//SEARCH RESULTS
+
+    allFriendsOrEnemies(containerSelector, data){
+        const container = $(containerSelector);
+
+        this.loadTemplate('./src/views/allFriendsOrEnemies.hbs', container, data);
+    };//ALL FRIENDS OR ENEMIES
 };
+
+
 
 var oldRender = {
     loginPage: function () {

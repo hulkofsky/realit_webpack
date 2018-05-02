@@ -8,7 +8,7 @@
             <li class="wrapper__header__nav__ul__li"><a class="wrapper__header__nav__ul__li__a" href="#">Bell</a></li>
             <li class="wrapper__header__nav__ul__li"><a class="wrapper__header__nav__ul__li__a" href="#" name="logout">Logout</a></li>
         </ul>
-        <input type="text" class="wrapper__header__nav__ul__li__search" placeholder="search">
+        <input type="text" class="wrapper__header__nav__ul__li__search" name="searchUserProfiles" placeholder="search">
     </nav>
 </header>
 
@@ -81,7 +81,11 @@
     <div class="wrapper__content__right">
         <div class="wrapper__content__right__friends">
             <div class="wrapper__content__right__friends__list">
-                <p class="wrapper__content__right__friends__list__title">Friends</p>
+                <div class="wrapper__content__right__friends__list__title">
+                    <p class="wrapper__content__right__friends__list__title__text">Friends</p>
+                    <a class="wrapper__content__right__friends__list__title__link" href="#" name="viewFriends" data-id="{{profile.user_id}}">View All</a>
+                </div>
+                
                 <div class="wrapper__content__right__friends__list__content">
                     {{#each friends}}
                         <div class="wrapper__content__right__friends__list__content__item">
@@ -91,13 +95,13 @@
                             <div class="wrapper__content__right__friends__list__content__item__info">
                                 <a class="wrapper__content__right__friends__list__content__item__info__name" data-id="{{this.user_id}}" href="#" name="friendName">{{this.firstname}} {{this.lastname}}</a>
                                 <div class="wrapper__content__right__friends__list__content__item__info__buttons">
-                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button">
-                                        <i class="fa fa-user-times"></i>
-                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Unfollow</p> 
+                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button" name="deleteUserFromList">
+                                        <i class="fas fa-ban"></i>
+                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Delete</p> 
                                     </button>
                                     <button class="wrapper__content__right__friends__list__content__item__info__buttons__button">
-                                        <i class="fas fa-ban"></i>
-                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Block</p> 
+                                        <i class="fa fa-user-times"></i>
+                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Enemy</p> 
                                     </button>
                                 </div>
                             </div>
@@ -109,7 +113,10 @@
                     
             </div>
             <div class="wrapper__content__right__friends__list">
-                <p class="wrapper__content__right__friends__list__title">Enemies</p>
+                <div class="wrapper__content__right__friends__list__title">
+                    <p class="wrapper__content__right__friends__list__title__text">Enemies</p>
+                    <a class="wrapper__content__right__friends__list__title__link" href="#" name="viewEnemies" data-id="{{profile.user_id}}">View All</a>
+                </div>
                 <div class="wrapper__content__right__friends__list__content">
                     {{#each enemies}}
                         <div class="wrapper__content__right__friends__list__content__item">
@@ -119,13 +126,13 @@
                             <div class="wrapper__content__right__friends__list__content__item__info">
                                 <a class="wrapper__content__right__friends__list__content__item__info__name" data-id="{{this.user_id}}" href="#" name="friendName">{{this.firstname}} {{this.lastname}}</a>
                                 <div class="wrapper__content__right__friends__list__content__item__info__buttons">
-                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button">
-                                        <i class="fa fa-user-times"></i>
-                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Unfollow</p> 
+                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button" name="deleteUserFromList">
+                                        <i class="fas fa-ban"></i>
+                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Delete</p> 
                                     </button>
                                     <button class="wrapper__content__right__friends__list__content__item__info__buttons__button">
-                                        <i class="fas fa-ban"></i>
-                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Block</p> 
+                                        <i class="fa fa-user-times"></i>
+                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Friend</p> 
                                     </button>
                                 </div>
                             </div>
