@@ -1,5 +1,6 @@
 .wrapper__content__left
-    width: 25%
+    width: 20%
+    min-width: 245px
     &__profile
         background-color: #fff
         display: flex
@@ -26,27 +27,31 @@
             &__name
                 color: #292B2C
                 font-weight: bold
-            &__friends
-                padding: 10px
-                float: left
-                border-right: 1px solid #D4DBE0
-                &__p
-                    margin: 0
-                    color: #292B2C
-                &__count
-                    font-weight: bold
-                    margin: 0
-                    color: #292B2C
-            &__enemies
-                padding: 10px
-                float: left
-                &__p
-                    margin: 0
-                    color: #292B2C
-                &__count
-                    margin: 0
-                    font-weight: bold
-                    color: #292B2C
+            &__counters
+                display: flex
+                flex-direction: row
+                justify-content: center
+                &__friends
+                    padding: 10px
+                    float: left
+                    border-right: 1px solid #D4DBE0
+                    &__p
+                        margin: 0
+                        color: #292B2C
+                    &__count
+                        font-weight: bold
+                        margin: 0
+                        color: #292B2C
+                &__enemies
+                    padding: 10px
+                    float: left
+                    &__p
+                        margin: 0
+                        color: #292B2C
+                    &__count
+                        margin: 0
+                        font-weight: bold
+                        color: #292B2C
     &__about
         background-color: #fff
         border-radius: 4px

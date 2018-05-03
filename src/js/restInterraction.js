@@ -38,6 +38,16 @@ export default class RestInterraction {
                 },
 
                 success: function(data) {
+                    const year = new Date();
+                    const context = {
+                        profile: data.profile,
+                        friends: data.friends,
+                        enemies: data.enemies,
+
+                        friendsCount: data.friends_count,
+                        enemiesCount: data.enemies_count,
+                        currentYear: year.getFullYear(),
+                        };
                     render.profilePage(data)
                 }
             });
@@ -86,7 +96,18 @@ export default class RestInterraction {
                 },
 
                 success: function(data) {
-                    render.profilePage(data);
+                    const year = new Date();
+                    const context = {
+                        profile: data.profile,
+                        friends: data.friends,
+                        enemies: data.enemies,
+
+                        friendsCount: data.friends_count,
+                        enemiesCount: data.enemies_count,
+                        currentYear: year.getFullYear(),
+                        btnStatus: 'hidden'
+                        };
+                    render.profilePage(context);
                 }
             });
         } else {
@@ -247,21 +268,36 @@ export default class RestInterraction {
                 },
 
                 success: function(data) {
+                    let context;
                     if(friendOrEnemy == 1){
-                        let context = {
-                                        userList: data.friends,
-                                        typeOfList: 'friends'
-                                    };
-
+                        if(localStorage.userId != userId) {
+                            context = {
+                                btnStatus: 'hidden',
+                                userList: data.friends,
+                                typeOfList: 'friends'
+                            };
+                        } else {
+                            context = {
+                                userList: data.friends,
+                                typeOfList: 'friends'
+                            };
+                        };
                         render.allFriendsOrEnemies(containerSelector, context);
                     };
                     
                     if(friendOrEnemy == 2){
-                        let context = {
-                                        userList: data.enemies,
-                                        typeOfList: 'enemies'
-                                    };
-
+                        if(localStorage.userId != userId) {
+                            context = {
+                                btnStatus: 'hidden',
+                                userList: data.enemies,
+                                typeOfList: 'enemies'
+                            };
+                        } else {
+                            context = {
+                                userList: data.enemies,
+                                typeOfList: 'enemies'
+                            };
+                        };
                         render.allFriendsOrEnemies(containerSelector, context);
                     };    
                 }
@@ -411,6 +447,46 @@ export default class RestInterraction {
             this.redirectToLogin();
         }
     };//UPDATE PROFILE SETTINGS
+
+    uploadPhoto(fieldSelector){
+        const functions = new Functions();
+        const render = new Render();
+
+        if(functions.isSessionToken()) {
+            const sessionToken = functions.isSessionToken();
+            let formData = new FormData();
+            let file = $(fieldSelector).prop('files')[0];
+            console.log(fieldSelector);
+            console.log(file);
+
+            formData.append('fff', 'fff');
+            formData.append('userPhoto', file, 'profilephoto.jpg');
+            console.log(formData);
+
+            $.ajax({
+                url: `http://restapi.fintegro.com/upload`, 
+                method: 'POST',
+                dataType: 'json', 
+
+                data: formData,
+
+                headers: {
+                    bearer: sessionToken
+                },
+
+                crossDomain: true,
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+        } else {
+            this.redirectToLogin();
+        }
+    };//UPLOAD PHOTO
 
     albumsList(albums){
         let albumsUL = document.createElement('ul');

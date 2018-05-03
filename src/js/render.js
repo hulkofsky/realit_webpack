@@ -24,17 +24,7 @@ export default class Render{
     };//LOGIN PAGE
 
     profilePage(data){
-        const year = new Date();
-        const context = {
-                        profile: data.profile,
-                        friends: data.friends,
-                        enemies: data.enemies,
-
-                        friendsCount: data.friends_count,
-                        enemiesCount: data.enemies_count,
-                        currentYear: year.getFullYear()
-                        };
-        this.loadTemplate('./src/views/profile.hbs', this.wrapper(), context); 
+        this.loadTemplate('./src/views/profile.hbs', this.wrapper(), data); 
     };//PROFILE PAGE
 
     registerPage(){
@@ -72,10 +62,9 @@ export default class Render{
         this.loadTemplate('./src/views/searchResults.hbs', container, data);
     };//SEARCH RESULTS
 
-    allFriendsOrEnemies(containerSelector, data){
+    allFriendsOrEnemies(containerSelector, data, callback){
         const container = $(containerSelector);
-
-        this.loadTemplate('./src/views/allFriendsOrEnemies.hbs', container, data);
+        this.loadTemplate('./src/views/allFriendsOrEnemies.hbs', container, data, callback);
     };//ALL FRIENDS OR ENEMIES
 };
 

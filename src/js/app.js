@@ -85,16 +85,26 @@ import Render from './render.js';
 
     $('body').on('click', '[name="userFollow"]', function(e){
         e.preventDefault();
-        const userId = $(this).parent().data().id;
-        const userName = $(this).parent().prev().children('p:first-of-type').html();
-        console.log(userName);
+        let userId = $(this).parent().data().id;
+        let userName = $(this).parent().prev().children('p:first-of-type').html();
+        if(!userId) {
+            userId = $(this).closest('div').prev().data().id;
+            userName = $(this).closest('div').prev().html();
+            console.log(userId + 'from right aside');
+        };
+        
         currentRestInterraction.addFriendOrEnemy(userId, 1, userName, '[name="userFollow"]');
     }); //FOLLOW BUTTON CLICK
 
     $('body').on('click', '[name="userBlock"]', function(e){
         e.preventDefault();
-        const userId = $(this).parent().data().id;
-        const userName = $(this).parent().prev().children('p:first-of-type').html();
+        let userId = $(this).parent().data().id;
+        let userName = $(this).parent().prev().children('p:first-of-type').html();
+        if(!userId) {
+            userId = $(this).closest('div').prev().data().id;
+            userName = $(this).closest('div').prev().html();
+        };
+        
         currentRestInterraction.addFriendOrEnemy(userId, 2, userName, '[name="userBlock"]');
     }); //BLOCK BUTTON CLICK    
 
@@ -107,7 +117,7 @@ import Render from './render.js';
     $('body').on('click', '[name="viewEnemies"]', function(e){
         e.preventDefault();
         const userId = $(this).data().id;
-        currentRestInterraction.viewFriendsOrEnemies('.wrapper__content__mid', 2, userId);
+        currentRestInterraction.viewFriendsOrEnemies('.wrapper__content__mid', 2, userId);   
     }); //View ALL CLICK(ENEMIES)
 
     $('body').on('click', '[name="deleteUserFromList"]', function(e){
@@ -142,6 +152,7 @@ import Render from './render.js';
         }; 
 
         currentRestInterraction.updateProfileInfo(updateInfoFields);
+        currentRestInterraction.uploadPhoto('[name="UploadForm[imageFile]"]');
     }); //UPDATE PROFILE BUTTON CLICK
 
     $('body').on('click', '[name="removeProfile"]', function(e){

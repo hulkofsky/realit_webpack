@@ -23,13 +23,15 @@
             <div class="wrapper__content__left__profile__info">
                 <p class="wrapper__content__left__profile__info__name">{{profile.firstname}} {{profile.lastname}}</p>
                 <p class="wrapper__content__left__profile__info__quote">{{profile.quote}}</p>
-                <div class="wrapper__content__left__profile__info__friends">
-                    <p class="wrapper__content__left__profile__info__friends__p">Friends</p>
-                    <p class="wrapper__content__left__profile__info__friends__count">{{friendsCount}}</p>
-                </div>
-                <div class="wrapper__content__left__profile__info__enemies">
-                    <p class="wrapper__content__left__profile__info__enemies__p">Enemies</p>
-                    <p class="wrapper__content__left__profile__info__enemies__count">{{enemiesCount}}</p>
+                <div class="wrapper__content__left__profile__info__counters">
+                    <div class="wrapper__content__left__profile__info__counters__friends">
+                        <p class="wrapper__content__left__profile__info__counters__friends__p">Friends</p>
+                        <p class="wrapper__content__left__profile__info__counters__friends__count">{{friendsCount}}</p>
+                    </div>
+                    <div class="wrapper__content__left__profile__info__counters__enemies">
+                        <p class="wrapper__content__left__profile__info__counters__enemies__p">Enemies</p>
+                        <p class="wrapper__content__left__profile__info__counters__enemies__count">{{enemiesCount}}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,19 +97,19 @@
                             <div class="wrapper__content__right__friends__list__content__item__info">
                                 <a class="wrapper__content__right__friends__list__content__item__info__name" data-id="{{this.user_id}}" href="#" name="friendName">{{this.firstname}} {{this.lastname}}</a>
                                 <div class="wrapper__content__right__friends__list__content__item__info__buttons">
-                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button" name="deleteUserFromList">
+                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button {{@root.btnStatus}}" name="deleteUserFromList">
                                         <i class="fas fa-ban"></i>
                                         <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Delete</p> 
                                     </button>
-                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button">
+                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button {{@root.btnStatus}}">
                                         <i class="fa fa-user-times"></i>
-                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Enemy</p> 
+                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text" name="userBlock">Enemy</p> 
                                     </button>
                                 </div>
                             </div>
                         </div>
                     {{else}}
-                        This will be your friends list...
+                        No friends...
                     {{/each}}
                 </div>
                     
@@ -126,19 +128,19 @@
                             <div class="wrapper__content__right__friends__list__content__item__info">
                                 <a class="wrapper__content__right__friends__list__content__item__info__name" data-id="{{this.user_id}}" href="#" name="friendName">{{this.firstname}} {{this.lastname}}</a>
                                 <div class="wrapper__content__right__friends__list__content__item__info__buttons">
-                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button" name="deleteUserFromList">
+                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button {{@root.btnStatus}}" name="deleteUserFromList">
                                         <i class="fas fa-ban"></i>
                                         <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Delete</p> 
                                     </button>
-                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button">
+                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button {{@root.btnStatus}}">
                                         <i class="fa fa-user-times"></i>
-                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Friend</p> 
+                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text" name="userFollow">Friend</p> 
                                     </button>
                                 </div>
                             </div>
                         </div>
                     {{else}}
-                        This will be your friends list...
+                        No enemies...
                     {{/each}}
                 </div>
             </div>

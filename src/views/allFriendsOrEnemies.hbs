@@ -11,13 +11,15 @@
                 <p class="wrapper__content__mid__results__item__info__quote">{{this.quote}}</p>
             </div>
             <div class="wrapper__content__mid__results__item__btns" data-id="{{this.user_id}}">
-                <button class="wrapper__content__mid__results__item__btns__btn" name="userFollow">
-                    <i class="fa fa-user-plus"></i>
-                    <p class="wrapper__content__mid__results__item__btns__btn__text">Follow</p>
+                <button class="wrapper__content__mid__results__item__btns__btn {{@root.btnStatus}}">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
                 </button>
-                <button class="wrapper__content__mid__results__item__btns__btn" name="userBlock">
+                <button class="wrapper__content__mid__results__item__btns__btn {{@root.btnStatus}}" name="userFollow">
+                    <i class="fa fa-user-times"></i>
+                    <p class="wrapper__content__mid__results__item__btns__btn__text">To {{@root.typeOfList}}</p>
+                </button>
+                <button class="wrapper__content__mid__results__item__btns__btn {{@root.btnStatus}}" name="deleteUserFromList">
                     <i class="fas fa-ban"></i>
-                    <p class="wrapper__content__mid__results__item__btns__btn__text">Block</p>
                 </button>
 
             </div>
