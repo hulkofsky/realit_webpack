@@ -51,8 +51,22 @@ export default class Functions {
             functions.messageDelete('inputError', fieldSelector);
         };
     }; //CAPS DETECTION
-};
 
+    getUserIdAndName(buttonSelector) {
+        let userInfo = {
+            userId: $(buttonSelector).parent().data().id,
+            userName: $(buttonSelector).parent().prev().children('p:first-of-type').html()
+        };
+        if(!userInfo.userId) {
+            let userInfo = {
+                userId: $(buttonSelector).closest('div').prev().data().id,
+                userName: $(buttonSelector).closest('div').prev().html()
+            };
+            return(userInfo);
+        };   
+        return(userInfo);
+    }; //GET USER ID AND NAME
+};
 // var Func = {
 //     reloadJS: function (src) {
 //         $('script[src="' + src + '"]').remove();
