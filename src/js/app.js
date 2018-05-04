@@ -85,27 +85,14 @@ import Render from './render.js';
 
     $('body').on('click', '[name="userFollow"]', function(e){
         e.preventDefault();
-        let userId = $(this).parent().data().id;
-        let userName = $(this).parent().prev().children('p:first-of-type').html();
-        if(!userId) {
-            userId = $(this).closest('div').prev().data().id;
-            userName = $(this).closest('div').prev().html();
-            console.log(userId + 'from right aside');
-        };
-        
-        currentRestInterraction.addFriendOrEnemy(userId, 1, userName, '[name="userFollow"]');
+        const userInfo = functions.getUserIdAndName(this);
+        currentRestInterraction.addFriendOrEnemy(userInfo.userId, 1, userInfo.userName, '[name="userFollow"]');
     }); //FOLLOW BUTTON CLICK
 
     $('body').on('click', '[name="userBlock"]', function(e){
         e.preventDefault();
-        let userId = $(this).parent().data().id;
-        let userName = $(this).parent().prev().children('p:first-of-type').html();
-        if(!userId) {
-            userId = $(this).closest('div').prev().data().id;
-            userName = $(this).closest('div').prev().html();
-        };
-        
-        currentRestInterraction.addFriendOrEnemy(userId, 2, userName, '[name="userBlock"]');
+        const userInfo = functions.getUserIdAndName(this);
+        currentRestInterraction.addFriendOrEnemy(userInfo.userId, 2, userInfo.userName, '[name="userBlock"]');
     }); //BLOCK BUTTON CLICK    
 
     $('body').on('click', '[name="viewFriends"]', function(e){
@@ -122,9 +109,8 @@ import Render from './render.js';
 
     $('body').on('click', '[name="deleteUserFromList"]', function(e){
         e.preventDefault();
-        const userId = $(this).parent().prev().data().id;
-        const userName = $(this).parent().prev().html();
-        currentRestInterraction.deleteUserFromList(userId, userName);
+        const userInfo = functions.getUserIdAndName(this);
+        currentRestInterraction.deleteUserFromList(userInfo.userId, userInfo.userName);
     }); //DELETE USER FROM LIST CLICK
                                                     //PROFILE HBS
 
