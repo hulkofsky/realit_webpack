@@ -459,8 +459,7 @@ export default class RestInterraction {
             console.log(fieldSelector);
             console.log(file);
 
-            formData.append('fff', 'fff');
-            formData.append('userPhoto', file, 'profilephoto.jpg');
+            formData.append('UploadForm[imageFile]', file);
             console.log(formData);
 
             $.ajax({
