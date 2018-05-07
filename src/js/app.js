@@ -12,11 +12,11 @@ import Render from './render.js';
     const functions = new Functions();
     const render = new Render();
 
-    currentRestInterraction.init();
+    currentRestInterraction.init('.wrapper__content__mid__wall');
 
     $('body').on('click', '[name=loginButton]', function() {
         currentRestInterraction.login('[name="username"]', '[name="password"]', '[name=loginButton]',
-                                        '.wrapper__footer__copyright__year');
+                                        '.wrapper__footer__copyright__year', '.wrapper__content__mid__wall');
     });//LOGIN BUTTON CLICK
 
     $('body').on('click', '[name=registerButton]', function() {
@@ -57,7 +57,7 @@ import Render from './render.js';
                                                     //PROFILE HBS
     $('body').on('click', '[name="myProfile"]', function(e) {
         e.preventDefault();
-        currentRestInterraction.init();
+        currentRestInterraction.init('.wrapper__content__mid__wall');
     }); //MY PROFILE LINK CLICK     
     
     $('body').on('click', '[name=profileSettings]', function(e) {
@@ -77,10 +77,16 @@ import Render from './render.js';
            };
     });//SEARCH FIELD ENTER PRESS
 
+    $('body').on('click', '[name=sendPost]', function(e) {
+        e.preventDefault();
+        currentRestInterraction.createPost($('[name="postText"]').val());
+    }); //LOGOUT LINK CLICK
+    
+    //SEND POST BUTTON CLICK
     $('body').on('click', '[name="friendName"]', function(e){
         e.preventDefault();
         const userId = $(this).data().id;
-        currentRestInterraction.showUsersProfile(userId);
+        currentRestInterraction.showUsersProfile(userId, '.wrapper__content__mid__wall');
     }); //FRIEND NAME LINK CLICK
 
     $('body').on('click', '[name="userFollow"]', function(e){
@@ -118,7 +124,7 @@ import Render from './render.js';
                                                     //SEARCH RESULTS HBS
     $('body').on('click', '[name="backToWall"]', function(e) {
         e.preventDefault();
-        currentRestInterraction.init();
+        currentRestInterraction.init('.wrapper__content__mid__wall');
     }); //BACK TO WALL BUTTON CLICK     
                                                     //SEARCH RESULTS HBS
 
@@ -126,19 +132,23 @@ import Render from './render.js';
                                                     //PROFILESETTINGS HBS
     $('body').on('click', '[name="updateProfile"]', function(e){
         e.preventDefault();
-        const updateInfoFields = {
-            firstname: $('[name="firstname"]').val(),
-            lastname: $('[name="lastname"]').val(),
-            quote: $('[name="quote"]').val(),
-            photo: $('[name="photo"]').val(),
-            lived: $('[name="lived"]').val(),
-            from: $('[name="from"]').val(),
-            went: $('[name="went"]').val(),
-            buttonSelector: '[name="updateProfile"]'
-        }; 
-
-        currentRestInterraction.updateProfileInfo(updateInfoFields);
-        currentRestInterraction.uploadPhoto('[name="UploadForm[imageFile]"]');
+        currentRestInterraction.uploadPhoto('[name="UploadForm[imageFile]"]').then(function(photoURL){
+            const updateInfoFields = {
+                firstname: $('[name="firstname"]').val(),
+                lastname: $('[name="lastname"]').val(),
+                photo: photoURL,
+                quote: $('[name="quote"]').val(),
+                lived: $('[name="lived"]').val(),
+                from: $('[name="from"]').val(),
+                went: $('[name="went"]').val(),
+                buttonSelector: '[name="updateProfile"]'
+            }; 
+            currentRestInterraction.updateProfileInfo(updateInfoFields);
+            setTimeout(function () {
+                currentRestInterraction.profileSettings('.wrapper__content');
+            }, 2000);
+        });
+        
     }); //UPDATE PROFILE BUTTON CLICK
 
     $('body').on('click', '[name="removeProfile"]', function(e){

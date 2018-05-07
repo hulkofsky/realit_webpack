@@ -56,16 +56,22 @@ export default class Render{
         this.loadTemplate('./src/views/profileSettings.hbs', container, context);  
     };//PROFILE SETTINGS
 
-    searchResults(containerSelector, data){
+    searchResults(containerSelector, context){
         const container = $(containerSelector);
 
-        this.loadTemplate('./src/views/searchResults.hbs', container, data);
+        this.loadTemplate('./src/views/searchResults.hbs', container, context);
     };//SEARCH RESULTS
 
-    allFriendsOrEnemies(containerSelector, data, callback){
+    allFriendsOrEnemies(containerSelector, context){
         const container = $(containerSelector);
-        this.loadTemplate('./src/views/allFriendsOrEnemies.hbs', container, data, callback);
+        this.loadTemplate('./src/views/allFriendsOrEnemies.hbs', container, context);
     };//ALL FRIENDS OR ENEMIES
+
+    userPosts(context, wallContainerSelector){
+        console.log(context);
+        const container = $(wallContainerSelector);
+        this.loadTemplate('./src/views/wall.hbs', container, context);
+    };//USER POSTS
 };
 
 

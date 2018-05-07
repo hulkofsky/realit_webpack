@@ -63,7 +63,7 @@ export default class Functions {
                 userName: $(buttonSelector).closest('div').prev().html()
             };
             return(userInfo);
-        };   
+        };
         return(userInfo);
     }; //GET USER ID AND NAME
 };

@@ -4,7 +4,7 @@
         <div class="wrapper__content__mid__results__item">
             <img class="wrapper__content__mid__results__item__bg" src="img/searchUserBG.jpg" alt="profile_bg">
             <div class="wrapper__content__mid__results__item__photoWrapper">
-                <img class="wrapper__content__mid__results__item__photoWrapper__photo" src="img/default-user.jpg" alt="profile_Photo">
+                <img class="wrapper__content__mid__results__item__photoWrapper__photo" src="{{#if this.photo}}{{this.photo}}{{else}}img/default-user.jpg{{/if}}" alt="profile_Photo">
             </div>
             <div class="wrapper__content__mid__results__item__info">
                 <p class="wrapper__content__mid__results__item__info__name">{{this.firstname}} {{this.lastname}}</p>

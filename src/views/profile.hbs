@@ -18,11 +18,11 @@
         <div class="wrapper__content__left__profile">
             <img class="wrapper__content__left__profile__bg" src="img/profileBg.jpg" alt="profile_bg">
             <div class="wrapper__content__left__profile__photoWrapper">
-                <img class="wrapper__content__left__profile__photoWrapper__photo" src="img/default-user.jpg" alt="profile_Photo">
+                <img class="wrapper__content__left__profile__photoWrapper__photo" src="{{#if profile.photo}}{{profile.photo}}{{else}}img/default-user.jpg{{/if}}" alt="profile_Photo">
             </div>
             <div class="wrapper__content__left__profile__info">
-                <p class="wrapper__content__left__profile__info__name">{{profile.firstname}} {{profile.lastname}}</p>
-                <p class="wrapper__content__left__profile__info__quote">{{profile.quote}}</p>
+                <p class="wrapper__content__left__profile__info__name">{{#if profile.firstname}}{{profile.firstname}}{{else}}Firstname{{/if}} {{#if profile.lastname}}{{profile.lastname}}{{else}}Lastname{{/if}}</p>
+                <p class="wrapper__content__left__profile__info__quote">{{#if profile.quote}}{{profile.quote}}{{else}}No comments...{{/if}}</p>
                 <div class="wrapper__content__left__profile__info__counters">
                     <div class="wrapper__content__left__profile__info__counters__friends">
                         <p class="wrapper__content__left__profile__info__counters__friends__p">Friends</p>
@@ -71,9 +71,9 @@
 
     <div class="wrapper__content__mid">
         <div class="wrapper__content__mid__message">
-            <input type="text" class="wrapper__content__mid__message__input" placeholder="Message">
-            <button class="wrapper__content__mid__message__button" name="sendPhoto"><i class="fa fa-camera" aria-hidden="true"></i></button>
-            <button class="wrapper__content__mid__message__button" name="sendMessage"><i class="fa fa-comment" aria-hidden="true"></i></button>
+            <input type="text" class="wrapper__content__mid__message__input" placeholder="Message" name="postText">
+            <button class="wrapper__content__mid__message__button" name="addPhotoToPost"><i class="fa fa-camera" aria-hidden="true"></i></button>
+            <button class="wrapper__content__mid__message__button" name="sendPost"><i class="fa fa-comment" aria-hidden="true"></i></button>
         </div>
         <div class="wrapper__content__mid__wall">
             <p class="wrapper__content__mid__wall__item">This will be your wall...</p>
@@ -92,7 +92,7 @@
                     {{#each friends}}
                         <div class="wrapper__content__right__friends__list__content__item">
                             <div class="wrapper__content__right__friends__list__content__item__photo">
-                                <img class="wrapper__content__right__friends__list__content__item__photo__img" src="img/default-user.jpg" alt="Friend-photo">
+                                <img class="wrapper__content__right__friends__list__content__item__photo__img" src="{{#if this.photo}}{{this.photo}}{{else}}img/default-user.jpg{{/if}}" alt="Friend-photo">
                             </div>
                             <div class="wrapper__content__right__friends__list__content__item__info">
                                 <a class="wrapper__content__right__friends__list__content__item__info__name" data-id="{{this.user_id}}" href="#" name="friendName">{{this.firstname}} {{this.lastname}}</a>
@@ -123,7 +123,7 @@
                     {{#each enemies}}
                         <div class="wrapper__content__right__friends__list__content__item">
                             <div class="wrapper__content__right__friends__list__content__item__photo">
-                                <img class="wrapper__content__right__friends__list__content__item__photo__img" src="img/default-user.jpg" alt="Friend-photo">
+                                <img class="wrapper__content__right__friends__list__content__item__photo__img" src="{{#if this.photo}}{{this.photo}}{{else}}img/default-user.jpg{{/if}}" alt="Friend-photo">
                             </div>
                             <div class="wrapper__content__right__friends__list__content__item__info">
                                 <a class="wrapper__content__right__friends__list__content__item__info__name" data-id="{{this.user_id}}" href="#" name="friendName">{{this.firstname}} {{this.lastname}}</a>

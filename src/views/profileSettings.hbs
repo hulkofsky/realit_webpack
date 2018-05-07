@@ -1,7 +1,7 @@
 <div class="wrapper__profileSettings">
     <div class="wrapper__profileSettings__header">
         <div class="wrapper__profileSettings__header__uPhoto">
-            <img class="wrapper__profileSettings__header__uPhoto__img" src="../img/default-user.jpg" alt="user_photo">
+            <img class="wrapper__profileSettings__header__uPhoto__img" src="{{#if profile.photo}}{{profile.photo}}{{else}}../img/default-user.jpg{{/if}}" alt="user_photo">
         </div>
         <p class="wrapper__profileSettings__header__name">{{profile.firstName}} {{profile.lastName}}</p>
         <p class="wrapper__profileSettings__header__quote">{{profile.quote}}</p>

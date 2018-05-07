@@ -22,12 +22,13 @@ export default class RestInterraction {
         }, 3000);
     }; //REDIRECT TO LOGIN
 
-    init(){
+    init(wallContainerSelector){
         const functions = new Functions();
         const render = new Render();
 
         if(functions.isSessionToken()) {
             const sessionToken = functions.isSessionToken();
+            const _this = this
 
             $.ajax({
                 url: 'http://restapi.fintegro.com/profiles', 
@@ -48,7 +49,8 @@ export default class RestInterraction {
                         enemiesCount: data.enemies_count,
                         currentYear: year.getFullYear(),
                         };
-                    render.profilePage(data)
+                    render.profilePage(data);
+                    _this.getUserPosts(data.profile.user_id, wallContainerSelector);
                 }
             });
         } else {
@@ -80,9 +82,10 @@ export default class RestInterraction {
         }
     };  //PROFILE SETTINGS
 
-    showUsersProfile(userId){
+    showUsersProfile(userId, wallContainerSelector){
         const functions = new Functions();
         const render = new Render();
+        const _this = this;
 
         if(functions.isSessionToken()) {
             const sessionToken = functions.isSessionToken();
@@ -108,6 +111,7 @@ export default class RestInterraction {
                         btnStatus: 'hidden'
                         };
                     render.profilePage(context);
+                    _this.getUserPosts(userId, wallContainerSelector);
                 }
             });
         } else {
@@ -144,7 +148,7 @@ export default class RestInterraction {
         }
     };//REMOVE PROFILE
 
-    login(usernameFieldSelector, passwordFieldSelector, loginButtonSelector, yearContainerSelector){
+    login(usernameFieldSelector, passwordFieldSelector, loginButtonSelector, yearContainerSelector, wallContainerSelector){
         const formValidation = new Validation();
         const functions = new Functions();
 
@@ -163,7 +167,7 @@ export default class RestInterraction {
                     const date = new Date(new Date().getTime() + 6000 * 1000);
                     localStorage.userId = data.profile.user_id;
                     document.cookie = `session-token=${data.token}; expires=${date.toUTCString()}`;
-                    _this.init();
+                    _this.init(wallContainerSelector);
                 }, 
                 beforeSend: function() {
                     $(loginButtonSelector).html('<img width="30" src="img/Cube.svg">');
@@ -440,7 +444,7 @@ export default class RestInterraction {
                 },
 
                 success: function(data) {
-                    functions.showMessage('success', updateInfoFields.buttonSelector, 'Your personal information has been updated succesfully!')
+                    functions.showMessage('success', updateInfoFields.buttonSelector, 'Your personal information has been updated succesfully!');
                 }
             });
         } else {
@@ -456,36 +460,96 @@ export default class RestInterraction {
             const sessionToken = functions.isSessionToken();
             let formData = new FormData();
             let file = $(fieldSelector).prop('files')[0];
-            console.log(fieldSelector);
-            console.log(file);
+            
+            return new Promise(function(resolve, reject){
+                if (file) {
+                    formData.append('UploadForm[imageFile]', file);
+                    
+                    $.ajax({
+                        url: `http://restapi.fintegro.com/upload`, 
+                        method: 'POST',
+                        dataType: 'json', 
+                        data: formData,
+                        
+                        headers: {
+                            bearer: sessionToken
+                        },
+        
+                        crossDomain: true,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+        
+                        success: function(data) {
+                            resolve(data.link);
+                        }
+                    });
+                } else {
+                    return;
+                    reject();
+                };    
+            }); 
+        } else {
+            this.redirectToLogin();
+        }
+    };//UPLOAD PHOTO
 
-            formData.append('UploadForm[imageFile]', file);
-            console.log(formData);
+    createPost(textFieldVal, mediaSelector){
+        const functions = new Functions();
+        const render = new Render();
 
+        if(functions.isSessionToken()) {
+            const sessionToken = functions.isSessionToken();
+            
             $.ajax({
-                url: `http://restapi.fintegro.com/upload`, 
+                url: `http://restapi.fintegro.com/posts`, 
                 method: 'POST',
                 dataType: 'json', 
-
-                data: formData,
-
+                data: {
+                    text: textFieldVal,
+                    media: undefined
+                },
+                
                 headers: {
                     bearer: sessionToken
                 },
 
-                crossDomain: true,
-                cache: false,
-                contentType: false,
-                processData: false,
-
                 success: function(data) {
-                    console.log(data);
+                   console.log(`${data} post created`);
                 }
             });
         } else {
             this.redirectToLogin();
         }
-    };//UPLOAD PHOTO
+    };//CREATE POST
+
+    getUserPosts(userId, wallContainerSelector){
+        const functions = new Functions();
+        const render = new Render();
+
+        if(functions.isSessionToken()) {
+            const sessionToken = functions.isSessionToken();
+            
+            $.ajax({
+                url: `http://restapi.fintegro.com/posts/${userId}`, 
+                method: 'GET',
+                dataType: 'json', 
+                data: {
+                 
+                },
+                
+                headers: {
+                    bearer: sessionToken
+                },
+
+                success: function(data) {
+                   render.userPosts(data, wallContainerSelector);
+                }
+            });
+        } else {
+            this.redirectToLogin();
+        };
+    }; //GET USER POSTS
 
     albumsList(albums){
         let albumsUL = document.createElement('ul');
