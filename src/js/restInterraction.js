@@ -494,20 +494,56 @@ export default class RestInterraction {
         }
     };//UPLOAD PHOTO
 
-    createPost(textFieldVal, mediaSelector){
+    addPhotoToPreview(containerSelector, inputFileSelector){
+        this.uploadPhoto(inputFileSelector).then(function(photoURL){
+            console.log(photoURL);
+
+            if(!$(`div`).is(`.photosToAdd`)) {
+                console.log('no div...creating');
+                $(containerSelector).append(`<div class="photosToAdd">
+                                                <div class="photosToAdd__item">
+                                                    <img class="photosToAdd__item__img" src="${photoURL}" alt="post-photo">
+                                                    <a class="photosToAdd__item__a" href="#">Remove</a>
+                                                </div>                                
+                                            </div>`);
+            } else {
+                console.log('appended in existing div');
+                $(`.photosToAdd`).append(`<div class="photosToAdd__item">
+                                            <img class="photosToAdd__item__img" src="${photoURL}" alt="post-photo">
+                                            <a class="photosToAdd__item__a" href="#">Remove</a>
+                                        </div>`);
+            };
+        });
+    }; //ADD PHOTO TO POST
+
+    removePhotoFromPreview(removeLinkSelector){
+        $(removeLinkSelector).parent().remove();
+    };//REMOVE PHOTO FROM PREVIEW
+
+    createPost(textFieldVal, photoPreviewSelector, wallContainerSelector){
         const functions = new Functions();
         const render = new Render();
+        const _this = this;
+        const images = $(photoPreviewSelector).find('img');
+        let url;
+        let photoURLs = [];
+
+        $.each(images, function(index, val){
+            url = $(images[index]).attr(`src`);
+            photoURLs.push({url});
+        });
+        console.log(photoURLs);
 
         if(functions.isSessionToken()) {
             const sessionToken = functions.isSessionToken();
             
             $.ajax({
                 url: `http://restapi.fintegro.com/posts`, 
-                method: 'POST',
-                dataType: 'json', 
+                method: `POST`,
+                dataType: `json`, 
                 data: {
                     text: textFieldVal,
-                    media: undefined
+                    media: photoURLs
                 },
                 
                 headers: {
@@ -515,13 +551,40 @@ export default class RestInterraction {
                 },
 
                 success: function(data) {
-                   console.log(`${data} post created`);
+                   console.log(data);
+                   _this.getUserPosts(data.user_id, wallContainerSelector);
+
                 }
             });
         } else {
             this.redirectToLogin();
         }
     };//CREATE POST
+
+    removePost(postId, wallContainerSelector){
+        const functions = new Functions();
+        const _this = this;
+
+        if(functions.isSessionToken()) {
+            const sessionToken = functions.isSessionToken();
+            
+            $.ajax({
+                url: `http://restapi.fintegro.com/posts/${postId}`, 
+                method: 'DELETE',
+                dataType: 'json', 
+                
+                headers: {
+                    bearer: sessionToken
+                },
+
+                success: function(data) {
+                    _this.getUserPosts(localStorage.userId, wallContainerSelector);
+                }
+            });
+        } else {
+            this.redirectToLogin();
+        }
+    };//REMOVE POST
 
     getUserPosts(userId, wallContainerSelector){
         const functions = new Functions();
@@ -533,7 +596,7 @@ export default class RestInterraction {
             $.ajax({
                 url: `http://restapi.fintegro.com/posts/${userId}`, 
                 method: 'GET',
-                dataType: 'json', 
+                dataType: 'json',
                 data: {
                  
                 },
@@ -543,7 +606,8 @@ export default class RestInterraction {
                 },
 
                 success: function(data) {
-                   render.userPosts(data, wallContainerSelector);
+                    console.log(data);
+                    render.userPosts(data, wallContainerSelector);
                 }
             });
         } else {

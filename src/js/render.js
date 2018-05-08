@@ -68,7 +68,6 @@ export default class Render{
     };//ALL FRIENDS OR ENEMIES
 
     userPosts(context, wallContainerSelector){
-        console.log(context);
         const container = $(wallContainerSelector);
         this.loadTemplate('./src/views/wall.hbs', container, context);
     };//USER POSTS

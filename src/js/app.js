@@ -77,12 +77,32 @@ import Render from './render.js';
            };
     });//SEARCH FIELD ENTER PRESS
 
+    $( "button:last" ).click(function() {
+        $( "button:first" ).trigger( "click" );
+        update( $( "span:last" ) );
+      });
+
+    $('body').on('click', '[name=addPhotoToPost]', function(e) {
+        e.preventDefault();
+        $('#addPhotoToPost').trigger('click');
+    }); //ADD PHOTO TO POST BUTTON CLICK
+
+    $('body').on('change', '[name="UploadForm[imageFile]"]', function(e) {
+        e.preventDefault();
+        currentRestInterraction.addPhotoToPreview('.wrapper__content__mid__message', '[name="UploadForm[imageFile]"]');
+    }); //ADD PHOTO TO POST BUTTON CLICK
+
+    $('body').on('click', '.photosToAdd__item__a', function(e) {
+        e.preventDefault();
+        currentRestInterraction.removePhotoFromPreview(this);
+    }); //ADD PHOTO TO POST BUTTON CLICK
+    
+
     $('body').on('click', '[name=sendPost]', function(e) {
         e.preventDefault();
-        currentRestInterraction.createPost($('[name="postText"]').val());
-    }); //LOGOUT LINK CLICK
-    
-    //SEND POST BUTTON CLICK
+        currentRestInterraction.createPost($('[name="postText"]').val(), `.photosToAdd`, '.wrapper__content__mid__wall');
+    }); //SEND POST BUTTON CLICK
+
     $('body').on('click', '[name="friendName"]', function(e){
         e.preventDefault();
         const userId = $(this).data().id;
@@ -118,6 +138,17 @@ import Render from './render.js';
         const userInfo = functions.getUserIdAndName(this);
         currentRestInterraction.deleteUserFromList(userInfo.userId, userInfo.userName);
     }); //DELETE USER FROM LIST CLICK
+    
+    $('body').on('click', '[name="commentPost"]', function(e){
+        e.preventDefault();
+        
+    }); //COMMENT POST LINK CLICK
+
+    $('body').on('click', '[name="removePost"]', function(e){
+        e.preventDefault();
+        const postId = $(this).parent().data(`id`);
+        currentRestInterraction.removePost(postId, '.wrapper__content__mid__wall');
+    }); //REMOVE POST LINK CLICK
                                                     //PROFILE HBS
 
 

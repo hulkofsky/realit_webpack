@@ -71,9 +71,12 @@
 
     <div class="wrapper__content__mid">
         <div class="wrapper__content__mid__message">
-            <input type="text" class="wrapper__content__mid__message__input" placeholder="Message" name="postText">
-            <button class="wrapper__content__mid__message__button" name="addPhotoToPost"><i class="fa fa-camera" aria-hidden="true"></i></button>
-            <button class="wrapper__content__mid__message__button" name="sendPost"><i class="fa fa-comment" aria-hidden="true"></i></button>
+            <div class="wrapper__content__mid__message__cont">
+                <input type="text" class="wrapper__content__mid__message__cont__input" placeholder="Message" name="postText">
+                <button class="wrapper__content__mid__message__cont__button" name="addPhotoToPost"><i class="fa fa-camera" aria-hidden="true"></i></button>
+                <input type="file" class="wrapper__content__mid__message__cont__file" id="addPhotoToPost" name="UploadForm[imageFile]">
+                <button class="wrapper__content__mid__message__cont__button" name="sendPost"><i class="fa fa-comment" aria-hidden="true"></i></button>
+            </div>       
         </div>
         <div class="wrapper__content__mid__wall">
             <p class="wrapper__content__mid__wall__item">This will be your wall...</p>

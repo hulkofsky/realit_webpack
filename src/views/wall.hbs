@@ -17,12 +17,16 @@
     <div class="wall__post__content">
         <p class="wall__post__content__text">{{this.text}}</p>
         <div class="wall__post__content__media">
-            No media here...
+            {{#each mediaList}}
+                <img class="wall__post__content__media__img" src="{{this.url}}" alt="post_photo">
+            {{else}}
+                No media here...
+            {{/each}}
         </div>
     </div>
-    <div class="wall__post__links">
-        <a  class="wall__post__links__a" href="#">Comment</a>
-        <a  class="wall__post__links__a" href="#">Remove post</a>
+    <div class="wall__post__links" data-id="{{this.id}}">
+        <a  class="wall__post__links__a" href="#" name="commentPost">Comment</a>
+        <a  class="wall__post__links__a" href="#" name="removePost">Remove post</a>
     </div>
 </div>
 {{else}}
