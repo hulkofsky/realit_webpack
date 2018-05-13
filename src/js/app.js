@@ -1,4 +1,4 @@
-'use strict';
+`use strict`;
 
 import $ from 'jquery';
 import RestInterraction from './restInterraction.js';
@@ -12,243 +12,246 @@ import Render from './render.js';
     const functions = new Functions();
     const render = new Render();
 
-    currentRestInterraction.init('.wrapper__content__mid__wall');
+    currentRestInterraction.init(`.posts`);
 
-    $('body').on('click', '[name=loginButton]', function() {
-        currentRestInterraction.login('[name="username"]', '[name="password"]', '[name=loginButton]',
-                                        '.wrapper__footer__copyright__year', '.wrapper__content__mid__wall');
+    $(`body`).on(`click`, `[name=loginButton]`, () => {
+        currentRestInterraction.login(`[name="username"]`, `[name="password"]`, `[name=loginButton]`,
+                                        `.footer-year`, `.posts`);
     });//LOGIN BUTTON CLICK
 
-    $('body').on('click', '[name=registerButton]', function() {
+    $(`body`).on(`click`, `[name=registerButton]`, () => {
         const registerFieldSelectors = {
-            username: '[name="username"]',
-            email: '[name="email"]',
-            password: '[name="password"]',
-            confirmPass: '[name="confirmPass"]',
-            captcha: '[name="captcha"]',
-            firstname: '[name="firstname"]',
-            lastname: '[name="lastname"]',
-            registerButton: '[name="registerButton"]'
+            username: `[name="username"]`,
+            email: `[name="email"]`,
+            password: `[name="password"]`,
+            confirmPass: `[name="confirmPass"]`,
+            captcha: `[name="captcha"]`,
+            firstname: `[name="firstname"]`,
+            lastname: `[name="lastname"]`,
+            registerButton: `[name="registerButton"]`
         };
 
         currentRestInterraction.registration(registerFieldSelectors);
     }); // REGISTER BUTTON CLICK
 
-    $('body').on('click', '[name=toRegister]', function(e) {
+    $(`body`).on(`click`, `[name=toRegister]`, e => {
         e.preventDefault();
         render.registerPage();
     }); //REGISTER LINK CLICK
 
-    $('body').on('click', '[name=toLogin]', function(e) {
+    $(`body`).on(`click`, `[name=toLogin]`, e => {
         e.preventDefault();
         currentRestInterraction.init();
     });// LOGIN LINK CLICK
 
-    $('body').on('click', '[name=recoverPassLink]', function(e) {
+    $(`body`).on(`click`, `[name=recoverPassLink]`, e => {
         e.preventDefault();
         render.recoverPassPage();
     }); //FORGOT PASSWORD LINK CLICK
 
-    $('body').on('click', '[name=recoverPassBtn]', function(e){
+    $(`body`).on(`click`, `[name=recoverPassBtn]`, e => {
         e.preventDefault();
-        currentRestInterraction.sendPassRecoverRequest('[name="email"]', '[name=recoverPassBtn]');
+        currentRestInterraction.sendPassRecoverRequest(`[name="email"]`, `[name=recoverPassBtn]`);
     }); //RECOVER PASSWORD BUTTON CLICK
 
                                                     //PROFILE HBS
-    $('body').on('click', '[name="myProfile"]', function(e) {
+    $(`body`).on(`click`, `[name="myProfile"]`, e => {
         e.preventDefault();
-        currentRestInterraction.init('.wrapper__content__mid__wall');
+        currentRestInterraction.init(`.posts`);
     }); //MY PROFILE LINK CLICK     
     
-    $('body').on('click', '[name=profileSettings]', function(e) {
+    $(`body`).on(`click`, `[name=profileSettings]`, e => {
         e.preventDefault();
-        currentRestInterraction.profileSettings('.wrapper__content');
+        currentRestInterraction.profileSettings(`.content`);
     }); //SETTINGS LINK CLICK
 
-    $('body').on('click', '[name=logout]', function(e) {
+    $(`body`).on(`click`, `[name=logout]`, e => {
         e.preventDefault();
         currentRestInterraction.logout();
     }); //LOGOUT LINK CLICK
 
-    $('body').on('keyup', '[name="searchUserProfiles"]', function(e) {
+    $(`body`).on(`keyup`, `[name="searchUserProfiles"]`, e => {
         if(e.keyCode==13)
            {
-                currentRestInterraction.searchUserProfiles($('[name="searchUserProfiles"]').val(), '.wrapper__content__mid');
+                currentRestInterraction.searchUserProfiles($(`[name="searchUserProfiles"]`).val(), `.wall`);
            };
     });//SEARCH FIELD ENTER PRESS
 
-    $( "button:last" ).click(function() {
-        $( "button:first" ).trigger( "click" );
-        update( $( "span:last" ) );
-      });
-
-    $('body').on('click', '[name=addPhotoToPost]', function(e) {
+    $(`body`).on(`click`, `[name=addPhotoToPost]`, e => {
         e.preventDefault();
-        $('#addPhotoToPost').trigger('click');
+        $(`#addPhotoToPost`).trigger(`click`);
     }); //ADD PHOTO TO POST BUTTON CLICK
 
-    $('body').on('change', '[name="UploadForm[imageFile]"]', function(e) {
+    $(`body`).on(`change`, `[name="UploadForm[imageFile]"]`, e => {
         e.preventDefault();
-        currentRestInterraction.addPhotoToPreview('.wrapper__content__mid__message', '[name="UploadForm[imageFile]"]');
+        currentRestInterraction.addPhotoToPreview(`.post-form`, `[name="UploadForm[imageFile]"]`);
     }); //ADD PHOTO TO POST BUTTON CLICK
 
-    $('body').on('click', '.photosToAdd__item__a', function(e) {
+    $(`body`).on(`click`, `.remove-preview`, function(e) {
         e.preventDefault();
         currentRestInterraction.removePhotoFromPreview(this);
     }); //ADD PHOTO TO POST BUTTON CLICK
     
 
-    $('body').on('click', '[name=sendPost]', function(e) {
+    $(`body`).on(`click`, `[name=sendPost]`, e => {
         e.preventDefault();
-        currentRestInterraction.createPost($('[name="postText"]').val(), `.photosToAdd`, '.wrapper__content__mid__wall');
+        currentRestInterraction.createPost($(`[name="postText"]`).val(), `.photosToAdd`, `.posts`);
     }); //SEND POST BUTTON CLICK
 
-    $('body').on('click', '[name="friendName"]', function(e){
+    $(`body`).on(`click`, `[name="friendName"]`, function(e) {
         e.preventDefault();
         const userId = $(this).data().id;
-        currentRestInterraction.showUsersProfile(userId, '.wrapper__content__mid__wall');
+        currentRestInterraction.showUsersProfile(userId, `.posts`);
     }); //FRIEND NAME LINK CLICK
 
-    $('body').on('click', '[name="userFollow"]', function(e){
+    $(`body`).on(`click`, `[name="userFollow"]`, function(e){
         e.preventDefault();
         const userInfo = functions.getUserIdAndName(this);
-        currentRestInterraction.addFriendOrEnemy(userInfo.userId, 1, userInfo.userName, '[name="userFollow"]');
+        currentRestInterraction.addFriendOrEnemy(userInfo.userId, 1, userInfo.userName, `[name="userFollow"]`);
     }); //FOLLOW BUTTON CLICK
 
-    $('body').on('click', '[name="userBlock"]', function(e){
+    $(`body`).on(`click`, `[name="userBlock"]`, function(e){
         e.preventDefault();
         const userInfo = functions.getUserIdAndName(this);
         currentRestInterraction.addFriendOrEnemy(userInfo.userId, 2, userInfo.userName, '[name="userBlock"]');
     }); //BLOCK BUTTON CLICK    
 
-    $('body').on('click', '[name="viewFriends"]', function(e){
+    $(`body`).on(`click`, `[name="viewFriends"]`, function(e){
         e.preventDefault();
         const userId = $(this).data().id;
-        currentRestInterraction.viewFriendsOrEnemies('.wrapper__content__mid', 1, userId);
+        currentRestInterraction.viewFriendsOrEnemies(`.wall`, 1, userId);
     }); //View ALL CLICK(FRIENDS)
 
-    $('body').on('click', '[name="viewEnemies"]', function(e){
+    $(`body`).on(`click`, `[name="viewEnemies"]`, function(e){
         e.preventDefault();
         const userId = $(this).data().id;
-        currentRestInterraction.viewFriendsOrEnemies('.wrapper__content__mid', 2, userId);   
+        currentRestInterraction.viewFriendsOrEnemies(`.wall`, 2, userId);   
     }); //View ALL CLICK(ENEMIES)
 
-    $('body').on('click', '[name="deleteUserFromList"]', function(e){
+    $(`body`).on(`click`, `[name="deleteUserFromList"]`, function(e){
         e.preventDefault();
         const userInfo = functions.getUserIdAndName(this);
         currentRestInterraction.deleteUserFromList(userInfo.userId, userInfo.userName);
     }); //DELETE USER FROM LIST CLICK
     
-    $('body').on('click', '[name="commentPost"]', function(e){
+    $(`body`).on(`click`, `[name="commentPost"]`, function(e) {
         e.preventDefault();
-        
+
     }); //COMMENT POST LINK CLICK
 
-    $('body').on('click', '[name="removePost"]', function(e){
+    $(`body`).on(`click`, `[name="removePost"]`, function(e) {
         e.preventDefault();
         const postId = $(this).parent().data(`id`);
-        currentRestInterraction.removePost(postId, '.wrapper__content__mid__wall');
+        currentRestInterraction.removePost(postId, `.posts`);
     }); //REMOVE POST LINK CLICK
                                                     //PROFILE HBS
 
 
                                                     //SEARCH RESULTS HBS
-    $('body').on('click', '[name="backToWall"]', function(e) {
+    $(`body`).on(`click`, `[name="backToWall"]`, e => {
         e.preventDefault();
-        currentRestInterraction.init('.wrapper__content__mid__wall');
+        currentRestInterraction.init(`.posts`);
     }); //BACK TO WALL BUTTON CLICK     
                                                     //SEARCH RESULTS HBS
 
 
                                                     //PROFILESETTINGS HBS
-    $('body').on('click', '[name="updateProfile"]', function(e){
+    $(`body`).on(`click`, `[name="updateProfile"]`, e => {
         e.preventDefault();
-        currentRestInterraction.uploadPhoto('[name="UploadForm[imageFile]"]').then(function(photoURL){
-            const updateInfoFields = {
-                firstname: $('[name="firstname"]').val(),
-                lastname: $('[name="lastname"]').val(),
-                photo: photoURL,
-                quote: $('[name="quote"]').val(),
-                lived: $('[name="lived"]').val(),
-                from: $('[name="from"]').val(),
-                went: $('[name="went"]').val(),
-                buttonSelector: '[name="updateProfile"]'
-            }; 
+        let updateInfoFields = {
+                                firstname: $(`[name="firstname"]`).val(),
+                                lastname: $(`[name="lastname"]`).val(),
+                                quote: $(`[name="quote"]`).val(),
+                                lived: $(`[name="lived"]`).val(),
+                                from: $(`[name="from"]`).val(),
+                                went: $(`[name="went"]`).val(),
+                                buttonSelector: `[name="updateProfile"]`
+                            }; 
+        currentRestInterraction.uploadPhoto(`[name="UploadForm[imageFile]"]`).then(photoURL => {
+            updateInfoFields.photo = photoURL;
             currentRestInterraction.updateProfileInfo(updateInfoFields);
-            setTimeout(function () {
-                currentRestInterraction.profileSettings('.wrapper__content');
+            setTimeout(() => {
+                currentRestInterraction.profileSettings(`.content`);
+            }, 2000);
+        },
+        () => {
+            currentRestInterraction.updateProfileInfo(updateInfoFields);
+            setTimeout(() => {
+                currentRestInterraction.profileSettings(`.content`);
             }, 2000);
         });
         
     }); //UPDATE PROFILE BUTTON CLICK
 
-    $('body').on('click', '[name="removeProfile"]', function(e){
+    $(`body`).on(`click`, `[name="removeProfile"]`, e => {
         e.preventDefault();
         currentRestInterraction.removeProfile();
     });// REMOVE PROFILE LINK CLICK
 
-    $('body').on('click', '[name="albumsList"]', function(e) {
+    $(`body`).on(`click`, `[name="albumsList"]`, e => {
         e.preventDefault();
         currentRestInterraction.getAlbums();
     });
 
-    $('body').on('click', '#createAlbum', function(e) {
+    $(`body`).on(`click`, `#createAlbum`, e => {
         e.preventDefault();
         currentRestInterraction.addAlbum();
     });
 
-    $('body').on('click', '[name="albumName"]', function(e) {
+    $(`body`).on(`click`, `[name="albumName"]`, function(e) {
         e.preventDefault();
-        currentRestInterraction.openAlbum($(this).closest('li').attr('id'));
+        currentRestInterraction.openAlbum($(this).closest(`li`).attr(`id`));
     });
 
-    $('body').on('click', '[name="deleteAlbum"]', function() {
+    $(`body`).on(`click`, `[name="deleteAlbum"]`, function() {
         currentRestInterraction.deleteAlbum($(this).parent());
     });
 
     // PROFILE SETTINGS TABS
-    $('body').on('click', '.wrapper__profileSettings__tabs__caption__item__a:not(.active)', function(e) {
+    $(`body`).on(`click`, `.link:not(.active)`, function(e) {
         e.preventDefault();
         $(this)
-          .addClass('active').parent().siblings().find('a').removeClass('active')
-          .closest('.wrapper__profileSettings__tabs').find('.wrapper__profileSettings__tabs__content').removeClass('active').eq($(this).parent().index()).addClass('active');
+          .addClass(`active`).parent().siblings().find(`a`).removeClass(`active`)
+          .closest(`.tabs`)
+          .find(`.tab-content`)
+          .removeClass(`active`).eq($(this).parent().index()).addClass(`active`);
     });
 
     // REGISTER VALIDATION
-    $('body').on('blur', '[name="username"]', function(){
-        currentValidation.usernameValidate('[name="username"]');
+    $(`body`).on(`blur`, `[name="username"]`, () => {
+        currentValidation.usernameValidate(`[name="username"]`);
     }); //USERNAME VALIDATION
 
-    $('body').on('blur', '[name="email"]', function(){
-        currentValidation.emailValidate('[name="email"]');
+    $(`body`).on(`blur`, `[name="email"]`, () => {
+        currentValidation.emailValidate(`[name="email"]`);
     }); //EMAIL VALIDATION
 
-    $('body').on('blur', '[name="password"]', function(){
-        currentValidation.passwordValidate('[name="password"]', '[name="confirmPass"]');
+    $(`body`).on(`blur`, `[name="password"]`, () => {
+        currentValidation.passwordValidate(`[name="password"]`, `[name="confirmPass"]`);
     }); //PASSWORD VALIDATION
 
-    $('body').on('blur', '[name="confirmPass"]', function(){
-        currentValidation.confirmPassValidate('[name="password"]', '[name="confirmPass"]');
+    $(`body`).on(`blur`, `[name="confirmPass"]`, () => {
+        currentValidation.confirmPassValidate(`[name="password"]`, `[name="confirmPass"]`);
     }); //PASSWORD MATCH VALIDATION
     
-    $('body').on('keypress', '[name="password"]', function(e){
-        functions.capsDetection(e, '[name="password"]');
+    $(`body`).on(`keypress`, `[name="password"]`, e => {
+        functions.capsDetection(e, `[name="password"]`);
     });//CAPS LOOK DETECTION
 
-    $('body').on('keypress', '[name="confirmPass"]', function(e){
-        functions.capsDetection(e, '[name="confirmPass"]');
+    $(`body`).on(`keypress`, `[name="confirmPass"]`, e => {
+        functions.capsDetection(e, `[name="confirmPass"]`);
     });//CAPS LOOK DETECTION
 
-    $('body').on('blur', '[name="captcha"]', function(){
-        currentValidation.captchaValidate('[name="captcha"]');
+    $(`body`).on(`blur`, `[name="captcha"]`, () => {
+        currentValidation.captchaValidate(`[name="captcha"]`);
     }); //CAPTCHA VALIDATION
 
-    $('body').on('blur', '[name="firstname"]', function(){
-        currentValidation.nameValidate('[name="firstname"]');
+    $(`body`).on(`blur`, `[name="firstname"]`, () => {
+        currentValidation.nameValidate(`[name="firstname"]`);
     }); //FIRSTNAME VALIDATION
 
-    $('body').on('blur', '[name="lastname"]', function(){
-        currentValidation.nameValidate('[name="lastname"]');
+    $(`body`).on(`blur`, `[name="lastname"]`, () => {
+        currentValidation.nameValidate(`[name="lastname"]`);
     }); //LASTNAME VALIDATION
 
 }());

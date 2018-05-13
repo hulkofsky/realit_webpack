@@ -1,4 +1,4 @@
-'use strict';
+`use strict`;
 
 import $ from 'jquery';
 import Handlebars from '../../node_modules/handlebars/dist/handlebars.min.js';
@@ -8,37 +8,36 @@ import Render from './render.js'
 
 export default class RestInterraction {
     wrapper(){
-        return $('.wrapper');
+        return $(`.wrapper`);
     };
 
     redirectToLogin(){
         const _this = this;
         const functions = new Functions();
 
-        functions.showModal('errorModal', 'body', 'Sorry, Your session is over. You will be redirected to login page.')
-        setTimeout(function(){
+        functions.showModal(`errorModal`, `body`, `Sorry, Your session is over. You will be redirected to login page.`)
+        setTimeout(() => {
             _this.init();
-            functions.deleteModal('errorModal')
+            functions.deleteModal(`errorModal`)
         }, 3000);
     }; //REDIRECT TO LOGIN
 
     init(wallContainerSelector){
         const functions = new Functions();
         const render = new Render();
-
         if(functions.isSessionToken()) {
             const sessionToken = functions.isSessionToken();
             const _this = this
 
             $.ajax({
-                url: 'http://restapi.fintegro.com/profiles', 
-                method: 'GET',
-                dataType: 'json', 
+                url: `http://restapi.fintegro.com/profiles`, 
+                method: `GET`,
+                dataType: `json`, 
                 headers: {
                     bearer: sessionToken
                 },
 
-                success: function(data) {
+                success: (data) => {
                     const year = new Date();
                     const context = {
                         profile: data.profile,
@@ -66,14 +65,14 @@ export default class RestInterraction {
             const sessionToken = functions.isSessionToken();
 
             $.ajax({
-                url: 'http://restapi.fintegro.com/profiles', 
-                method: 'GET',
-                dataType: 'json', 
+                url: `http://restapi.fintegro.com/profiles`, 
+                method: `GET`,
+                dataType: `json`, 
                 headers: {
                     bearer: sessionToken
                 },
 
-                success: function(data) {
+                success: (data) => {
                     render.profileSettingsPage(containerSelector, data);
                 }
             });
@@ -92,13 +91,13 @@ export default class RestInterraction {
 
             $.ajax({
                 url: `http://restapi.fintegro.com/profiles/${userId}`, 
-                method: 'GET',
-                dataType: 'json', 
+                method: `GET`,
+                dataType: `json`, 
                 headers: {
                     bearer: sessionToken
                 },
 
-                success: function(data) {
+                success: (data) => {
                     const year = new Date();
                     const context = {
                         profile: data.profile,
@@ -108,7 +107,7 @@ export default class RestInterraction {
                         friendsCount: data.friends_count,
                         enemiesCount: data.enemies_count,
                         currentYear: year.getFullYear(),
-                        btnStatus: 'hidden'
+                        btnStatus: `hidden`
                         };
                     render.profilePage(context);
                     _this.getUserPosts(userId, wallContainerSelector);
@@ -128,18 +127,18 @@ export default class RestInterraction {
             const sessionToken = functions.isSessionToken();
             $.ajax({
                 url: `http://restapi.fintegro.com/profiles/${localStorage.userId}`, 
-                method: 'DELETE',
-                dataType: 'json', 
+                method: `DELETE`,
+                dataType: `json`, 
                 headers: {
                     bearer: sessionToken
                 },
 
-                success: function(data) {
-                    functions.showModal('successModal', 'body', 'Your profile succesfully deleted. You will be redirected to login page');
-                    setTimeout(function(){
+                success: (data) => {
+                    functions.showModal(`successModal`, `body`, `Your profile succesfully deleted. You will be redirected to login page`);
+                    setTimeout(() => {
                         _this.logout();
                         _this.init();
-                        functions.deleteModal('successModal')
+                        functions.deleteModal(`successModal`)
                     }, 3000);
                 }
             });
@@ -153,37 +152,40 @@ export default class RestInterraction {
         const functions = new Functions();
 
         if (formValidation.loginValidate(usernameFieldSelector, passwordFieldSelector)) {
-           let _this = this;
+           const _this = this;
+           
             $.ajax({
-                url: 'http://restapi.fintegro.com/login', 
-                method: 'POST',
-                dataType: 'json',
+                url: `http://restapi.fintegro.com/login`, 
+                method: `POST`,
+                dataType: `json`,
                 data: {
                     username: $(usernameFieldSelector).val(),
                     password: $(passwordFieldSelector).val()
                 },
                 
-                success: function(data) {
+                success: data => {
+                    console.log('FFFF');
                     const date = new Date(new Date().getTime() + 6000 * 1000);
                     localStorage.userId = data.profile.user_id;
                     document.cookie = `session-token=${data.token}; expires=${date.toUTCString()}`;
                     _this.init(wallContainerSelector);
                 }, 
-                beforeSend: function() {
-                    $(loginButtonSelector).html('<img width="30" src="img/Cube.svg">');
+
+                beforeSend: () => {
+                    $(loginButtonSelector).html(`<img width="30" src="img/Cube.svg">`);
                 },
 
-                error: function(xhr, status, error) {
-                    $('.inputError').remove();
-                    functions.showMessage('inputError', loginButtonSelector, 'User with this login/password combination not found!');
-                    $(loginButtonSelector).html('Login');
+                error: (xhr, status, error) => {
+                    $(`.inputError`).remove();
+                    functions.showMessage(`inputError`, loginButtonSelector, `User with this login/password combination not found!`);
+                    $(loginButtonSelector).html(`Login`);
                 }
             });
         };
     }; //LOGIN
 
     logout(){
-        document.cookie = 'session-token=;expires=Thu, 01 Jan 1970 00:00:01 GMT';
+        document.cookie = `session-token=;expires=Thu, 01 Jan 1970 00:00:01 GMT`;
         this.init();
     }; //LOGOUT
 
@@ -194,9 +196,9 @@ export default class RestInterraction {
         if(functions.isSessionToken()) {
             const sessionToken = functions.isSessionToken();
             $.ajax({
-                url: 'http://restapi.fintegro.com/search', 
-                method: 'GET',
-                dataType: 'json',
+                url: `http://restapi.fintegro.com/search`, 
+                method: `GET`,
+                dataType: `json`,
                 data: {
                     search: searchCriteria
                 },
@@ -205,12 +207,12 @@ export default class RestInterraction {
                     bearer: sessionToken
                 },
 
-                success: function(data) {
+                success: (data) => {
                     render.searchResults(containerSelector, data);
                 }, 
 
-                beforeSend: function() {
-                    $(containerSelector).html('<img width="30" src="img/Cube.svg">');
+                beforeSend: () => {
+                    $(containerSelector).html(`<img width="30" src="img/Cube.svg">`);
                 }
             });
         };
@@ -223,9 +225,9 @@ export default class RestInterraction {
         if(functions.isSessionToken()) {
             const sessionToken = functions.isSessionToken();
             $.ajax({
-                url: 'http://restapi.fintegro.com/social-activities', 
-                method: 'POST',
-                dataType: 'json',
+                url: `http://restapi.fintegro.com/social-activities`, 
+                method: `POST`,
+                dataType: `json`,
                 data: {
                     user_id: userId,
                     type: friendOrEnemy
@@ -235,18 +237,18 @@ export default class RestInterraction {
                     bearer: sessionToken
                 },
 
-                success: function(data) {
+                success: (data) => {
                     if (friendOrEnemy == 1) {
-                        functions.showModal('successModal', _this.wrapper(), `You added ${userName} to your friendlist.`);
-                        setTimeout(function(){
-                            functions.deleteModal('successModal');
+                        functions.showModal(`successModal`, _this.wrapper(), `You added ${userName} to your friendlist.`);
+                        setTimeout(() => {
+                            functions.deleteModal(`successModal`);
                         }, 2000);
                     };
                     
                     if(friendOrEnemy == 2) {
-                        functions.showModal('successModal', _this.wrapper(), `You added ${userName} to your enemies list.`);
-                        setTimeout(function(){
-                            functions.deleteModal('successModal');
+                        functions.showModal(`successModal`, _this.wrapper(), `You added ${userName} to your enemies list.`);
+                        setTimeout(() => {
+                            functions.deleteModal(`successModal`);
                         }, 2000);
                     };
 
@@ -264,26 +266,26 @@ export default class RestInterraction {
 
             $.ajax({
                 url: `http://restapi.fintegro.com/social-activities/${userId}`, 
-                method: 'GET',
-                dataType: 'json',
+                method: `GET`,
+                dataType: `json`,
 
                 headers: {
                     bearer: sessionToken
                 },
 
-                success: function(data) {
+                success: (data) => {
                     let context;
                     if(friendOrEnemy == 1){
                         if(localStorage.userId != userId) {
                             context = {
-                                btnStatus: 'hidden',
+                                btnStatus: `hidden`,
                                 userList: data.friends,
-                                typeOfList: 'friends'
+                                typeOfList: `friends`
                             };
                         } else {
                             context = {
                                 userList: data.friends,
-                                typeOfList: 'friends'
+                                typeOfList: `friends`
                             };
                         };
                         render.allFriendsOrEnemies(containerSelector, context);
@@ -292,14 +294,14 @@ export default class RestInterraction {
                     if(friendOrEnemy == 2){
                         if(localStorage.userId != userId) {
                             context = {
-                                btnStatus: 'hidden',
+                                btnStatus: `hidden`,
                                 userList: data.enemies,
-                                typeOfList: 'enemies'
+                                typeOfList: `enemies`
                             };
                         } else {
                             context = {
                                 userList: data.enemies,
-                                typeOfList: 'enemies'
+                                typeOfList: `enemies`
                             };
                         };
                         render.allFriendsOrEnemies(containerSelector, context);
@@ -318,16 +320,16 @@ export default class RestInterraction {
             const sessionToken = functions.isSessionToken();
             $.ajax({
                 url: `http://restapi.fintegro.com/social-activities/${userId}`, 
-                method: 'DELETE',
-                dataType: 'json', 
+                method: `DELETE`,
+                dataType: `json`, 
                 headers: {
                     bearer: sessionToken
                 },
 
-                success: function(data) {
-                    functions.showModal('successModal', 'body', `${userName} succesfully deleted.`);
-                    setTimeout(function(){
-                        functions.deleteModal('successModal')
+                success: (data) => {
+                    functions.showModal(`successModal`, `body`, `${userName} succesfully deleted.`);
+                    setTimeout(() => {
+                        functions.deleteModal(`successModal`)
                     }, 2000);
                 }
             });
@@ -345,9 +347,9 @@ export default class RestInterraction {
 
         if (noValidationErrors) {
             $.ajax({
-                url: 'http://restapi.fintegro.com/registration', 
-                method: 'POST',
-                dataType: 'json',
+                url: `http://restapi.fintegro.com/registration`, 
+                method: `POST`,
+                dataType: `json`,
                 data: {
                     login: $(registerFieldSelectors.username).val(),
                     email: $(registerFieldSelectors.email).val(),
@@ -356,26 +358,26 @@ export default class RestInterraction {
                     lastname: $(registerFieldSelectors.lastname).val()
                 },
 
-                success: function(data) {
-                    functions.messageDelete('inputError', registerFieldSelectors.registerButton)
-                    functions.showMessage('success', registerFieldSelectors.registerButton, 'Your account was succesfully created!');    
-                    setTimeout(function(){
+                success: (data) => {
+                    functions.messageDelete(`inputError`, registerFieldSelectors.registerButton)
+                    functions.showMessage(`success`, registerFieldSelectors.registerButton, `Your account was succesfully created!`);    
+                    setTimeout(() => {
                         _this.init();
                     }, 3000);
                 }, 
 
-                beforeSend: function() {
-                    $(registerFieldSelectors.registerButton).html('<img width="30" src="img/Cube.svg">');
+                beforeSend: () => {
+                    $(registerFieldSelectors.registerButton).html(`<img width="30" src="img/Cube.svg">`);
                 },
 
-                error: function(xhr) {
+                error: (xhr) => {
                     const errors = ($.parseJSON(xhr.responseText)).errors;
 
-                    $(registerFieldSelectors.registerButton).html('Register');
-                    functions.showMessage('inputError', registerFieldSelectors.registerButton, '');
+                    $(registerFieldSelectors.registerButton).html(`Register`);
+                    functions.showMessage(`inputError`, registerFieldSelectors.registerButton, ``);
 
                     for(let errorItem in errors) {
-                        $('.inputError').append(`<p>${errors[errorItem]}</p>`);
+                        $(`.inputError`).append(`<p>${errors[errorItem]}</p>`);
                     };
                 }
 
@@ -389,27 +391,27 @@ export default class RestInterraction {
 
         if(formValidation.emailValidate(emailFieldSelector)){
             $.ajax({
-                url: 'http://restapi.fintegro.com/recovery', 
-                method: 'POST',
-                dataType: 'json',
+                url: `http://restapi.fintegro.com/recovery`, 
+                method: `POST`,
+                dataType: `json`,
                 data: {
                     email: $(emailFieldSelector).val()
                 },
-                success: function(data) {
-                    functions.messageDelete('inputError', buttonSelector);
-                    functions.showMessage('success', buttonSelector, 'A new password was send to your Email!');
-                    $(buttonSelector).html('Send');
+                success: (data) => {
+                    functions.messageDelete(`inputError`, buttonSelector);
+                    functions.showMessage(`success`, buttonSelector, `A new password was send to your Email!`);
+                    $(buttonSelector).html(`Send`);
                 }, 
-                beforeSend: function() {
-                    $(buttonSelector).html('<img width="30" src="img/Cube.svg">');
+                beforeSend: () => {
+                    $(buttonSelector).html(`<img width="30" src="img/Cube.svg">`);
                 },
     
-                error: function(xhr) {
-                    $(buttonSelector).html('Send');
+                error: (xhr) => {
+                    $(buttonSelector).html(`Send`);
                     if(xhr.status == 404){
-                        functions.showMessage('inputError', buttonSelector, 'This Email is not registered in our database.');
+                        functions.showMessage(`inputError`, buttonSelector, `This Email is not registered in our database.`);
                     } else {
-                        functions.showMessage('inputError', buttonSelector, 'Internal server error.');
+                        functions.showMessage(`inputError`, buttonSelector, `Internal server error.`);
                     };   
                 }
             });
@@ -422,12 +424,11 @@ export default class RestInterraction {
 
         if(functions.isSessionToken()) {
             const sessionToken = functions.isSessionToken();
-            let userId;
 
             $.ajax({
                 url: `http://restapi.fintegro.com/profiles/${localStorage.userId}`, 
-                method: 'PUT',
-                dataType: 'json', 
+                method: `PUT`,
+                dataType: `json`, 
 
                 data: {
                     firstname: updateInfoFields.firstname,
@@ -443,8 +444,8 @@ export default class RestInterraction {
                     bearer: sessionToken
                 },
 
-                success: function(data) {
-                    functions.showMessage('success', updateInfoFields.buttonSelector, 'Your personal information has been updated succesfully!');
+                success: (data) => {
+                    functions.showMessage(`success`, updateInfoFields.buttonSelector, `Your personal information has been updated succesfully!`);
                 }
             });
         } else {
@@ -459,16 +460,16 @@ export default class RestInterraction {
         if(functions.isSessionToken()) {
             const sessionToken = functions.isSessionToken();
             let formData = new FormData();
-            let file = $(fieldSelector).prop('files')[0];
+            const file = $(fieldSelector).prop(`files`)[0];
             
-            return new Promise(function(resolve, reject){
+            return new Promise((resolve, reject) => {
                 if (file) {
-                    formData.append('UploadForm[imageFile]', file);
+                    formData.append(`UploadForm[imageFile]`, file);
                     
                     $.ajax({
                         url: `http://restapi.fintegro.com/upload`, 
-                        method: 'POST',
-                        dataType: 'json', 
+                        method: `POST`,
+                        dataType: `json`, 
                         data: formData,
                         
                         headers: {
@@ -485,7 +486,6 @@ export default class RestInterraction {
                         }
                     });
                 } else {
-                    return;
                     reject();
                 };    
             }); 
@@ -495,22 +495,20 @@ export default class RestInterraction {
     };//UPLOAD PHOTO
 
     addPhotoToPreview(containerSelector, inputFileSelector){
-        this.uploadPhoto(inputFileSelector).then(function(photoURL){
+        this.uploadPhoto(inputFileSelector).then((photoURL) => {
             console.log(photoURL);
 
-            if(!$(`div`).is(`.photosToAdd`)) {
-                console.log('no div...creating');
-                $(containerSelector).append(`<div class="photosToAdd">
-                                                <div class="photosToAdd__item">
-                                                    <img class="photosToAdd__item__img" src="${photoURL}" alt="post-photo">
-                                                    <a class="photosToAdd__item__a" href="#">Remove</a>
+            if(!$(`div`).is(`.photos-preview`)) {
+                $(containerSelector).append(`<div class="photos-preview">
+                                                <div class="photo-wrapper">
+                                                    <img class="photo" src="${photoURL}" alt="post-photo">
+                                                    <a class="remove-preview" href="#">Remove</a>
                                                 </div>                                
                                             </div>`);
             } else {
-                console.log('appended in existing div');
-                $(`.photosToAdd`).append(`<div class="photosToAdd__item">
-                                            <img class="photosToAdd__item__img" src="${photoURL}" alt="post-photo">
-                                            <a class="photosToAdd__item__a" href="#">Remove</a>
+                $(`.photos-preview`).append(`<div class="photo-wrapper">
+                                            <img class="photo" src="${photoURL}" alt="post-photo">
+                                            <a class="remove-preview" href="#">Remove</a>
                                         </div>`);
             };
         });
@@ -524,11 +522,11 @@ export default class RestInterraction {
         const functions = new Functions();
         const render = new Render();
         const _this = this;
-        const images = $(photoPreviewSelector).find('img');
+        const images = $(photoPreviewSelector).find(`img`);
         let url;
         let photoURLs = [];
 
-        $.each(images, function(index, val){
+        $.each(images, (index, val) => {
             url = $(images[index]).attr(`src`);
             photoURLs.push({url});
         });
@@ -550,7 +548,7 @@ export default class RestInterraction {
                     bearer: sessionToken
                 },
 
-                success: function(data) {
+                success: (data) => {
                    console.log(data);
                    _this.getUserPosts(data.user_id, wallContainerSelector);
 
@@ -570,14 +568,14 @@ export default class RestInterraction {
             
             $.ajax({
                 url: `http://restapi.fintegro.com/posts/${postId}`, 
-                method: 'DELETE',
-                dataType: 'json', 
+                method: `DELETE`,
+                dataType: `json`, 
                 
                 headers: {
                     bearer: sessionToken
                 },
 
-                success: function(data) {
+                success: (data) => {
                     _this.getUserPosts(localStorage.userId, wallContainerSelector);
                 }
             });
@@ -595,8 +593,8 @@ export default class RestInterraction {
             
             $.ajax({
                 url: `http://restapi.fintegro.com/posts/${userId}`, 
-                method: 'GET',
-                dataType: 'json',
+                method: `GET`,
+                dataType: `json`,
                 data: {
                  
                 },
@@ -605,7 +603,7 @@ export default class RestInterraction {
                     bearer: sessionToken
                 },
 
-                success: function(data) {
+                success: (data) => {
                     console.log(data);
                     render.userPosts(data, wallContainerSelector);
                 }
@@ -616,23 +614,23 @@ export default class RestInterraction {
     }; //GET USER POSTS
 
     albumsList(albums){
-        let albumsUL = document.createElement('ul');
+        let albumsUL = document.createElement(`ul`);
         let albumLI;
         $(albumsUL).addClass();
 
         for(var i = 0; i < albums.length; i++) {
-            albumLI = document.createElement('li');
-            $(albumLI).addClass('wrapper__profileSettings__tabs__content__albums__list__item');
-            $(albumLI).attr('id', albums[i].id);
-            $(albumLI).append('<div class="wrapper__profileSettings__tabs__content__albums__list__item__image"></div>');
-            $(albumLI).append('<a class="wrapper__profileSettings__tabs__content__albums__list__item__name" href="#" name="albumName">' + albums[i].name + '</a>');
-            $(albumLI).append('<a class="wrapper__profileSettings__tabs__content__albums__list__item__delete" href="#" name="deleteAlbum">Delete album</a>');
-            $(albumLI).append('<p class="wrapper__profileSettings__tabs__content__albums__list__item__date">Created: ' + albums[i].created + '</p>');
+            albumLI = document.createElement(`li`);
+            $(albumLI).addClass(`wrapper__profileSettings__tabs__content__albums__list__item`);
+            $(albumLI).attr(`id`, albums[i].id);
+            $(albumLI).append(`<div class="wrapper__profileSettings__tabs__content__albums__list__item__image"></div>`);
+            $(albumLI).append(`<a class="wrapper__profileSettings__tabs__content__albums__list__item__name" href="#" name="albumName">${albums[i].name}</a>`);
+            $(albumLI).append(`<a class="wrapper__profileSettings__tabs__content__albums__list__item__delete" href="#" name="deleteAlbum">Delete album</a>`);
+            $(albumLI).append(`<p class="wrapper__profileSettings__tabs__content__albums__list__item__date">Created: ${albums[i].created}</p>`);
 
             $(albumsUL).append(albumLI);
         }
 
-        $('.wrapper__profileSettings__tabs__content__albums').html(albumsUL).addClass('filled');   
+        $(`.wrapper__profileSettings__tabs__content__albums`).html(albumsUL).addClass(`filled`);   
     }; //ALBUMS LIST
 
     getAlbums(){
@@ -647,16 +645,18 @@ export default class RestInterraction {
         }
 
         $.ajax({
-            url: 'http://restapi.fintegro.com/albums',
-            data: {user_id: localStorage.userID},
-            method: 'GET',
+            url: `http://restapi.fintegro.com/albums`,
+            data: {
+                user_id: localStorage.userID
+            },
+            method: `GET`,
             headers: {
                 bearer: sessionToken
             },
             success: function (response) {
-                $.get('./src/views/albums.hbs', function(response){
+                $.get(`./src/views/albums.hbs`, function(response){
                     template = Handlebars.compile(response);
-                    $(_this.wrapper()).find('[name="albumsContainer"]').html(template);
+                    $(_this.wrapper()).find(`[name="albumsContainer"]`).html(template);
                 });
 
                 setTimeout(function () {
@@ -674,12 +674,12 @@ export default class RestInterraction {
             sessionToken = functions.isSessionToken(),
             _this = this;
         $.ajax({
-            url: 'http://restapi.fintegro.com/albums',
-            method: 'POST',
+            url: `http://restapi.fintegro.com/albums`,
+            method: `POST`,
             headers: {
                 bearer: sessionToken
             },
-            data: {name: $('[name="createAlbum"]').val()},
+            data: {name: $(`[name="createAlbum"]`).val()},
             success: function (response) {
                 _this.getAlbums();
             }
@@ -690,17 +690,17 @@ export default class RestInterraction {
         let functions = new Functions(),
             _this = this;
         $.ajax({
-            url: 'http://restapi.fintegro.com/albums/' + albumID,
-            method: 'GET',
+            url: `http://restapi.fintegro.com/albums/${albumID}`,
+            method: `GET`,
             headers: {
                 bearer: functions.isSessionToken()
             },
             success: function (response) {
 
-                $.get('views/photos.hbs', function(response){
+                $.get(`views/photos.hbs`, function(response){
                     template = Handlebars.compile(response);
                     template = template(response.album[0]);
-                    $(_this.wrapper).find('[name="albumsContainer"]').html(template);
+                    $(_this.wrapper).find(`[name="albumsContainer"]`).html(template);
                 });
 
                 setTimeout(function () {
@@ -711,34 +711,32 @@ export default class RestInterraction {
     }; //OPEN ALBUM
 
     photosList(photos){
-        let photosUL = document.createElement('ul'),
+        let photosUL = document.createElement(`ul`),
             photoLI;
-        $(photosUL).addClass('wrapper__profileSettings__tabs__content__photos__list');
+        $(photosUL).addClass(`wrapper__profileSettings__tabs__content__photos__list`);
 
         for(let i = 0; i < photos.length; i++) {
-            photoLI = document.createElement('li');
-            $(albumLI).addClass('wrapper__profileSettings__tabs__content__photos__list__item');
-            $(photoLI).attr('id', photos[i].id);
-            $(photoLI).append('<img class="wrapper__profileSettings__tabs__content__photos__list__item__img" src="' + photos[i].url + '" alt="photo">');
-            $(photoLI).append('<div class="wrapper__profileSettings__tabs__content__photos__list__item__delete" name="deletePhoto">Delete photo</div>');
-            $(photoLI).append('<p class="wrapper__profileSettings__tabs__content__photos__list__item__date">Created: ' + photos[i].created + '</p>');
+            photoLI = document.createElement(`li`);
+            $(albumLI).addClass(`wrapper__profileSettings__tabs__content__photos__list__item`);
+            $(photoLI).attr(`id`, photos[i].id);
+            $(photoLI).append(`<img class="wrapper__profileSettings__tabs__content__photos__list__item__img" src="${photos[i].url}" alt="photo">`);
+            $(photoLI).append(`<div class="wrapper__profileSettings__tabs__content__photos__list__item__delete" name="deletePhoto">Delete photo</div>`);
+            $(photoLI).append(`<p class="wrapper__profileSettings__tabs__content__photos__list__item__date">Created: ${photos[i].created}</p>`);
 
             $(photosUL).append(photoLI);
         }
 
-        $('.wrapper__profileSettings__tabs__content__photos').html(photosUL).addClass('filled');
+        $(`.wrapper__profileSettings__tabs__content__photos`).html(photosUL).addClass(`filled`);
     }; //PHOTOS LIST
 
 
     addPhoto(allbumId){
         let functions = new Functions(),
             _this = this;
-        // var form = $('#addPhotoField').closest('form');
-        // var formData = new FormData($(form)[0]);
 
         $.ajax({
-            url: 'http://restapi.fintegro.com/upload',
-            method: 'POST',
+            url: `http://restapi.fintegro.com/upload`,
+            method: `POST`,
             headers: {
                 bearer: functions.isSessionToken()
             },
@@ -749,8 +747,8 @@ export default class RestInterraction {
             processData: false,
             success: function (response) {
                 $.ajax({
-                    url: 'http://restapi.fintegro.com/photos',
-                    method: 'POST',
+                    url: `http://restapi.fintegro.com/photos`,
+                    method: `POST`,
                     headers: {
                         bearer: functions.isSessionToken()
                     },
@@ -759,7 +757,7 @@ export default class RestInterraction {
                             url: response.link
                     },
                     success: function (response) {
-                        _this.openAlbum($('.album').attr('id'));
+                        _this.openAlbum($(`.album`).attr(`id`));
                     }
                 });
             }
@@ -772,8 +770,8 @@ export default class RestInterraction {
             _this = this;
 
         $.ajax({
-            url: 'http://restapi.fintegro.com/albums/' + albumContainer.attr('id'),
-            method: 'DELETE',
+            url: `http://restapi.fintegro.com/albums/${albumContainer.attr(`id`)}`,
+            method: `DELETE`,
             headers: {
                 bearer: functions.isSessionToken()
             },

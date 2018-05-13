@@ -1,4 +1,4 @@
-'use strict';
+`use strict`;
 
 import $ from 'jquery';
 import '../vendor/fontawesome-all.js'

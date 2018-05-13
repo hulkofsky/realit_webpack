@@ -1,84 +1,70 @@
-.wrapper__content__right
+.content-right
     width: 20%
     min-width: 245px
-    &__profile
-    &__friends
+    .friends
         border: 1px solid #dfdfdf
         background-color: #fff
-
-        &__list
+        .list
             padding: 20px
             &:first-child
                 border-bottom: 1px solid #dfdfdf
-            &__title
+            .list-title
                 margin-bottom: 10px
                 display: flex
                 flex-direction: row
                 justify-content: space-between
-                &__text
+                .text
                     color: #292B2C
                     font-weight: bold
                     margin: 0
-                &__link
+                .link
                     margin: 0
                     color: #3097D1
                     text-decoration: none
                     font-weight: bold
                     &:hover
                         color: #014C8C
-            &__content
+            .content
                 color: #292B2C
                 display: flex
                 flex-direction: column
                 justify-content: flex-start
-                &__item
+                .item
                     display: flex
                     flex-direction: row
                     margin-bottom: 10px
-                    &__photo
+                    .photo-wrapper
                         min-width: 60px
                         width: 60px
                         height: 60px
                         border-radius: 50%
                         background-color: #fff
-                        &__img
+                        .user-photo
                             width: 100%
                             height: 100%
                             border-radius: 50%
-                    &__info
+                    .user-info
                         margin-left: 5px
-                        &__name
+                        .username
                             margin: 0
                             color: #3097D1
                             text-decoration: none
                             font-weight: bold
                             &:hover
                                 color: #014C8C
-                        &__buttons
+                        .buttons
                             margin-top: 10px
                             display: flex
                             flex-direction: row
-                            &__button
-                                display: flex
-                                flex-direction: row
-                                justify-content: center
-                                border-radius: 3px
-                                padding: 5px
-                                border: 1px solid #3097D1
-                                color: #3097D1
-                                background-color: #fff
+                            button
                                 margin-right: 5px
-                                &:hover
-                                    background-color: #3097D1
-                                    color: #fff
-                                &__text
-                                    margin: 0
+                                .button-text
                                     margin-left: 5px
                                     
-        &__quote
+        .quote
             padding: 20px
             border-top: 1px solid #dfdfdf
             background-color: #F7F7F9
-            &__p
+            .quote-text
                 margin: 0
                 color: #292B2C

@@ -1,7 +1,7 @@
-.wrapper__content__left
+.left
     width: 20%
     min-width: 245px
-    &__profile
+    .profile
         background-color: #fff
         display: flex
         flex-direction: column
@@ -9,112 +9,96 @@
         border-radius: 4px
         border: 1px solid #DFDFDF
         margin-bottom: 10px
-        &__bg
+        .profile-bg
             width: 100%
             height: 150px
-        &__photoWrapper
+        .photo-wrapper
             background-color: #fff
             border-radius: 50%
             width: 128px
             height: 128px
             padding: 2px
             margin-top: -64px
-            &__photo
+            .photo
                 width: 100%
                 height: 100%
                 border-radius: 50%
-        &__info
+        .profile-info
             text-align: center
             margin-bottom: 20px
-            &__name
+            .username
                 color: #292B2C
                 font-weight: bold
-            &__counters
+                margin-bottom: 5px
+                font-size: 20px
+            .counters
                 display: flex
                 flex-direction: row
                 justify-content: center
-                &__friends
+                .friends
                     padding: 10px
                     float: left
                     border-right: 1px solid #D4DBE0
-                    &__p
+                    .friends-text
                         margin: 0
                         color: #292B2C
-                    &__count
+                    .friends-count
                         font-weight: bold
                         margin: 0
                         color: #292B2C
-                &__enemies
+                .enemies
                     padding: 10px
                     float: left
-                    &__p
+                    .enemies-text
                         margin: 0
                         color: #292B2C
-                    &__count
+                    .enemies-count
                         margin: 0
                         font-weight: bold
                         color: #292B2C
-    &__about
+    .about
         background-color: #fff
         border-radius: 4px
         border: 1px solid #DFDFDF
         padding: 10px
         margin-bottom: 10px
-        &__title
-            display: flex
-            flex-direction: row
-            align-items: left
-            margin-bottom: 10px
-            &__p
-                color: #292B2C
-                font-weight: bold
-                margin: 0
-                margin-right: 5px
-            &__a
-                color: #0275D8
-                text-decoration: none
-                &:hover
-                    color: #014C8C
-        &__list
-            list-style: none
-            padding: 0
+        .title
+            color: #292B2C
+            font-weight: bold
             margin: 0
-            &__item
+            margin-right: 5px
+        .list
+            .list-item
                 display: flex
                 flex-direction: row
-                
-                &__icon
-                    width: auto
+                justify-content: flex-start
+                .icon
+                    width: 20px
                     color: #636C72
                     margin-right: 10px
-                &__p
+                .text
                     margin: 0
                     margin-left: 5px
-    &__albums
+    .albums
         background-color: #fff
         border-radius: 4px
         border: 1px solid #DFDFDF
         padding: 10px
-        &__title
+        .title
             display: flex
             flex-direction: row
             align-items: left
             margin-bottom: 10px
-            &__p
+            .title-text
                 color: #292B2C
                 font-weight: bold
                 margin: 0
                 margin-right: 5px
-            &__a
-                color: #0275D8
-                text-decoration: none
-                &:hover
-                    color: #014C8C
-        &__cont
+        .content
             display: flex
             flex-direction: row
-            align-items: center
-            &__item
+            justify-content: flex-start
+            .item
                 background-image: url('../img/no-image.png')
                 background-size: 100% 100%
                 background-repeat: no-repeat

@@ -1,112 +1,109 @@
-<header class="wrapper__header">
-    <nav class="wrapper__header__nav">
-        <div class="wrapper__header__nav__logo"></div>
-        <ul class="wrapper__header__nav__ul">
-            <li class="wrapper__header__nav__ul__li"><a class="wrapper__header__nav__ul__li__a" href="#" name="myProfile">My Profile</a></li>
-            <li class="wrapper__header__nav__ul__li"><a class="wrapper__header__nav__ul__li__a" href="#" name="profileSettings">Settings</a></li>
-            <li class="wrapper__header__nav__ul__li"><a class="wrapper__header__nav__ul__li__a" href="#">Messages</a></li>
-            <li class="wrapper__header__nav__ul__li"><a class="wrapper__header__nav__ul__li__a" href="#">Bell</a></li>
-            <li class="wrapper__header__nav__ul__li"><a class="wrapper__header__nav__ul__li__a" href="#" name="logout">Logout</a></li>
+<header class="header">
+    <nav class="header-nav">
+        <div class="logo"></div>
+        <ul class="nav-ul">
+            <li class="nav-li"><a class="nav-link" href="#" name="myProfile">My Profile</a></li>
+            <li class="nav-li"><a class="nav-link" href="#" name="profileSettings">Settings</a></li>
+            <li class="nav-li"><a class="nav-link" href="#">Messages</a></li>
+            <li class="nav-li"><a class="nav-link" href="#">Bell</a></li>
+            <li class="nav-li"><a class="nav-link" href="#" name="logout">Logout</a></li>
         </ul>
-        <input type="text" class="wrapper__header__nav__ul__li__search" name="searchUserProfiles" placeholder="search">
+        <input type="text" class="nav-search" name="searchUserProfiles" placeholder="search">
     </nav>
 </header>
 
 
-<div class="wrapper__content">
-    <aside class="wrapper__content__left">
-        <div class="wrapper__content__left__profile">
-            <img class="wrapper__content__left__profile__bg" src="img/profileBg.jpg" alt="profile_bg">
-            <div class="wrapper__content__left__profile__photoWrapper">
-                <img class="wrapper__content__left__profile__photoWrapper__photo" src="{{#if profile.photo}}{{profile.photo}}{{else}}img/default-user.jpg{{/if}}" alt="profile_Photo">
+<div class="content">
+    <aside class="left">
+        <div class="profile">
+            <img class="profile-bg" src="img/profileBg.jpg" alt="profile_bg">
+            <div class="photo-wrapper">
+                <img class="photo" src="{{#if profile.photo}}{{profile.photo}}{{else}}img/default-user.jpg{{/if}}" alt="profile_Photo">
             </div>
-            <div class="wrapper__content__left__profile__info">
-                <p class="wrapper__content__left__profile__info__name">{{#if profile.firstname}}{{profile.firstname}}{{else}}Firstname{{/if}} {{#if profile.lastname}}{{profile.lastname}}{{else}}Lastname{{/if}}</p>
-                <p class="wrapper__content__left__profile__info__quote">{{#if profile.quote}}{{profile.quote}}{{else}}No comments...{{/if}}</p>
-                <div class="wrapper__content__left__profile__info__counters">
-                    <div class="wrapper__content__left__profile__info__counters__friends">
-                        <p class="wrapper__content__left__profile__info__counters__friends__p">Friends</p>
-                        <p class="wrapper__content__left__profile__info__counters__friends__count">{{friendsCount}}</p>
+            <div class="profile-info">
+                <p class="username">{{#if profile.firstname}}{{profile.firstname}}{{else}}Firstname{{/if}} {{#if profile.lastname}}{{profile.lastname}}{{else}}Lastname{{/if}}</p>
+                <p class="quote">{{#if profile.quote}}{{profile.quote}}{{else}}No comments...{{/if}}</p>
+                <div class="counters">
+                    <div class="friends">
+                        <p class="friends-text">Friends</p>
+                        <p class="friends-count">{{friendsCount}}</p>
                     </div>
-                    <div class="wrapper__content__left__profile__info__counters__enemies">
-                        <p class="wrapper__content__left__profile__info__counters__enemies__p">Enemies</p>
-                        <p class="wrapper__content__left__profile__info__counters__enemies__count">{{enemiesCount}}</p>
+                    <div class="enemies">
+                        <p class="enemies-text">Enemies</p>
+                        <p class="enemies-count">{{enemiesCount}}</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="wrapper__content__left__about">
-            <div class="wrapper__content__left__about__title">
-                <p class="wrapper__content__left__about__title__p">About</p>
-                <a class="wrapper__content__left__about__title__a" href="#">edit</a>
-            </div>
-            <ul class="wrapper__content__left__about__list">
-                <li class="wrapper__content__left__about__list__item">
-                    <i class="fa fa-calendar wrapper__content__left__about__list__item__icon" aria-hidden="true"></i> 
-                    <p class="wrapper__content__left__about__list__item__p">Went to: {{profile.went}}</p>
+        <div class="about">
+            <p class="title">About</p>
+            <ul class="list">
+                <li class="list-item">
+                    <i class="fa fa-calendar icon" aria-hidden="true"></i> 
+                    <p class="text">Went to: {{profile.went}}</p>
                 </li>
-                <li class="wrapper__content__left__about__list__item">
-                    <i class="fa fa-home wrapper__content__left__about__list__item__icon" aria-hidden="true"></i> 
-                    <p class="wrapper__content__left__about__list__item__p">Lives in: {{profile.lived}}</p>
+                <li class="list-item">
+                    <i class="fa fa-home icon" aria-hidden="true"></i> 
+                    <p class="text">Lives in: {{profile.lived}}</p>
                 </li>
-                <li class="wrapper__content__left__about__list__item">
-                    <i class="fa fa-map-marker wrapper__content__left__about__list__item__icon" aria-hidden="true"></i> 
-                    <p class="wrapper__content__left__about__list__item__p">From: {{profile.from}}</p>
+                <li class="list-item">
+                    <i class="fa fa-map-marker icon" aria-hidden="true"></i> 
+                    <p class="text">From: {{profile.from}}</p>
                 </li>
             </ul>
         </div>
 
-        <div class="wrapper__content__left__albums">
-            <div class="wrapper__content__left__albums__title">
-                <p class="wrapper__content__left__albums__title__p">Albums</p>
-                <a class="wrapper__content__left__albums__title__a" href="#">show more</a>
+        <div class="albums">
+            <div class="title">
+                <p class="title-text">Albums</p>
+                <a class="title-link" href="#">show more</a>
             </div>
-            <div class="wrapper__content__left__albums__cont">
-                <div class="wrapper__content__left__albums__cont__item"></div>
-                <div class="wrapper__content__left__albums__cont__item"></div>
+            <div class="content">
+                <div class="item"></div>
+                <div class="item"></div>
             </div>
         </div>
     </aside>
 
-    <div class="wrapper__content__mid">
-        <div class="wrapper__content__mid__message">
-            <div class="wrapper__content__mid__message__cont">
-                <input type="text" class="wrapper__content__mid__message__cont__input" placeholder="Message" name="postText">
-                <button class="wrapper__content__mid__message__cont__button" name="addPhotoToPost"><i class="fa fa-camera" aria-hidden="true"></i></button>
-                <input type="file" class="wrapper__content__mid__message__cont__file" id="addPhotoToPost" name="UploadForm[imageFile]">
-                <button class="wrapper__content__mid__message__cont__button" name="sendPost"><i class="fa fa-comment" aria-hidden="true"></i></button>
+    <div class="wall">
+        <div class="post-form">
+            <div class="form-wrapper">
+                <input class="form-input" placeholder="Message" name="postText" type="text">
+                <button class="form-btn" name="addPhotoToPost"><i class="fa fa-camera" aria-hidden="true"></i></button>
+                <input class="hidden" id="addPhotoToPost" name="UploadForm[imageFile]" type="file">
+                <button class="form-btn" name="sendPost"><i class="fa fa-comment" aria-hidden="true"></i></button>
             </div>       
         </div>
-        <div class="wrapper__content__mid__wall">
-            <p class="wrapper__content__mid__wall__item">This will be your wall...</p>
+        <div class="posts">
+            <p>This will be your wall...</p>
         </div>
     </div>
 
-    <div class="wrapper__content__right">
-        <div class="wrapper__content__right__friends">
-            <div class="wrapper__content__right__friends__list">
-                <div class="wrapper__content__right__friends__list__title">
-                    <p class="wrapper__content__right__friends__list__title__text">Friends</p>
-                    <a class="wrapper__content__right__friends__list__title__link" href="#" name="viewFriends" data-id="{{profile.user_id}}">View All</a>
+    <div class="content-right">
+        <div class="friends">
+            <div class="list">
+                <div class="list-title">
+                    <p class="text">Friends</p>
+                    <a class="link" href="#" name="viewFriends" data-id="{{profile.user_id}}">View All</a>
                 </div>
                 
-                <div class="wrapper__content__right__friends__list__content">
+                <div class="content">
                     {{#each friends}}
-                        <div class="wrapper__content__right__friends__list__content__item">
-                            <div class="wrapper__content__right__friends__list__content__item__photo">
-                                <img class="wrapper__content__right__friends__list__content__item__photo__img" src="{{#if this.photo}}{{this.photo}}{{else}}img/default-user.jpg{{/if}}" alt="Friend-photo">
+                        <div class="item">
+                            <div class="photo-wrapper">
+                                <img class="user-photo" src="{{#if this.photo}}{{this.photo}}{{else}}img/default-user.jpg{{/if}}" alt="Friend-photo">
                             </div>
-                            <div class="wrapper__content__right__friends__list__content__item__info">
-                                <a class="wrapper__content__right__friends__list__content__item__info__name" data-id="{{this.user_id}}" href="#" name="friendName">{{this.firstname}} {{this.lastname}}</a>
-                                <div class="wrapper__content__right__friends__list__content__item__info__buttons">
-                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button {{@root.btnStatus}}" name="deleteUserFromList">
+                            <div class="user-info">
+                                <a class="username" data-id="{{this.user_id}}" href="#" name="friendName">{{this.firstname}} {{this.lastname}}</a>
+                                <div class="buttons">
+                                    <button class="button {{@root.btnStatus}}" name="deleteUserFromList">
                                         <i class="fas fa-ban"></i>
-                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Delete</p> 
+                                        <p class="button-text">Delete</p> 
                                     </button>
-                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button {{@root.btnStatus}}">
+                                    <button class="button {{@root.btnStatus}}">
                                         <i class="fa fa-user-times"></i>
-                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text" name="userBlock">Enemy</p> 
+                                        <p class="button-text" name="userBlock">Enemy</p> 
                                     </button>
                                 </div>
                             </div>
@@ -117,27 +114,27 @@
                 </div>
                     
             </div>
-            <div class="wrapper__content__right__friends__list">
-                <div class="wrapper__content__right__friends__list__title">
-                    <p class="wrapper__content__right__friends__list__title__text">Enemies</p>
-                    <a class="wrapper__content__right__friends__list__title__link" href="#" name="viewEnemies" data-id="{{profile.user_id}}">View All</a>
+            <div class="list">
+                <div class="list-title">
+                    <p class="text">Enemies</p>
+                    <a class="link" href="#" name="viewEnemies" data-id="{{profile.user_id}}">View All</a>
                 </div>
-                <div class="wrapper__content__right__friends__list__content">
+                <div class="content">
                     {{#each enemies}}
-                        <div class="wrapper__content__right__friends__list__content__item">
-                            <div class="wrapper__content__right__friends__list__content__item__photo">
-                                <img class="wrapper__content__right__friends__list__content__item__photo__img" src="{{#if this.photo}}{{this.photo}}{{else}}img/default-user.jpg{{/if}}" alt="Friend-photo">
+                        <div class="item">
+                            <div class="photo-wrapper">
+                                <img class="user-photo" src="{{#if this.photo}}{{this.photo}}{{else}}img/default-user.jpg{{/if}}" alt="Friend-photo">
                             </div>
-                            <div class="wrapper__content__right__friends__list__content__item__info">
-                                <a class="wrapper__content__right__friends__list__content__item__info__name" data-id="{{this.user_id}}" href="#" name="friendName">{{this.firstname}} {{this.lastname}}</a>
-                                <div class="wrapper__content__right__friends__list__content__item__info__buttons">
-                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button {{@root.btnStatus}}" name="deleteUserFromList">
+                            <div class="user-info">
+                                <a class="username" data-id="{{this.user_id}}" href="#" name="friendName">{{this.firstname}} {{this.lastname}}</a>
+                                <div class="buttons">
+                                    <button class="button {{@root.btnStatus}}" name="deleteUserFromList">
                                         <i class="fas fa-ban"></i>
-                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text">Delete</p> 
+                                        <p class="button-text">Delete</p> 
                                     </button>
-                                    <button class="wrapper__content__right__friends__list__content__item__info__buttons__button {{@root.btnStatus}}">
+                                    <button class="button {{@root.btnStatus}}" name="userFollow">
                                         <i class="fa fa-user-times"></i>
-                                        <p class="wrapper__content__right__friends__list__content__item__info__buttons__button__text" name="userFollow">Friend</p> 
+                                        <p class="button-text">Friend</p> 
                                     </button>
                                 </div>
                             </div>
@@ -147,15 +144,15 @@
                     {{/each}}
                 </div>
             </div>
-            <div class="wrapper__content__right__friends__quote">
-                <p class="wrapper__content__right__friends__quote__p">Some random quote</p>
+            <div class="quote">
+                <p class="quote-text">Some random quote</p>
             </div>
         </div>
     </div>
 </div>
 
-<footer class="wrapper__footer">
-    <p class="wrapper__footer__copyright">© <span class="wrapper__footer__copyright__year">{{currentYear}}</span> Fintegro Company. All rights reserved.</p>
+<footer class="footer">
+    <p class="footer-copyright">© <span class="footer-year">{{currentYear}}</span> Fintegro Company. All rights reserved.</p>
 </footer>
 
 

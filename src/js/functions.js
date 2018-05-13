@@ -1,4 +1,4 @@
-'use strict';
+`use strict`;
 import $ from 'jquery'
 
 export default class Functions {
@@ -7,12 +7,11 @@ export default class Functions {
     }; //RANDOM
 
     isSessionToken(){
-        let cookies = document.cookie.split('; ');
+        let cookies = document.cookie.split(`; `);
         let sessionToken;
-
         for(let i = 0; i < cookies.length; i++) {
-            if(cookies[i].indexOf('session-token') !== -1) {
-                sessionToken = cookies[i].split('=')[1];
+            if(cookies[i].indexOf(`session-token`) !== -1) {
+                sessionToken = cookies[i].split(`=`)[1];
                 break;
             };
         };
@@ -40,36 +39,30 @@ export default class Functions {
     };//DELETE MODAL
 
     capsDetection(e, fieldSelector){
-        let functions = new Functions,
+        const functions = new Functions,
             character = e.keyCode ? e.keyCode : e.which,
             sftKey = e.shiftKey ? e.shiftKey : ((character == 16) ? true : false),
             isCapsLock = (((character >= 65 && character <= 90) && !sftKey) || ((character >= 97 && character <= 122) && sftKey));
 
         if (isCapsLock) {
-            functions.showMessage('inputError', fieldSelector, 'CAPS LOCK is on!');
+            functions.showMessage(`inputError`, fieldSelector, `CAPS LOCK is on!`);
         } else{
-            functions.messageDelete('inputError', fieldSelector);
+            functions.messageDelete(`inputError`, fieldSelector);
         };
     }; //CAPS DETECTION
 
     getUserIdAndName(buttonSelector) {
         let userInfo = {
             userId: $(buttonSelector).parent().data().id,
-            userName: $(buttonSelector).parent().prev().children('p:first-of-type').html()
+            userName: $(buttonSelector).parent().prev().children(`p:first-of-type`).html()
         };
         if(!userInfo.userId) {
             let userInfo = {
-                userId: $(buttonSelector).closest('div').prev().data().id,
-                userName: $(buttonSelector).closest('div').prev().html()
+                userId: $(buttonSelector).closest(`div`).prev().data().id,
+                userName: $(buttonSelector).closest(`div`).prev().html()
             };
             return(userInfo);
         };
         return(userInfo);
     }; //GET USER ID AND NAME
 };
-// var Func = {
-//     reloadJS: function (src) {
-//         $('script[src="' + src + '"]').remove();
-//         $('<script>').attr('src', src).appendTo('head');
-//     }
-// };

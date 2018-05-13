@@ -1,32 +1,28 @@
 {{#each posts}}
-<div class="wall__post">
-    <div class="wall__post__info">
-        <div class="wall__post__info__user">
-            <div class="wall__post__info__user__photo">
-                <img class="wall__post__info__user__photo__img" src="{{#if this.user.photo}}{{this.user.photo}}{{else}}img/default-user.jpg{{/if}}" alt="UserPhoto">
+<div class="posts-item">
+    <div class="info">
+        <div class="user-info">
+            <div class="photo-wrapper">
+                <img class="user-photo" src="{{#if this.user.photo}}{{this.user.photo}}{{else}}img/default-user.jpg{{/if}}" alt="UserPhoto">
             </div>
-            <a class="wall__post__info__user__name" href="#">
+            <a class="post-username" href="#">
                 {{#if this.user.firstname}}{{this.user.firstname}}{{else}}Firstname{{/if}} 
                 {{#if this.user.lastname}}{{this.user.lastname}}{{else}}Lastname{{/if}}
             </a>
         </div>
-        <div class="wall__post__info__user__date">
-            <p class="wall__post__info__user__date__p">{{this.date}}</p>
-        </div>
+        <p class="post-date">{{this.date}}</p>
     </div>
-    <div class="wall__post__content">
-        <p class="wall__post__content__text">{{this.text}}</p>
-        <div class="wall__post__content__media">
+    <div class="post-content">
+        <p class="text">{{this.text}}</p>
+        <div class="media">
             {{#each mediaList}}
-                <img class="wall__post__content__media__img" src="{{this.url}}" alt="post_photo">
-            {{else}}
-                No media here...
+                <img class="media-img" src="{{this.url}}" alt="post_photo">
             {{/each}}
         </div>
     </div>
-    <div class="wall__post__links" data-id="{{this.id}}">
-        <a  class="wall__post__links__a" href="#" name="commentPost">Comment</a>
-        <a  class="wall__post__links__a" href="#" name="removePost">Remove post</a>
+    <div class="post-links" data-id="{{this.id}}">
+        <a  class="link" href="#" name="commentPost">Comment</a>
+        <a  class="link" href="#" name="removePost">Remove post</a>
     </div>
 </div>
 {{else}}
