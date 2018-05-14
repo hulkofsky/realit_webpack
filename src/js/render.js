@@ -23,9 +23,30 @@ export default class Render{
         this.loadTemplate(`./src/views/login.hbs`, this.wrapper());
     };//LOGIN PAGE
 
-    profilePage(data){
-        this.loadTemplate(`./src/views/profile.hbs`, this.wrapper(), data); 
+    profilePage(profileContext, rightContSelector, userListContext){
+
+        this.loadTemplate(`./src/views/profile.hbs`, this.wrapper(), profileContext);
+        // let promise = new Promise((resolve, reject) => {
+        //     if(profileContext) {
+        //         this.loadTemplate(`./src/views/profile.hbs`, this.wrapper(), profileContext);
+        //         resolve();
+        //     } else {
+        //         reject();
+        //     }; 
+        // }); 
+        // promise.then(resolve => {
+        //     console.log(`resolved`);
+        //     this.userList(rightContSelector, userListContext);
+        // },
+        // reject => {console.log(`rejected`)});
+        
     };//PROFILE PAGE
+
+    userList(contSelector, context) {
+        console.log($(`.right`).html());
+        const container = $(contSelector);
+        this.loadTemplate(`./src/views/rightUserList.hbs`, container, context); 
+    }; //USER LIST
 
     registerPage(){
         const functions = new Functions();

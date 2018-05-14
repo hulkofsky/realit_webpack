@@ -12,11 +12,12 @@ import Render from './render.js';
     const functions = new Functions();
     const render = new Render();
 
-    currentRestInterraction.init(`.posts`);
+    currentRestInterraction.init(`.posts`, `.right`);
 
-    $(`body`).on(`click`, `[name=loginButton]`, () => {
+    $(`body`).on(`click`, `[name=loginButton]`, e => {
+        e.preventDefault();
         currentRestInterraction.login(`[name="username"]`, `[name="password"]`, `[name=loginButton]`,
-                                        `.footer-year`, `.posts`);
+                                        `.footer-year`, `.posts`, `.right`);
     });//LOGIN BUTTON CLICK
 
     $(`body`).on(`click`, `[name=registerButton]`, () => {
@@ -57,7 +58,7 @@ import Render from './render.js';
                                                     //PROFILE HBS
     $(`body`).on(`click`, `[name="myProfile"]`, e => {
         e.preventDefault();
-        currentRestInterraction.init(`.posts`);
+        currentRestInterraction.init(`.posts`, `.right`);
     }); //MY PROFILE LINK CLICK     
     
     $(`body`).on(`click`, `[name=profileSettings]`, e => {
@@ -95,43 +96,43 @@ import Render from './render.js';
 
     $(`body`).on(`click`, `[name=sendPost]`, e => {
         e.preventDefault();
-        currentRestInterraction.createPost($(`[name="postText"]`).val(), `.photosToAdd`, `.posts`);
+        currentRestInterraction.createPost($(`[name="postText"]`).val(), `.photos-preview`, `.posts`);
     }); //SEND POST BUTTON CLICK
 
     $(`body`).on(`click`, `[name="friendName"]`, function(e) {
         e.preventDefault();
-        const userId = $(this).data().id;
-        currentRestInterraction.showUsersProfile(userId, `.posts`);
+        const userId = $(this).data(`id`);
+        currentRestInterraction.showUsersProfile(userId, `.posts`, `.right`);
     }); //FRIEND NAME LINK CLICK
 
     $(`body`).on(`click`, `[name="userFollow"]`, function(e){
         e.preventDefault();
         const userInfo = functions.getUserIdAndName(this);
-        currentRestInterraction.addFriendOrEnemy(userInfo.userId, 1, userInfo.userName, `[name="userFollow"]`);
+        currentRestInterraction.addFriendOrEnemy(userInfo.userId, 1, userInfo.userName, `.right`);
     }); //FOLLOW BUTTON CLICK
 
     $(`body`).on(`click`, `[name="userBlock"]`, function(e){
         e.preventDefault();
         const userInfo = functions.getUserIdAndName(this);
-        currentRestInterraction.addFriendOrEnemy(userInfo.userId, 2, userInfo.userName, '[name="userBlock"]');
+        currentRestInterraction.addFriendOrEnemy(userInfo.userId, 2, userInfo.userName, `.right`);
     }); //BLOCK BUTTON CLICK    
 
     $(`body`).on(`click`, `[name="viewFriends"]`, function(e){
         e.preventDefault();
-        const userId = $(this).data().id;
+        const userId = $(this).data(`id`);
         currentRestInterraction.viewFriendsOrEnemies(`.wall`, 1, userId);
     }); //View ALL CLICK(FRIENDS)
 
     $(`body`).on(`click`, `[name="viewEnemies"]`, function(e){
         e.preventDefault();
-        const userId = $(this).data().id;
+        const userId = $(this).data(`id`);
         currentRestInterraction.viewFriendsOrEnemies(`.wall`, 2, userId);   
     }); //View ALL CLICK(ENEMIES)
 
     $(`body`).on(`click`, `[name="deleteUserFromList"]`, function(e){
         e.preventDefault();
         const userInfo = functions.getUserIdAndName(this);
-        currentRestInterraction.deleteUserFromList(userInfo.userId, userInfo.userName);
+        currentRestInterraction.deleteUserFromList(userInfo.userId, userInfo.userName, `.right`);
     }); //DELETE USER FROM LIST CLICK
     
     $(`body`).on(`click`, `[name="commentPost"]`, function(e) {
@@ -150,7 +151,7 @@ import Render from './render.js';
                                                     //SEARCH RESULTS HBS
     $(`body`).on(`click`, `[name="backToWall"]`, e => {
         e.preventDefault();
-        currentRestInterraction.init(`.posts`);
+        currentRestInterraction.init(`.posts`, `.right`);
     }); //BACK TO WALL BUTTON CLICK     
                                                     //SEARCH RESULTS HBS
 

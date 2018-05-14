@@ -22,7 +22,7 @@ export default class RestInterraction {
         }, 3000);
     }; //REDIRECT TO LOGIN
 
-    init(wallContainerSelector){
+    init(wallContainerSelector, rightContSelector){
         const functions = new Functions();
         const render = new Render();
         if(functions.isSessionToken()) {
@@ -39,17 +39,27 @@ export default class RestInterraction {
 
                 success: (data) => {
                     const year = new Date();
-                    const context = {
+                    const profileContext = {
                         profile: data.profile,
-                        friends: data.friends,
-                        enemies: data.enemies,
 
                         friendsCount: data.friends_count,
                         enemiesCount: data.enemies_count,
                         currentYear: year.getFullYear(),
                         };
-                    render.profilePage(data);
+                    const userListContext = {   userId: data.profile.user_id,
+                                                friends: data.friends,
+                                                enemies: data.enemies
+                                            };
+                                            
+
+                    render.profilePage(profileContext, rightContSelector, userListContext);
+                    
+
                     _this.getUserPosts(data.profile.user_id, wallContainerSelector);
+                    
+                    setTimeout(() => {
+                        render.userList(rightContSelector, userListContext);
+                    }, 200);    
                 }
             });
         } else {
@@ -81,7 +91,7 @@ export default class RestInterraction {
         }
     };  //PROFILE SETTINGS
 
-    showUsersProfile(userId, wallContainerSelector){
+    showUsersProfile(userId, wallContainerSelector, rightContSelector){
         const functions = new Functions();
         const render = new Render();
         const _this = this;
@@ -101,15 +111,21 @@ export default class RestInterraction {
                     const year = new Date();
                     const context = {
                         profile: data.profile,
-                        friends: data.friends,
-                        enemies: data.enemies,
-
+                        
                         friendsCount: data.friends_count,
                         enemiesCount: data.enemies_count,
                         currentYear: year.getFullYear(),
-                        btnStatus: `hidden`
                         };
-                    render.profilePage(context);
+                    const userListContext = {
+                        userId: data.profile.user_id,
+                        friends: data.friends,
+                        enemies: data.enemies,
+                        btnStatus: `hidden`
+                    };
+                    render.profilePage(context, rightContSelector, userListContext);
+                    setTimeout(() => {
+                        render.userList(rightContSelector, userListContext);
+                    }, 200);   
                     _this.getUserPosts(userId, wallContainerSelector);
                 }
             });
@@ -147,10 +163,9 @@ export default class RestInterraction {
         }
     };//REMOVE PROFILE
 
-    login(usernameFieldSelector, passwordFieldSelector, loginButtonSelector, yearContainerSelector, wallContainerSelector){
+    login(usernameFieldSelector, passwordFieldSelector, loginButtonSelector, yearContainerSelector, wallContainerSelector, rightContSelector){
         const formValidation = new Validation();
         const functions = new Functions();
-
         if (formValidation.loginValidate(usernameFieldSelector, passwordFieldSelector)) {
            const _this = this;
            
@@ -164,11 +179,10 @@ export default class RestInterraction {
                 },
                 
                 success: data => {
-                    console.log('FFFF');
                     const date = new Date(new Date().getTime() + 6000 * 1000);
                     localStorage.userId = data.profile.user_id;
                     document.cookie = `session-token=${data.token}; expires=${date.toUTCString()}`;
-                    _this.init(wallContainerSelector);
+                    _this.init(wallContainerSelector, rightContSelector);
                 }, 
 
                 beforeSend: () => {
@@ -218,9 +232,9 @@ export default class RestInterraction {
         };
     };//SEARCH USER PROFILES
 
-    addFriendOrEnemy(userId, friendOrEnemy, userName){
+    addFriendOrEnemy(userId, friendOrEnemy, userName, rightContSelector){
         const functions = new Functions();
-        const _this = this;
+        const render = new Render();
 
         if(functions.isSessionToken()) {
             const sessionToken = functions.isSessionToken();
@@ -237,30 +251,16 @@ export default class RestInterraction {
                     bearer: sessionToken
                 },
 
-                success: (data) => {
-                    if (friendOrEnemy == 1) {
-                        functions.showModal(`successModal`, _this.wrapper(), `You added ${userName} to your friendlist.`);
-                        setTimeout(() => {
-                            functions.deleteModal(`successModal`);
-                        }, 2000);
-                    };
-                    
-                    if(friendOrEnemy == 2) {
-                        functions.showModal(`successModal`, _this.wrapper(), `You added ${userName} to your enemies list.`);
-                        setTimeout(() => {
-                            functions.deleteModal(`successModal`);
-                        }, 2000);
-                    };
-
+                success: data => {
+                    this.getYourFriendsEnemies(data, rightContSelector);
                 }
             });
         };
     };//FOLLOW USER
-
+    
     viewFriendsOrEnemies(containerSelector, friendOrEnemy, userId){
         const functions = new Functions();
         const render = new Render();
-
         if(functions.isSessionToken()) {
             const sessionToken = functions.isSessionToken();
 
@@ -274,6 +274,7 @@ export default class RestInterraction {
                 },
 
                 success: (data) => {
+                    console.log(data)
                     let context;
                     if(friendOrEnemy == 1){
                         if(localStorage.userId != userId) {
@@ -311,10 +312,9 @@ export default class RestInterraction {
         };
     };//VIEW FRIENDS OR ENEMIES
 
-    deleteUserFromList(userId, userName){
+    deleteUserFromList(userId, userName, rightContSelector){
         const functions = new Functions();
         const render = new Render();
-        const _this = this;
 
         if(functions.isSessionToken()) {
             const sessionToken = functions.isSessionToken();
@@ -326,17 +326,42 @@ export default class RestInterraction {
                     bearer: sessionToken
                 },
 
-                success: (data) => {
-                    functions.showModal(`successModal`, `body`, `${userName} succesfully deleted.`);
-                    setTimeout(() => {
-                        functions.deleteModal(`successModal`)
-                    }, 2000);
+                success: data => {
+                    this.getYourFriendsEnemies(data, rightContSelector);
                 }
             });
         } else {
             this.redirectToLogin();
         }
     };//DELETE USER FROM LIST
+
+    getYourFriendsEnemies(data, rightContSelector){
+        const functions = new Functions();
+        const render = new Render();
+
+        if(functions.isSessionToken()) {
+            const sessionToken = functions.isSessionToken();
+            $.ajax({
+                url: `http://restapi.fintegro.com/social-activities/${localStorage.userId}`, 
+                method: `GET`,
+                dataType: `json`,
+
+                headers: {
+                    bearer: sessionToken
+                },
+
+                success: data => {
+                    const userListContext = {   
+                        userId: localStorage.userId,
+                        friends: data.friends,
+                        enemies: data.enemies
+                    };
+
+                    render.userList(rightContSelector, userListContext);  
+                }
+            });
+        };
+    };
 
     registration(registerFieldSelectors){
 
@@ -496,7 +521,6 @@ export default class RestInterraction {
 
     addPhotoToPreview(containerSelector, inputFileSelector){
         this.uploadPhoto(inputFileSelector).then((photoURL) => {
-            console.log(photoURL);
 
             if(!$(`div`).is(`.photos-preview`)) {
                 $(containerSelector).append(`<div class="photos-preview">
@@ -530,7 +554,6 @@ export default class RestInterraction {
             url = $(images[index]).attr(`src`);
             photoURLs.push({url});
         });
-        console.log(photoURLs);
 
         if(functions.isSessionToken()) {
             const sessionToken = functions.isSessionToken();
@@ -549,9 +572,8 @@ export default class RestInterraction {
                 },
 
                 success: (data) => {
-                   console.log(data);
-                   _this.getUserPosts(data.user_id, wallContainerSelector);
-
+                    _this.getUserPosts(data.user_id, wallContainerSelector);
+                    $(photoPreviewSelector).remove();
                 }
             });
         } else {
@@ -604,8 +626,18 @@ export default class RestInterraction {
                 },
 
                 success: (data) => {
-                    console.log(data);
-                    render.userPosts(data, wallContainerSelector);
+                    let context;
+
+                    if(localStorage.userId != userId) {
+                        context = {
+                                        posts: data.posts,
+                                        linkStatus: `hidden`
+                                    }
+                    } else {
+                        context = data;
+                    };
+                    console.log(context);
+                    render.userPosts(context, wallContainerSelector);
                 }
             });
         } else {

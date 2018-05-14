@@ -1,24 +1,24 @@
-<p class="wrapper__content__mid__title">Your {{typeOfList}}:</p>
-<div class="wrapper__content__mid__results">
+<p class="results-title">Your {{typeOfList}}:</p>
+<div class="search-results">
     {{#each userList}}
-        <div class="wrapper__content__mid__results__item">
-            <img class="wrapper__content__mid__results__item__bg" src="img/searchUserBG.jpg" alt="profile_bg">
-            <div class="wrapper__content__mid__results__item__photoWrapper">
-                <img class="wrapper__content__mid__results__item__photoWrapper__photo" src="{{#if this.photo}}{{this.photo}}{{else}}img/default-user.jpg{{/if}}" alt="profile_Photo">
+        <div class="results-item">
+            <img class="user-bg" src="img/searchUserBG.jpg" alt="profile_bg">
+            <div class="photo-wrapper">
+                <img class="user-photo" src="{{#if this.photo}}{{this.photo}}{{else}}img/default-user.jpg{{/if}}" alt="profile_Photo">
             </div>
-            <div class="wrapper__content__mid__results__item__info">
-                <p class="wrapper__content__mid__results__item__info__name">{{this.firstname}} {{this.lastname}}</p>
-                <p class="wrapper__content__mid__results__item__info__quote">{{this.quote}}</p>
+            <div class="user-info">
+                <a class="username" href="#" data-id="{{this.user_id}}" name="friendName">{{this.firstname}} {{this.lastname}}</a>
+                <p class="user-quote">{{this.quote}}</p>
             </div>
-            <div class="wrapper__content__mid__results__item__btns" data-id="{{this.user_id}}">
-                <button class="wrapper__content__mid__results__item__btns__btn {{@root.btnStatus}}">
+            <div class="buttons" data-id="{{this.user_id}}">
+                <button class="{{@root.btnStatus}}">
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                 </button>
-                <button class="wrapper__content__mid__results__item__btns__btn {{@root.btnStatus}}" name="userFollow">
+                <button class="{{@root.btnStatus}}" name="userFollow">
                     <i class="fa fa-user-times"></i>
-                    <p class="wrapper__content__mid__results__item__btns__btn__text">To {{@root.typeOfList}}</p>
+                    <p>To {{@root.typeOfList}}</p>
                 </button>
-                <button class="wrapper__content__mid__results__item__btns__btn {{@root.btnStatus}}" name="deleteUserFromList">
+                <button class="{{@root.btnStatus}}" name="deleteUserFromList">
                     <i class="fas fa-ban"></i>
                 </button>
 
@@ -28,6 +28,6 @@
         Nothing was found...
     {{/each}}
 </div>
-<div class="wrapper__content__mid__back">
-    <button class="wrapper__content__mid__back__btn" name="backToWall">Back to Wall</button>
+<div class="back">
+    <button class="button" name="backToWall">Back to Wall</button>
 </div>

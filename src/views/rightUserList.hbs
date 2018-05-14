@@ -1,0 +1,67 @@
+<div class="friends">
+    <div class="list">
+        <div class="list-title">
+            <p class="text">Friends</p>
+            <a class="link" href="#" name="viewFriends" data-id="{{userId}}">View All</a>
+        </div>
+        
+        <div class="content">
+            {{#each friends}}
+                <div class="item">
+                    <div class="photo-wrapper">
+                        <img class="user-photo" src="{{#if this.photo}}{{this.photo}}{{else}}img/default-user.jpg{{/if}}" alt="Friend-photo">
+                    </div>
+                    <div class="user-info">
+                        <a class="username" data-id="{{this.user_id}}" href="#" name="friendName">{{this.firstname}} {{this.lastname}}</a>
+                        <div class="buttons">
+                            <button class="button {{@root.btnStatus}}" name="deleteUserFromList">
+                                <i class="fas fa-ban"></i>
+                                <p class="button-text">Delete</p> 
+                            </button>
+                            <button class="button {{@root.btnStatus}}">
+                                <i class="fa fa-user-times"></i>
+                                <p class="button-text" name="userBlock">Enemy</p> 
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {{else}}
+                No friends...
+            {{/each}}
+        </div>
+            
+    </div>
+    <div class="list">
+        <div class="list-title">
+            <p class="text">Enemies</p>
+            <a class="link" href="#" name="viewEnemies" data-id="{{userId}}">View All</a>
+        </div>
+        <div class="content">
+            {{#each enemies}}
+                <div class="item">
+                    <div class="photo-wrapper">
+                        <img class="user-photo" src="{{#if this.photo}}{{this.photo}}{{else}}img/default-user.jpg{{/if}}" alt="Friend-photo">
+                    </div>
+                    <div class="user-info">
+                        <a class="username" data-id="{{this.user_id}}" href="#" name="friendName">{{this.firstname}} {{this.lastname}}</a>
+                        <div class="buttons">
+                            <button class="button {{@root.btnStatus}}" name="deleteUserFromList">
+                                <i class="fas fa-ban"></i>
+                                <p class="button-text">Delete</p> 
+                            </button>
+                            <button class="button {{@root.btnStatus}}" name="userFollow">
+                                <i class="fa fa-user-times"></i>
+                                <p class="button-text">Friend</p> 
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {{else}}
+                No enemies...
+            {{/each}}
+        </div>
+    </div>
+    <div class="quote">
+        <p class="quote-text">Some random quote</p>
+    </div>
+</div>

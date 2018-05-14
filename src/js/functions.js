@@ -53,12 +53,12 @@ export default class Functions {
 
     getUserIdAndName(buttonSelector) {
         let userInfo = {
-            userId: $(buttonSelector).parent().data().id,
-            userName: $(buttonSelector).parent().prev().children(`p:first-of-type`).html()
+            userId: $(buttonSelector).parent().prev().children(`a`).data(`id`),
+            userName: $(buttonSelector).parent().prev().children(`a`).html()
         };
         if(!userInfo.userId) {
             let userInfo = {
-                userId: $(buttonSelector).closest(`div`).prev().data().id,
+                userId: $(buttonSelector).closest(`div`).prev().data(`id`),
                 userName: $(buttonSelector).closest(`div`).prev().html()
             };
             return(userInfo);
